@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Revela - Revela</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Modern static site generator for photographers">
+    <meta name="author" content="Spectara">
+    <meta name="keywords" content="">
+    <link type="text/css" rel="stylesheet" media="all" href="_assets/main.css">
+    <link type="text/css" rel="stylesheet" media="all" href="_assets/prism.css">
+    <link type="text/css" rel="stylesheet" media="all" href="_assets/website.css">
+</head>
+
+<body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger">
+
+    <nav>
+<section>
+  <a href="about/">About</a>
+</section>
+<section>
+  <h3><a href="docs/">Documentation</a></h3>
+  <a href="docs/source-structure/">Source Structure</a>
+</section>
+    </nav>
+
+    <header>
+        <div>
+            <h2>
+                <label for="nav-trigger" title="Menu">
+                    <span>Menu</span>
+                    <span>i</span>
+                    <span>i</span>
+                    <span>i</span>
+                </label>
+                <a href=".">Revela</a>
+            </h2>
+            <nav>
+                <a href="about/">About</a>
+                <a href="docs/">Documentation</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Revela</h1>
+        <p class="hero-subtitle">A modern static site generator for photographers</p>
+    </div>
+</section>
+
+<div class="page-content">
+<div class="cta-buttons">
+  <a href="docs/">Get Started</a>
+  <a href="https://github.com/Spectara/Revela">View on GitHub</a>
+</div>
+<h2 id="why-revela">Why Revela?</h2>
+<p><strong>Built for photographers.</strong> While other static site generators are designed for blogs and documentation, Revela focuses on what matters most: <strong>showcasing your images beautifully</strong>.</p>
+<div class="features-grid">
+<h3 id="blazing-fast">⚡ Blazing Fast</h3>
+<p>Optimized image processing with NetVips - 3-5× faster than ImageMagick. Incremental builds only regenerate what's changed.</p>
+<h3 id="modern-formats">🖼️ Modern Formats</h3>
+<p>Automatic AVIF, WebP, and JPEG generation. Responsive images with <code>&lt;picture&gt;</code> elements out of the box.</p>
+<h3 id="beautiful-themes">🎨 Beautiful Themes</h3>
+<p>Minimalist gallery themes that put your photos front and center. Dark mode support included.</p>
+<h3 id="extensible">🔌 Extensible</h3>
+<p>Plugin system for custom sources (OneDrive, cloud storage), statistics, and more.</p>
+</div>
+<h2 id="quick-start">Quick Start</h2>
+<p><strong>1. Download Revela</strong></p>
+<p>Download the latest release for your platform:</p>
+<div class="cta-buttons">
+  <a href="https://github.com/Spectara/Revela/releases/latest/download/revela-win-x64.zip">Windows x64</a>
+  <a href="https://github.com/Spectara/Revela/releases/latest/download/revela-osx-arm64.zip">macOS Apple Silicon</a>
+  <a href="https://github.com/Spectara/Revela/releases/latest/download/revela-linux-x64.zip">Linux x64</a>
+</div>
+<p class="download-more"><a href="https://github.com/Spectara/Revela/releases">All downloads →</a></p>
+<p><strong>2. Run Revela</strong></p>
+<p>Simply run <code>revela</code> without arguments to start the interactive mode:</p>
+<pre><code class="language-bash">revela
+</code></pre>
+<p>The interactive menu guides you through creating a new project, generating your site, and more. For advanced usage via command line, see the <a href="docs/">CLI Reference</a>.</p>
+<p><strong>3. Add your photos</strong></p>
+<p>Drop your images into the <code>source/</code> folder and organize them into galleries:</p>
+<pre><code>source/
+├── _index.revela        # Homepage
+├── Landscapes/
+│   ├── _index.revela    # Gallery metadata
+│   └── sunset.jpg
+└── Portraits/
+    └── portrait-01.jpg
+</code></pre>
+<p><strong>4. Generate &amp; Preview</strong></p>
+<pre><code class="language-bash">revela generate
+revela serve
+</code></pre>
+<p>Open <code>http://localhost:8080</code> and see your portfolio!</p>
+<h2 id="features">Features</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EXIF Extraction</strong></td>
+<td>Automatic camera, lens, and settings metadata</td>
+</tr>
+<tr>
+<td><strong>Smart Sorting</strong></td>
+<td>Sort by date, filename, or custom order</td>
+</tr>
+<tr>
+<td><strong>Incremental Builds</strong></td>
+<td>Only regenerate changed images</td>
+</tr>
+<tr>
+<td><strong>Theme Overrides</strong></td>
+<td>Customize any template without forking</td>
+</tr>
+<tr>
+<td><strong>Multiple Sources</strong></td>
+<td>Local files, OneDrive, or custom plugins</td>
+</tr>
+</tbody>
+</table>
+<h2 id="join-the-community">Join the Community</h2>
+<p>Revela is open source and actively developed. Contributions welcome!</p>
+<ul>
+<li>📖 <a href="docs/">Documentation</a></li>
+<li>🐛 <a href="https://github.com/kirkone/Revela/issues">Report Issues</a></li>
+<li>💬 <a href="https://github.com/kirkone/Revela/discussions">Discussions</a></li>
+</ul>
+<hr />
+<p><em>This website is built with Revela. <a href="https://github.com/Spectara/Revela/tree/main/samples/revela-website">View the source →</a></em></p>
+
+</div>
+    </main>
+
+    <footer>
+        <nav>
+<section>
+  <a href="about/">About</a>
+</section>
+<section>
+  <h3><a href="docs/">Documentation</a></h3>
+  <a href="docs/source-structure/">Source Structure</a>
+</section>
+        </nav>
+        <div>
+            © 2026 Spectara· Powered by Revela        </div>
+    </footer>
+
+    <script src="_assets/main.js"></script>
+    <script src="_assets/prism.js"></script>
+</body>
+
+</html>

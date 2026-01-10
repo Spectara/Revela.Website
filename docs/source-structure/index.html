@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Revela - Source Structure</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Modern static site generator for photographers">
+    <meta name="author" content="Spectara">
+    <meta name="keywords" content="">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/main.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/prism.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/website.css">
+</head>
+
+<body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger">
+
+    <nav>
+<section>
+  <a href="../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../docs/" class="active">Documentation</a></h3>
+  <a href="../../docs/source-structure/" class="active">Source Structure</a>
+</section>
+    </nav>
+
+    <header>
+        <div>
+            <h2>
+                <label for="nav-trigger" title="Menu">
+                    <span>Menu</span>
+                    <span>i</span>
+                    <span>i</span>
+                    <span>i</span>
+                </label>
+                <a href="../../">Revela</a>
+            </h2>
+            <nav>
+                <a href="../../about/">About</a>
+                <a href="../../docs/" class="active">Documentation</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+<div class="docs-layout">
+    <aside class="docs-sidebar">
+        <nav>
+            <ul>
+
+                <li><a href="../../docs/source-structure/" class="active">Source Structure</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <article class="docs-content">
+        <h1>Source Structure</h1>
+<p>Revela supports two approaches for organizing your photos, and you can combine them in the same project:</p>
+<div class="features-grid">
+<h3 id="traditional-galleries">📁 Traditional Galleries</h3>
+<p>Photos belong to one gallery. Images stored directly in the gallery folder.</p>
+<h3 id="filter-galleries">🔍 Filter Galleries</h3>
+<p>Photos appear in multiple galleries. All images in a shared <code>_images/</code> folder.</p>
+<h3 id="hybrid-approach">🔀 Hybrid Approach</h3>
+<p>Mix both approaches. Some galleries with local images, others with filters.</p>
+</div>
+<h2 id="traditional-galleries-1">Traditional Galleries</h2>
+<p>Each gallery contains its own images directly in the folder.</p>
+<pre><code>source/
+├── _index.revela          # Homepage
+├── events/
+│   ├── _index.revela      # Gallery page
+│   ├── event-001.jpg
+│   └── event-002.jpg
+├── portraits/
+│   ├── _index.revela
+│   └── portrait-001.jpg
+└── landscapes/
+    ├── _index.revela
+    └── mountain.jpg
+</code></pre>
+<h3 id="characteristics">Characteristics</h3>
+<ul>
+<li>✅ Simple and intuitive</li>
+<li>✅ Each photo belongs to exactly one gallery</li>
+<li>✅ Easy to manage manually</li>
+<li>❌ Photos cannot appear in multiple galleries</li>
+</ul>
+<h2 id="filter-galleries-1">Filter Galleries</h2>
+<p>All images are stored in a shared <code>_images/</code> folder. Galleries use filter expressions to select which images to display.</p>
+<pre><code>source/
+├── _index.revela          # Homepage
+├── _images/               # Shared image pool
+│   ├── canon-event-001.jpg
+│   ├── sony-landscape-002.jpg
+│   └── sony-portrait-003.jpg
+├── canon/
+│   └── _index.revela      # filter = &quot;exif.make == 'Canon'&quot;
+├── sony/
+│   └── _index.revela      # filter = &quot;exif.make == 'Sony'&quot;
+└── portraits/
+    └── _index.revela      # filter = &quot;contains(filename, 'portrait')&quot;
+</code></pre>
+<h3 id="the_images-folder">The <code>_images/</code> Folder</h3>
+<p>The underscore prefix is significant:</p>
+<ul>
+<li><code>_images/</code> is <strong>not</strong> rendered as a gallery itself</li>
+<li>Images are only accessible via filter expressions</li>
+<li>You can use any name: <code>_photos/</code>, <code>_pool/</code>, <code>_shared/</code></li>
+</ul>
+<h3 id="example-front-matter">Example Front Matter</h3>
+<pre><code class="language-toml">+++
+title = &quot;Canon Photos&quot;
+description = &quot;All photos taken with Canon cameras&quot;
+filter = &quot;exif.make == 'Canon'&quot;
++++
+</code></pre>
+<h2 id="hybrid-approach-1">Hybrid Approach</h2>
+<p>Combine both approaches in the same project:</p>
+<pre><code>source/
+├── _images/                   # Shared pool for filter galleries
+│   ├── 2024-trip-001.jpg
+│   └── 2025-event-001.jpg
+│
+├── by-year/                   # Filter galleries
+│   ├── 2024/
+│   │   └── _index.revela      # filter = &quot;year(dateTaken) == 2024&quot;
+│   └── 2025/
+│       └── _index.revela      # filter = &quot;year(dateTaken) == 2025&quot;
+│
+└── clients/                   # Traditional galleries (exclusive)
+    └── wedding-smith/
+        ├── _index.revela
+        └── ceremony-001.jpg   # Only in this gallery
+</code></pre>
+<h2 id="choosing-the-right-approach">Choosing the Right Approach</h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Recommended</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple portfolio</td>
+<td>Traditional</td>
+</tr>
+<tr>
+<td>Photos need multiple categorizations</td>
+<td>Filter</td>
+</tr>
+<tr>
+<td>Client work (exclusive galleries)</td>
+<td>Traditional</td>
+</tr>
+<tr>
+<td>&quot;By camera&quot;, &quot;By year&quot; views</td>
+<td>Filter</td>
+</tr>
+<tr>
+<td>Mix of exclusive and shared content</td>
+<td>Hybrid</td>
+</tr>
+</tbody>
+</table>
+<h2 id="common-patterns">Common Patterns</h2>
+<h3 id="homepage-with-recent-photos">Homepage with Recent Photos</h3>
+<pre><code class="language-toml">+++
+title = &quot;Welcome&quot;
+filter = &quot;all | sort dateTaken desc | limit 6&quot;
++++
+</code></pre>
+<h3 id="category-landing-page-no-images">Category Landing Page (No Images)</h3>
+<pre><code class="language-toml">+++
+title = &quot;Browse by Camera&quot;
+template = &quot;page&quot;
++++
+
+Select a camera brand below.
+</code></pre>
+
+    </article>
+</div>
+    </main>
+
+    <footer>
+        <nav>
+<section>
+  <a href="../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../docs/" class="active">Documentation</a></h3>
+  <a href="../../docs/source-structure/" class="active">Source Structure</a>
+</section>
+        </nav>
+        <div>
+            © 2026 Spectara· Powered by Revela        </div>
+    </footer>
+
+    <script src="../../_assets/main.js"></script>
+    <script src="../../_assets/prism.js"></script>
+</body>
+
+</html>
