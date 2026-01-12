@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Revela - revela.website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Modern static site generator for photographers">
+    <meta name="author" content="Spectara">
+    <meta name="keywords" content="">
+    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/main.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/prism.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/website.css">
+</head>
+
+<body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger">
+
+    <nav>
+<section>
+  <a href="../../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../../docs/" class="active">Documentation</a></h3>
+  <a href="../../../docs/filtering/">Filter Galleries</a>
+  <a href="../../../docs/pages/">Creating Pages</a>
+  <a href="../../../docs/sorting/">Sorting</a>
+<div>
+  <a href="../../../docs/source-structure/">Source Structure</a>
+  <a href="../../../docs/source-structure/static-files/">Static Files</a>
+</div>
+<div>
+  <a href="../../../docs/themes/" class="active">Theme Customization</a>
+  <a href="../../../docs/themes/website-example/" class="active">revela.website</a>
+</div>
+</section>
+    </nav>
+
+    <header>
+        <div>
+            <h2>
+                <label for="nav-trigger" title="Menu">
+                    <span>Menu</span>
+                    <span>i</span>
+                    <span>i</span>
+                    <span>i</span>
+                </label>
+                <a href="../../../">Revela</a>
+            </h2>
+            <nav>
+                <a href="../../../about/">About</a>
+                <a href="../../../docs/" class="active">Documentation</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+<div class="docs-layout">
+    <aside class="docs-sidebar">
+        <nav>
+            <ul>
+
+                <li>
+                    <a href="../../../docs/filtering/">Filter Galleries</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../../docs/pages/">Creating Pages</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../../docs/sorting/">Sorting</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../../docs/source-structure/">Source Structure</a>
+                    <ul>
+                        <li><a href="../../../docs/source-structure/static-files/">Static Files</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../../docs/themes/">Theme Customization</a>
+                    <ul>
+                        <li><a href="../../../docs/themes/website-example/">revela.website</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <article class="docs-content">
+        <h1>revela.website</h1>
+<p>This website (<a href="https://revela.website">revela.website</a>) is built with Revela itself. Here's a detailed walkthrough of how we customized the default Lumina theme.</p>
+<h2 id="project-structure">Project Structure</h2>
+<pre><code>revela-website/
+├── project.json          # Project configuration
+├── site.json             # Site metadata + custom stylesheets
+├── source/
+│   ├── _index.revela     # Homepage (template = &quot;home&quot;)
+│   ├── _static/          # Static files (favicon, CNAME, logo)
+│   ├── about/            # About page
+│   └── docs/             # Documentation pages
+└── themes/
+    └── Lumina/           # Theme overrides (not a full copy!)
+        ├── Assets/
+        │   └── website.css
+        ├── Body/
+        │   ├── home.revela
+        │   └── docs.revela
+        └── Partials/
+            └── HeaderNavigation.revela
+</code></pre>
+<p><strong>Key principle:</strong> Only override what you need. The base Lumina theme provides everything else.</p>
+<hr />
+<h2 id="custom-stylesheets">Custom Stylesheets</h2>
+<h3 id="site.json">site.json</h3>
+<p>Register additional CSS files in <code>site.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;title&quot;: &quot;Revela&quot;,
+  &quot;stylesheets&quot;: [
+    &quot;website.css&quot;,
+    &quot;prism.css&quot;
+  ],
+  &quot;scripts&quot;: [
+    &quot;prism.js&quot;
+  ]
+}
+</code></pre>
+<p>These files are loaded from <code>themes/Lumina/Assets/</code> after the base theme's <code>main.css</code>.</p>
+<h3 id="accent-color">Accent Color</h3>
+<p>The base theme uses CSS custom properties. Override them in your stylesheet:</p>
+<pre><code class="language-css">:root {
+  --accent-hsl: 263deg 70% 70%;
+  --accent-light-hsl: 263deg 70% 80%;
+}
+</code></pre>
+<h3 id="background-gradient">Background Gradient</h3>
+<p>Add a subtle gradient inspired by the logo:</p>
+<pre><code class="language-css">body {
+  background-image: radial-gradient(
+    ellipse 100% 60% at 50% -10%,
+    hsl(220deg 50% 30% / 0.25) 0%,
+    hsl(280deg 60% 40% / 0.15) 40%,
+    hsl(340deg 70% 50% / 0.08) 70%,
+    transparent 100%
+  );
+  background-attachment: fixed;
+}
+</code></pre>
+<h3 id="header-blur-effect">Header Blur Effect</h3>
+<p>Frosted glass effect for the sticky header:</p>
+<pre><code class="language-css">header {
+  background-color: hsl(var(--color-background-hsl) / 0.3);
+  -webkit-backdrop-filter: saturate(180%) blur(2rem);
+  backdrop-filter: saturate(180%) blur(2rem);
+}
+</code></pre>
+<h3 id="transparent-footer">Transparent Footer</h3>
+<p>Remove the footer background so the gradient shows through:</p>
+<pre><code class="language-css">footer {
+  background: unset;
+  outline: unset;
+}
+</code></pre>
+<hr />
+<h2 id="body-templates">Body Templates</h2>
+<h3 id="homepage-home.revela">Homepage (home.revela)</h3>
+<p>Create <code>themes/Lumina/Body/home.revela</code> for a custom hero section:</p>
+<pre><code class="language-html">&lt;section class=&quot;hero&quot;&gt;
+    &lt;div class=&quot;hero-content&quot;&gt;
+        &lt;img src=&quot;{{ basepath }}revela.png&quot; class=&quot;hero-logo&quot; /&gt;
+        &lt;h1 class=&quot;hero-title&quot;&gt;{{ site.title }}&lt;/h1&gt;
+        &lt;p class=&quot;hero-subtitle&quot;&gt;{{ site.description }}&lt;/p&gt;
+        &lt;div class=&quot;hero-cta&quot;&gt;
+            &lt;a href=&quot;{{ basepath }}docs/&quot; class=&quot;cta-primary&quot;&gt;Get Started&lt;/a&gt;
+            &lt;a href=&quot;https://github.com/Spectara/Revela&quot; class=&quot;cta-secondary&quot;&gt;View on GitHub&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+{{ gallery.body }}
+</code></pre>
+<p>Use it in your page with <code>template = &quot;home&quot;</code> in the frontmatter.</p>
+<h3 id="documentation-docs.revela">Documentation (docs.revela)</h3>
+<p>For pages with sidebar navigation, create <code>themes/Lumina/Body/docs.revela</code>:</p>
+<pre><code class="language-html">&lt;article class=&quot;docs-layout&quot;&gt;
+    &lt;aside class=&quot;docs-sidebar&quot;&gt;
+        &lt;nav&gt;
+            {{~ for item in nav_items ~}}
+            {{~ if item.url | string.starts_with &quot;docs/&quot; ~}}
+            &lt;a href=&quot;{{ basepath }}{{ item.url }}&quot;{{ if item.active }} class=&quot;active&quot;{{ end }}&gt;{{ item.text }}&lt;/a&gt;
+            {{~ end ~}}
+            {{~ end ~}}
+        &lt;/nav&gt;
+    &lt;/aside&gt;
+    &lt;div class=&quot;docs-content&quot;&gt;
+        {{ gallery.body }}
+    &lt;/div&gt;
+&lt;/article&gt;
+</code></pre>
+<hr />
+<h2 id="extending-partials">Extending Partials</h2>
+<h3 id="adding-a-github-icon">Adding a GitHub Icon</h3>
+<p>Instead of copying the entire Layout, override just the <code>HeaderNavigation</code> partial.</p>
+<p>Create <code>themes/Lumina/Partials/HeaderNavigation.revela</code>:</p>
+<pre><code class="language-html">{{~ for item in nav_items ~}}
+{{~ if item.pinned ~}}
+&lt;a href=&quot;{{ basepath }}{{ item.url }}&quot;{{ if item.active }} class=&quot;active&quot;{{ end }}&gt;{{ item.text }}&lt;/a&gt;
+{{~ end ~}}
+{{~ end ~}}
+&lt;a href=&quot;https://github.com/Spectara/Revela&quot; title=&quot;View on GitHub&quot; class=&quot;github-link&quot;&gt;
+    &lt;svg viewBox=&quot;0 0 16 16&quot; width=&quot;20&quot; height=&quot;20&quot; fill=&quot;currentColor&quot;&gt;
+        &lt;path d=&quot;M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59...&quot;&gt;&lt;/path&gt;
+    &lt;/svg&gt;
+&lt;/a&gt;
+</code></pre>
+<p>The SVG uses <code>fill=&quot;currentColor&quot;</code> to match the text color automatically.</p>
+<p>Style it with:</p>
+<pre><code class="language-css">header .github-link {
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+  transition: opacity var(--animation-time);
+}
+
+header .github-link:hover {
+  opacity: 1;
+}
+</code></pre>
+<hr />
+<h2 id="static-files">Static Files</h2>
+<p>Place files in <code>source/_static/</code> to copy them to the output root:</p>
+<pre><code>source/_static/
+├── favicon/           # Favicon files
+│   ├── favicon.ico
+│   └── favicon.svg
+├── CNAME              # GitHub Pages custom domain
+├── .nojekyll          # Disable Jekyll processing
+├── robots.txt         # Search engine directives
+└── revela.png         # Logo for hero section
+</code></pre>
+<hr />
+<h2 id="view-the-source">View the Source</h2>
+<p>The complete source code for this website is available on GitHub:</p>
+<p><strong><a href="https://github.com/Spectara/Revela/tree/main/samples/revela-website">samples/revela-website</a></strong></p>
+<p>Feel free to use it as a starting point for your own customizations!</p>
+
+    </article>
+</div>
+    </main>
+
+    <footer>
+        <nav>
+<section>
+  <a href="../../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../../docs/" class="active">Documentation</a></h3>
+  <a href="../../../docs/filtering/">Filter Galleries</a>
+  <a href="../../../docs/pages/">Creating Pages</a>
+  <a href="../../../docs/sorting/">Sorting</a>
+<div>
+  <a href="../../../docs/source-structure/">Source Structure</a>
+  <a href="../../../docs/source-structure/static-files/">Static Files</a>
+</div>
+<div>
+  <a href="../../../docs/themes/" class="active">Theme Customization</a>
+  <a href="../../../docs/themes/website-example/" class="active">revela.website</a>
+</div>
+</section>
+        </nav>
+        <div>
+            © 2026 Spectara· Powered by Revela        </div>
+    </footer>
+
+    <script src="../../../_assets/main.js"></script>
+    <script src="../../../_assets/prism.js"></script>
+</body>
+
+</html>

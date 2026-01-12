@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Revela - Sorting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Modern static site generator for photographers">
+    <meta name="author" content="Spectara">
+    <meta name="keywords" content="">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/main.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/prism.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/website.css">
+</head>
+
+<body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger">
+
+    <nav>
+<section>
+  <a href="../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../docs/" class="active">Documentation</a></h3>
+  <a href="../../docs/filtering/">Filter Galleries</a>
+  <a href="../../docs/pages/">Creating Pages</a>
+  <a href="../../docs/sorting/" class="active">Sorting</a>
+<div>
+  <a href="../../docs/source-structure/">Source Structure</a>
+  <a href="../../docs/source-structure/static-files/">Static Files</a>
+</div>
+<div>
+  <a href="../../docs/themes/">Theme Customization</a>
+  <a href="../../docs/themes/website-example/">revela.website</a>
+</div>
+</section>
+    </nav>
+
+    <header>
+        <div>
+            <h2>
+                <label for="nav-trigger" title="Menu">
+                    <span>Menu</span>
+                    <span>i</span>
+                    <span>i</span>
+                    <span>i</span>
+                </label>
+                <a href="../../">Revela</a>
+            </h2>
+            <nav>
+                <a href="../../about/">About</a>
+                <a href="../../docs/" class="active">Documentation</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+<div class="docs-layout">
+    <aside class="docs-sidebar">
+        <nav>
+            <ul>
+
+                <li>
+                    <a href="../../docs/filtering/">Filter Galleries</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/pages/">Creating Pages</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/sorting/">Sorting</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/source-structure/">Source Structure</a>
+                    <ul>
+                        <li><a href="../../docs/source-structure/static-files/">Static Files</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/themes/">Theme Customization</a>
+                    <ul>
+                        <li><a href="../../docs/themes/website-example/">revela.website</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <article class="docs-content">
+        <h1>Sorting</h1>
+<p>Revela supports flexible sorting of galleries and images. You can configure:</p>
+<ul>
+<li><strong>Gallery order</strong> in navigation (ascending/descending)</li>
+<li><strong>Image order</strong> within galleries (by any field including EXIF data)</li>
+<li><strong>Per-gallery overrides</strong> via front matter</li>
+</ul>
+<hr />
+<h2 id="global-configuration">Global Configuration</h2>
+<p>Configure sorting in <code>project.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;generate&quot;: {
+    &quot;sorting&quot;: {
+      &quot;galleries&quot;: &quot;asc&quot;,
+      &quot;images&quot;: {
+        &quot;field&quot;: &quot;dateTaken&quot;,
+        &quot;direction&quot;: &quot;desc&quot;,
+        &quot;fallback&quot;: &quot;filename&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>galleries</code></td>
+<td>Gallery sort direction: <code>asc</code> or <code>desc</code></td>
+<td><code>asc</code></td>
+</tr>
+<tr>
+<td><code>images.field</code></td>
+<td>Field to sort images by</td>
+<td><code>dateTaken</code></td>
+</tr>
+<tr>
+<td><code>images.direction</code></td>
+<td>Image sort direction: <code>asc</code> or <code>desc</code></td>
+<td><code>desc</code></td>
+</tr>
+<tr>
+<td><code>images.fallback</code></td>
+<td>Fallback field when primary is null</td>
+<td><code>filename</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="available-sort-fields">Available Sort Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filename</code></td>
+<td>File name (alphabetical)</td>
+</tr>
+<tr>
+<td><code>dateTaken</code></td>
+<td>EXIF capture date</td>
+</tr>
+<tr>
+<td><code>exif.focalLength</code></td>
+<td>Focal length in mm</td>
+</tr>
+<tr>
+<td><code>exif.fNumber</code></td>
+<td>Aperture (f-number)</td>
+</tr>
+<tr>
+<td><code>exif.exposureTime</code></td>
+<td>Shutter speed</td>
+</tr>
+<tr>
+<td><code>exif.iso</code></td>
+<td>ISO sensitivity</td>
+</tr>
+<tr>
+<td><code>exif.make</code></td>
+<td>Camera manufacturer</td>
+</tr>
+<tr>
+<td><code>exif.model</code></td>
+<td>Camera model</td>
+</tr>
+<tr>
+<td><code>exif.lensModel</code></td>
+<td>Lens model</td>
+</tr>
+<tr>
+<td><code>exif.raw.Rating</code></td>
+<td>Star rating (1-5)</td>
+</tr>
+<tr>
+<td><code>exif.raw.{FieldName}</code></td>
+<td>Any EXIF field from Raw dictionary</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="per-gallery-override">Per-Gallery Override</h2>
+<p>Override the global sort settings for individual galleries using front matter in <code>_index.revela</code>:</p>
+<p><strong>Format:</strong></p>
+<pre><code>sort = &quot;field&quot;           # Use field, direction from global config
+sort = &quot;field:asc&quot;       # Use field with ascending order
+sort = &quot;field:desc&quot;      # Use field with descending order
+</code></pre>
+<p><strong>Examples:</strong></p>
+<pre><code class="language-toml">+++
+title = &quot;Lens Comparison&quot;
+sort = &quot;exif.focalLength:asc&quot;
++++
+
+Compare shots from wide-angle to telephoto.
+</code></pre>
+<pre><code class="language-toml">+++
+title = &quot;Best Shots&quot;
+sort = &quot;exif.raw.Rating:desc&quot;
++++
+
+My highest rated photos.
+</code></pre>
+<pre><code class="language-toml">+++
+title = &quot;Timeline&quot;
+sort = &quot;dateTaken:asc&quot;
++++
+
+Photos in chronological order (oldest first).
+</code></pre>
+<hr />
+<h2 id="cli-configuration">CLI Configuration</h2>
+<p>Configure sorting interactively or via command line:</p>
+<pre><code class="language-bash"># Interactive wizard
+revela config sorting
+
+# Set image sort field
+revela config sorting --field dateTaken --direction desc
+
+# Sort by rating
+revela config sorting --field exif.raw.Rating --direction desc
+
+# Sort by focal length
+revela config sorting --field exif.focalLength --direction asc
+
+# Change gallery order
+revela config sorting --galleries desc
+</code></pre>
+<hr />
+<h2 id="logic-flow">Logic Flow</h2>
+<ol>
+<li><strong>No front matter <code>sort</code></strong> → Use global config (<code>generate.sorting.images</code>)</li>
+<li><strong><code>sort = &quot;field&quot;</code></strong> → Override field, keep global direction</li>
+<li><strong><code>sort = &quot;field:direction&quot;</code></strong> → Override both field and direction</li>
+<li><strong>Fallback</strong> is always from global config (not overridable per gallery)</li>
+<li><strong>Final tie-breaker</strong> is always filename (for stable sorting)</li>
+</ol>
+
+    </article>
+</div>
+    </main>
+
+    <footer>
+        <nav>
+<section>
+  <a href="../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../docs/" class="active">Documentation</a></h3>
+  <a href="../../docs/filtering/">Filter Galleries</a>
+  <a href="../../docs/pages/">Creating Pages</a>
+  <a href="../../docs/sorting/" class="active">Sorting</a>
+<div>
+  <a href="../../docs/source-structure/">Source Structure</a>
+  <a href="../../docs/source-structure/static-files/">Static Files</a>
+</div>
+<div>
+  <a href="../../docs/themes/">Theme Customization</a>
+  <a href="../../docs/themes/website-example/">revela.website</a>
+</div>
+</section>
+        </nav>
+        <div>
+            © 2026 Spectara· Powered by Revela        </div>
+    </footer>
+
+    <script src="../../_assets/main.js"></script>
+    <script src="../../_assets/prism.js"></script>
+</body>
+
+</html>

@@ -22,7 +22,17 @@
 </section>
 <section>
   <h3><a href="../../docs/" class="active">Documentation</a></h3>
+  <a href="../../docs/filtering/">Filter Galleries</a>
+  <a href="../../docs/pages/">Creating Pages</a>
+  <a href="../../docs/sorting/">Sorting</a>
+<div>
   <a href="../../docs/source-structure/" class="active">Source Structure</a>
+  <a href="../../docs/source-structure/static-files/">Static Files</a>
+</div>
+<div>
+  <a href="../../docs/themes/">Theme Customization</a>
+  <a href="../../docs/themes/website-example/">revela.website</a>
+</div>
 </section>
     </nav>
 
@@ -50,7 +60,37 @@
         <nav>
             <ul>
 
-                <li><a href="../../docs/source-structure/" class="active">Source Structure</a></li>
+                <li>
+                    <a href="../../docs/filtering/">Filter Galleries</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/pages/">Creating Pages</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/sorting/">Sorting</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/source-structure/">Source Structure</a>
+                    <ul>
+                        <li><a href="../../docs/source-structure/static-files/">Static Files</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/themes/">Theme Customization</a>
+                    <ul>
+                        <li><a href="../../docs/themes/website-example/">revela.website</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </aside>
@@ -135,36 +175,18 @@ filter = &quot;exif.make == 'Canon'&quot;
         └── ceremony-001.jpg   # Only in this gallery
 </code></pre>
 <h2 id="choosing-the-right-approach">Choosing the Right Approach</h2>
-<table>
-<thead>
-<tr>
-<th>Scenario</th>
-<th>Recommended</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Simple portfolio</td>
-<td>Traditional</td>
-</tr>
-<tr>
-<td>Photos need multiple categorizations</td>
-<td>Filter</td>
-</tr>
-<tr>
-<td>Client work (exclusive galleries)</td>
-<td>Traditional</td>
-</tr>
-<tr>
-<td>&quot;By camera&quot;, &quot;By year&quot; views</td>
-<td>Filter</td>
-</tr>
-<tr>
-<td>Mix of exclusive and shared content</td>
-<td>Hybrid</td>
-</tr>
-</tbody>
-</table>
+<div class="features-grid">
+<h3 id="simple-portfolio">📷 Simple Portfolio</h3>
+<p>Use <strong>Traditional</strong> - each photo belongs to one gallery.</p>
+<h3 id="multiple-categories">🏷️ Multiple Categories</h3>
+<p>Use <strong>Filter</strong> - photos can appear in many galleries based on metadata.</p>
+<h3 id="client-work">🔒 Client Work</h3>
+<p>Use <strong>Traditional</strong> - exclusive galleries for private content.</p>
+<h3 id="by-camera-by-year">📅 By Camera / By Year</h3>
+<p>Use <strong>Filter</strong> - dynamic views based on EXIF data.</p>
+<h3 id="mixed-content">🔀 Mixed Content</h3>
+<p>Use <strong>Hybrid</strong> - combine both approaches as needed.</p>
+</div>
 <h2 id="common-patterns">Common Patterns</h2>
 <h3 id="homepage-with-recent-photos">Homepage with Recent Photos</h3>
 <pre><code class="language-toml">+++
@@ -192,7 +214,17 @@ Select a camera brand below.
 </section>
 <section>
   <h3><a href="../../docs/" class="active">Documentation</a></h3>
+  <a href="../../docs/filtering/">Filter Galleries</a>
+  <a href="../../docs/pages/">Creating Pages</a>
+  <a href="../../docs/sorting/">Sorting</a>
+<div>
   <a href="../../docs/source-structure/" class="active">Source Structure</a>
+  <a href="../../docs/source-structure/static-files/">Static Files</a>
+</div>
+<div>
+  <a href="../../docs/themes/">Theme Customization</a>
+  <a href="../../docs/themes/website-example/">revela.website</a>
+</div>
 </section>
         </nav>
         <div>

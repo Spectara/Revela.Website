@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Revela - Creating Pages</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Modern static site generator for photographers">
+    <meta name="author" content="Spectara">
+    <meta name="keywords" content="">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/main.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/prism.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/website.css">
+</head>
+
+<body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger">
+
+    <nav>
+<section>
+  <a href="../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../docs/" class="active">Documentation</a></h3>
+  <a href="../../docs/filtering/">Filter Galleries</a>
+  <a href="../../docs/pages/" class="active">Creating Pages</a>
+  <a href="../../docs/sorting/">Sorting</a>
+<div>
+  <a href="../../docs/source-structure/">Source Structure</a>
+  <a href="../../docs/source-structure/static-files/">Static Files</a>
+</div>
+<div>
+  <a href="../../docs/themes/">Theme Customization</a>
+  <a href="../../docs/themes/website-example/">revela.website</a>
+</div>
+</section>
+    </nav>
+
+    <header>
+        <div>
+            <h2>
+                <label for="nav-trigger" title="Menu">
+                    <span>Menu</span>
+                    <span>i</span>
+                    <span>i</span>
+                    <span>i</span>
+                </label>
+                <a href="../../">Revela</a>
+            </h2>
+            <nav>
+                <a href="../../about/">About</a>
+                <a href="../../docs/" class="active">Documentation</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+<div class="docs-layout">
+    <aside class="docs-sidebar">
+        <nav>
+            <ul>
+
+                <li>
+                    <a href="../../docs/filtering/">Filter Galleries</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/pages/">Creating Pages</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/sorting/">Sorting</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/source-structure/">Source Structure</a>
+                    <ul>
+                        <li><a href="../../docs/source-structure/static-files/">Static Files</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/themes/">Theme Customization</a>
+                    <ul>
+                        <li><a href="../../docs/themes/website-example/">revela.website</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <article class="docs-content">
+        <h1>Creating Pages</h1>
+<p>Revela provides commands to quickly create new pages. You can create:</p>
+<div class="features-grid">
+<h3 id="gallery-pages">📷 Gallery Pages</h3>
+<p>Photo collections with optional introductory text and sorting options.</p>
+<h3 id="text-pages">📝 Text Pages</h3>
+<p>Content pages without image gallery (About, Contact, Imprint).</p>
+<h3 id="statistics-pages">📊 Statistics Pages</h3>
+<p>EXIF analysis showing camera and lens usage statistics.</p>
+</div>
+<hr />
+<h2 id="available-page-types">Available Page Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Template</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gallery</code></td>
+<td>Photo gallery with image grid</td>
+<td>Default (body/gallery)</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>Text-only page without images</td>
+<td>page</td>
+</tr>
+<tr>
+<td><code>statistics</code></td>
+<td>EXIF statistics</td>
+<td>statistics/overview</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="gallery-pages-1">Gallery Pages</h2>
+<p>Create a new gallery for your photos:</p>
+<pre><code class="language-bash"># Simple gallery
+revela create page gallery vacation --title &quot;Summer Vacation 2024&quot;
+
+# With description and sorting
+revela create page gallery best-shots --title &quot;Highlights&quot; \
+    --description &quot;My best shots&quot; \
+    --sort &quot;exif.raw.Rating:desc&quot;
+
+# Hidden gallery (not in navigation)
+revela create page gallery drafts --title &quot;Drafts&quot; --hidden
+</code></pre>
+<h3 id="options">Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Alias</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--title</code></td>
+<td><code>-t</code></td>
+<td>Page title</td>
+<td>&quot;Gallery&quot;</td>
+</tr>
+<tr>
+<td><code>--description</code></td>
+<td><code>-d</code></td>
+<td>Description (for SEO)</td>
+<td>&quot;&quot;</td>
+</tr>
+<tr>
+<td><code>--sort</code></td>
+<td><code>-s</code></td>
+<td>Override sorting</td>
+<td>(global)</td>
+</tr>
+<tr>
+<td><code>--hidden</code></td>
+<td>-</td>
+<td>Hide from navigation</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>--slug</code></td>
+<td>-</td>
+<td>Custom URL segment</td>
+<td>(folder name)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sort-options">Sort Options</h3>
+<pre><code class="language-bash">--sort &quot;dateTaken:asc&quot;        # Oldest first
+--sort &quot;dateTaken:desc&quot;       # Newest first
+--sort &quot;filename:asc&quot;         # A → Z
+--sort &quot;exif.raw.Rating:desc&quot; # Highest rating first
+</code></pre>
+<hr />
+<h2 id="text-pages-1">Text Pages</h2>
+<p>Create pages without image gallery (About, Contact, Imprint):</p>
+<pre><code class="language-bash"># About page
+revela create page text about --title &quot;About Me&quot; \
+    --description &quot;Learn more about me and my photography&quot;
+
+# Contact page
+revela create page text contact --title &quot;Contact&quot;
+
+# Imprint (hidden from navigation)
+revela create page text imprint --title &quot;Imprint&quot; --hidden
+</code></pre>
+<h3 id="generated-file">Generated File</h3>
+<pre><code class="language-toml">+++
+title = &quot;About Me&quot;
+description = &quot;Learn more about me and my photography&quot;
+template = &quot;page&quot;
++++
+Write your content here using **Markdown**.
+
+## Example Heading
+
+- List item one
+- List item two
+</code></pre>
+<hr />
+<h2 id="statistics-pages-1">Statistics Pages</h2>
+<p>Create a page with EXIF statistics of your photo collection:</p>
+<pre><code class="language-bash">revela create page statistics stats --title &quot;Photo Statistics&quot; \
+    --description &quot;Analysis of my camera and lens usage&quot;
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The Statistics plugin must be installed (<code>revela plugin install Statistics</code>).</p>
+</blockquote>
+<hr />
+<h2 id="interactive-mode">Interactive Mode</h2>
+<p>All page types support an interactive mode. Start without the path argument:</p>
+<pre><code class="language-bash">revela create page gallery
+revela create page text
+revela create page statistics
+</code></pre>
+<p>The wizard guides you through all options:</p>
+<ol>
+<li><strong>Enter path</strong> - Relative path to <code>source/</code></li>
+<li><strong>Title</strong> - Enter page title</li>
+<li><strong>Description</strong> - Optional description</li>
+<li><strong>Sorting</strong> (gallery only) - Choose from presets or enter custom</li>
+<li><strong>Hidden</strong> - Hide from navigation?</li>
+<li><strong>Confirm</strong> - Create file?</li>
+</ol>
+<hr />
+<h2 id="frontmatter-fields">Frontmatter Fields</h2>
+<h3 id="all-page-types">All Page Types</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code></td>
+<td>Page title (in navigation and <code>&lt;title&gt;</code>)</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>SEO description</td>
+</tr>
+<tr>
+<td><code>hidden</code></td>
+<td><code>true</code> = not in navigation (but accessible via URL)</td>
+</tr>
+<tr>
+<td><code>slug</code></td>
+<td>Overrides URL segment (last segment only)</td>
+</tr>
+<tr>
+<td><code>template</code></td>
+<td>Body template (default: <code>gallery</code> or <code>page</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gallery-pages-only">Gallery Pages Only</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sort</code></td>
+<td>Override image sorting (e.g., <code>dateTaken:asc</code>)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="folder-structure">Folder Structure</h2>
+<p>Pages are always created in the <code>source/</code> directory:</p>
+<pre><code>source/
+├── vacation/
+│   └── _index.revela      ← revela create page gallery vacation
+├── about/
+│   └── _index.revela      ← revela create page text about
+└── stats/
+    └── _index.revela      ← revela create page statistics stats
+</code></pre>
+<p>Nested paths are supported:</p>
+<pre><code class="language-bash">revela create page gallery &quot;2024/summer/italy&quot; --title &quot;Italy 2024&quot;
+# Creates: source/2024/summer/italy/_index.revela
+</code></pre>
+<hr />
+<h2 id="navigation-order">Navigation Order</h2>
+<p>The order in navigation is determined by folder names:</p>
+<pre><code>source/
+├── 01 Galleries/
+│   ├── 01 Landscape/
+│   └── 02 Portrait/
+├── 02 About/
+└── 03 Contact/
+</code></pre>
+<p>Use number prefixes for desired sorting. Numbers are stripped from the display title.</p>
+
+    </article>
+</div>
+    </main>
+
+    <footer>
+        <nav>
+<section>
+  <a href="../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../docs/" class="active">Documentation</a></h3>
+  <a href="../../docs/filtering/">Filter Galleries</a>
+  <a href="../../docs/pages/" class="active">Creating Pages</a>
+  <a href="../../docs/sorting/">Sorting</a>
+<div>
+  <a href="../../docs/source-structure/">Source Structure</a>
+  <a href="../../docs/source-structure/static-files/">Static Files</a>
+</div>
+<div>
+  <a href="../../docs/themes/">Theme Customization</a>
+  <a href="../../docs/themes/website-example/">revela.website</a>
+</div>
+</section>
+        </nav>
+        <div>
+            © 2026 Spectara· Powered by Revela        </div>
+    </footer>
+
+    <script src="../../_assets/main.js"></script>
+    <script src="../../_assets/prism.js"></script>
+</body>
+
+</html>

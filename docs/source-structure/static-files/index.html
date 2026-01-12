@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Revela - Static Files</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Modern static site generator for photographers">
+    <meta name="author" content="Spectara">
+    <meta name="keywords" content="">
+    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/main.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/prism.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/website.css">
+</head>
+
+<body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger">
+
+    <nav>
+<section>
+  <a href="../../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../../docs/" class="active">Documentation</a></h3>
+  <a href="../../../docs/filtering/">Filter Galleries</a>
+  <a href="../../../docs/pages/">Creating Pages</a>
+  <a href="../../../docs/sorting/">Sorting</a>
+<div>
+  <a href="../../../docs/source-structure/" class="active">Source Structure</a>
+  <a href="../../../docs/source-structure/static-files/" class="active">Static Files</a>
+</div>
+<div>
+  <a href="../../../docs/themes/">Theme Customization</a>
+  <a href="../../../docs/themes/website-example/">revela.website</a>
+</div>
+</section>
+    </nav>
+
+    <header>
+        <div>
+            <h2>
+                <label for="nav-trigger" title="Menu">
+                    <span>Menu</span>
+                    <span>i</span>
+                    <span>i</span>
+                    <span>i</span>
+                </label>
+                <a href="../../../">Revela</a>
+            </h2>
+            <nav>
+                <a href="../../../about/">About</a>
+                <a href="../../../docs/" class="active">Documentation</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+<div class="docs-layout">
+    <aside class="docs-sidebar">
+        <nav>
+            <ul>
+
+                <li>
+                    <a href="../../../docs/filtering/">Filter Galleries</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../../docs/pages/">Creating Pages</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../../docs/sorting/">Sorting</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../../docs/source-structure/">Source Structure</a>
+                    <ul>
+                        <li><a href="../../../docs/source-structure/static-files/">Static Files</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../../docs/themes/">Theme Customization</a>
+                    <ul>
+                        <li><a href="../../../docs/themes/website-example/">revela.website</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <article class="docs-content">
+        <h1>Static Files</h1>
+<p>Static files are files that should be copied directly to the output root without any processing.</p>
+<div class="features-grid">
+<h3 id="favicons">🎨 Favicons</h3>
+<p>Browser icons in various formats for desktop and mobile.</p>
+<h3 id="robots.txt">🤖 robots.txt</h3>
+<p>Search engine crawler instructions.</p>
+<h3 id="cname">🔗 CNAME</h3>
+<p>Custom domain configuration for GitHub Pages.</p>
+<h3 id="other-files">📄 Other Files</h3>
+<p>sitemap.xml, ads.txt, security.txt, and more.</p>
+</div>
+<h2 id="convention">Convention</h2>
+<p>Place static files in the <code>source/_static/</code> folder. They will be copied 1:1 to the output root.</p>
+<pre><code>source/
+├── _static/                    # Static files folder
+│   ├── favicon/               # Favicon files
+│   │   ├── favicon.ico
+│   │   ├── favicon.svg
+│   │   └── apple-touch-icon.png
+│   ├── CNAME                  # GitHub Pages domain
+│   ├── .nojekyll              # Disable Jekyll
+│   └── robots.txt             # Crawler instructions
+├── _index.revela
+└── gallery/
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre><code>output/
+├── favicon/
+│   ├── favicon.ico
+│   ├── favicon.svg
+│   └── apple-touch-icon.png
+├── CNAME
+├── .nojekyll
+├── robots.txt
+└── index.html
+</code></pre>
+<h2 id="favicon-setup">Favicon Setup</h2>
+<h3 id="step-1-generate-favicons">Step 1: Generate Favicons</h3>
+<p>Use a favicon generator like <a href="https://realfavicongenerator.net">realfavicongenerator.net</a>:</p>
+<ol>
+<li>Upload your logo/image</li>
+<li>Configure platform-specific icons</li>
+<li>Download the generated package</li>
+<li>Copy files to <code>source/_static/favicon/</code></li>
+</ol>
+<h3 id="step-2-create-favicon-partial">Step 2: Create Favicon Partial</h3>
+<p>Create a theme override to include the favicon HTML.</p>
+<p><strong>File:</strong> <code>themes/Lumina/Partials/Favicon.revela</code></p>
+<pre><code class="language-html">&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;/favicon/favicon-96x96.png&quot; sizes=&quot;96x96&quot; /&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/svg+xml&quot; href=&quot;/favicon/favicon.svg&quot; /&gt;
+&lt;link rel=&quot;shortcut icon&quot; href=&quot;/favicon/favicon.ico&quot; /&gt;
+&lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;180x180&quot; href=&quot;/favicon/apple-touch-icon.png&quot; /&gt;
+&lt;meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;Your Site&quot; /&gt;
+&lt;link rel=&quot;manifest&quot; href=&quot;/favicon/site.webmanifest&quot; /&gt;
+</code></pre>
+<blockquote>
+<p><strong>Tip:</strong> Copy the exact HTML provided by your favicon generator.</p>
+</blockquote>
+<h3 id="step-3-generate">Step 3: Generate</h3>
+<pre><code class="language-bash">revela generate pages
+</code></pre>
+<h2 id="common-static-files">Common Static Files</h2>
+<h3 id="robots.txt-1">robots.txt</h3>
+<pre><code>User-agent: *
+Allow: /
+</code></pre>
+<h3 id="cname-github-pages">CNAME (GitHub Pages)</h3>
+<pre><code>example.com
+</code></pre>
+<h3 id="nojekyll">.nojekyll</h3>
+<p>Empty file - just create it, no content needed. Prevents GitHub Pages from processing files with Jekyll.</p>
+<h2 id="how-it-works">How It Works</h2>
+<ol>
+<li><strong>Scanning:</strong> Folders starting with <code>_</code> are skipped (no galleries created)</li>
+<li><strong>Copying:</strong> After page rendering, files from <code>_static/</code> are copied to output</li>
+<li><strong>Structure:</strong> Directory structure is preserved</li>
+<li><strong>Overwrite:</strong> Existing files are overwritten silently</li>
+</ol>
+<h2 id="best-practices">Best Practices</h2>
+<ul>
+<li>✅ Keep favicon files in <code>_static/favicon/</code> for organization</li>
+<li>✅ Place root files (CNAME, robots.txt) directly in <code>_static/</code></li>
+<li>✅ Commit static files to version control</li>
+<li>✅ Save favicon generator output for future updates</li>
+</ul>
+
+    </article>
+</div>
+    </main>
+
+    <footer>
+        <nav>
+<section>
+  <a href="../../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../../docs/" class="active">Documentation</a></h3>
+  <a href="../../../docs/filtering/">Filter Galleries</a>
+  <a href="../../../docs/pages/">Creating Pages</a>
+  <a href="../../../docs/sorting/">Sorting</a>
+<div>
+  <a href="../../../docs/source-structure/" class="active">Source Structure</a>
+  <a href="../../../docs/source-structure/static-files/" class="active">Static Files</a>
+</div>
+<div>
+  <a href="../../../docs/themes/">Theme Customization</a>
+  <a href="../../../docs/themes/website-example/">revela.website</a>
+</div>
+</section>
+        </nav>
+        <div>
+            © 2026 Spectara· Powered by Revela        </div>
+    </footer>
+
+    <script src="../../../_assets/main.js"></script>
+    <script src="../../../_assets/prism.js"></script>
+</body>
+
+</html>

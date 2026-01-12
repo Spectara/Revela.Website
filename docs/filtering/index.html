@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Revela - Filter Galleries</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Modern static site generator for photographers">
+    <meta name="author" content="Spectara">
+    <meta name="keywords" content="">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/main.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/prism.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/website.css">
+</head>
+
+<body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger">
+
+    <nav>
+<section>
+  <a href="../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../docs/" class="active">Documentation</a></h3>
+  <a href="../../docs/filtering/" class="active">Filter Galleries</a>
+  <a href="../../docs/pages/">Creating Pages</a>
+  <a href="../../docs/sorting/">Sorting</a>
+<div>
+  <a href="../../docs/source-structure/">Source Structure</a>
+  <a href="../../docs/source-structure/static-files/">Static Files</a>
+</div>
+<div>
+  <a href="../../docs/themes/">Theme Customization</a>
+  <a href="../../docs/themes/website-example/">revela.website</a>
+</div>
+</section>
+    </nav>
+
+    <header>
+        <div>
+            <h2>
+                <label for="nav-trigger" title="Menu">
+                    <span>Menu</span>
+                    <span>i</span>
+                    <span>i</span>
+                    <span>i</span>
+                </label>
+                <a href="../../">Revela</a>
+            </h2>
+            <nav>
+                <a href="../../about/">About</a>
+                <a href="../../docs/" class="active">Documentation</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+<div class="docs-layout">
+    <aside class="docs-sidebar">
+        <nav>
+            <ul>
+
+                <li>
+                    <a href="../../docs/filtering/">Filter Galleries</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/pages/">Creating Pages</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/sorting/">Sorting</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/source-structure/">Source Structure</a>
+                    <ul>
+                        <li><a href="../../docs/source-structure/static-files/">Static Files</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/themes/">Theme Customization</a>
+                    <ul>
+                        <li><a href="../../docs/themes/website-example/">revela.website</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <article class="docs-content">
+        <h1>Filter Galleries</h1>
+<p>Revela supports <strong>virtual galleries</strong> that automatically select images from a shared pool using filter expressions. Instead of manually organizing photos into folders, you define criteria and Revela builds the gallery dynamically.</p>
+<div class="features-grid">
+<h3 id="single-source">📦 Single Source</h3>
+<p>Images stored once in <code>_images/</code> folder. No duplication needed.</p>
+<h3 id="dynamic-updates">🔄 Dynamic Updates</h3>
+<p>Galleries automatically update when images change or are added.</p>
+<h3 id="powerful-queries">🔍 Powerful Queries</h3>
+<p>Filter by EXIF data, filename, date, and more with a simple syntax.</p>
+</div>
+<h2 id="basic-setup">Basic Setup</h2>
+<h3 id="create-shared-images-folder">1. Create Shared Images Folder</h3>
+<p>Create an <code>_images/</code> folder (note the underscore prefix) in your source directory:</p>
+<pre><code>source/
+├── _images/           # Shared images (not a gallery itself)
+│   ├── photo-001.jpg
+│   ├── photo-002.jpg
+│   └── ...
+├── canon/             # Filter gallery
+│   └── _index.revela
+├── sony/              # Filter gallery
+│   └── _index.revela
+└── _index.revela      # Homepage
+</code></pre>
+<h3 id="add-filter-expression">2. Add Filter Expression</h3>
+<p>In each gallery's <code>_index.revela</code>, add a <code>filter</code> property:</p>
+<pre><code class="language-toml">+++
+title = &quot;Canon Photos&quot;
+filter = &quot;exif.make == 'Canon'&quot;
++++
+
+All photos taken with Canon cameras.
+</code></pre>
+<hr />
+<h2 id="filter-syntax">Filter Syntax</h2>
+<h3 id="comparison-operators">Comparison Operators</h3>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>==</code></td>
+<td>Equal</td>
+<td><code>exif.make == 'Canon'</code></td>
+</tr>
+<tr>
+<td><code>!=</code></td>
+<td>Not equal</td>
+<td><code>exif.make != 'Sony'</code></td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td>Less than</td>
+<td><code>exif.iso &lt; 800</code></td>
+</tr>
+<tr>
+<td><code>&lt;=</code></td>
+<td>Less than or equal</td>
+<td><code>exif.focalLength &lt;= 35</code></td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td>Greater than</td>
+<td><code>exif.iso &gt; 1600</code></td>
+</tr>
+<tr>
+<td><code>&gt;=</code></td>
+<td>Greater than or equal</td>
+<td><code>exif.iso &gt;= 3200</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="logical-operators">Logical Operators</h3>
+<p>Combine conditions with <code>and</code>, <code>or</code>, and <code>not</code>:</p>
+<pre><code class="language-toml"># Both conditions must be true
+filter = &quot;exif.make == 'Canon' and exif.iso &gt;= 800&quot;
+
+# Either condition can be true
+filter = &quot;exif.make == 'Canon' or exif.make == 'Sony'&quot;
+
+# Negate a condition
+filter = &quot;not exif.make == 'Canon'&quot;
+</code></pre>
+<p><strong>Precedence:</strong> <code>and</code> binds tighter than <code>or</code>. Use parentheses to change order:</p>
+<pre><code class="language-toml"># Evaluated as: (a or b) and c
+filter = &quot;(exif.make == 'Canon' or exif.make == 'Sony') and exif.iso &gt;= 800&quot;
+</code></pre>
+<hr />
+<h2 id="available-properties">Available Properties</h2>
+<h3 id="image-properties">Image Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filename</code></td>
+<td>string</td>
+<td>Image filename (e.g., <code>photo-001.jpg</code>)</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td>int</td>
+<td>Image width in pixels</td>
+</tr>
+<tr>
+<td><code>height</code></td>
+<td>int</td>
+<td>Image height in pixels</td>
+</tr>
+<tr>
+<td><code>fileSize</code></td>
+<td>long</td>
+<td>File size in bytes</td>
+</tr>
+<tr>
+<td><code>dateTaken</code></td>
+<td>DateTime</td>
+<td>Date photo was taken</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exif-properties">EXIF Properties</h3>
+<p>Access via <code>exif.</code> prefix:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>exif.make</code></td>
+<td>string</td>
+<td>Camera manufacturer</td>
+</tr>
+<tr>
+<td><code>exif.model</code></td>
+<td>string</td>
+<td>Camera model</td>
+</tr>
+<tr>
+<td><code>exif.lensModel</code></td>
+<td>string</td>
+<td>Lens name</td>
+</tr>
+<tr>
+<td><code>exif.fNumber</code></td>
+<td>double</td>
+<td>Aperture (f/2.8 = 2.8)</td>
+</tr>
+<tr>
+<td><code>exif.exposureTime</code></td>
+<td>double</td>
+<td>Shutter speed in seconds</td>
+</tr>
+<tr>
+<td><code>exif.iso</code></td>
+<td>int</td>
+<td>ISO sensitivity</td>
+</tr>
+<tr>
+<td><code>exif.focalLength</code></td>
+<td>int</td>
+<td>Focal length in mm</td>
+</tr>
+</tbody>
+</table>
+<h3 id="raw-exif-access">Raw EXIF Access</h3>
+<p>Access any EXIF tag via <code>exif.raw.TagName</code>:</p>
+<pre><code class="language-toml">filter = &quot;exif.raw.Software == 'Lightroom'&quot;
+filter = &quot;exif.raw.Artist == 'John Doe'&quot;
+filter = &quot;exif.raw.Rating &gt;= 4&quot;
+</code></pre>
+<hr />
+<h2 id="built-in-functions">Built-in Functions</h2>
+<h3 id="date-functions">Date Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>year(date)</code></td>
+<td>Extract year</td>
+<td><code>year(dateTaken) == 2024</code></td>
+</tr>
+<tr>
+<td><code>month(date)</code></td>
+<td>Extract month (1-12)</td>
+<td><code>month(dateTaken) == 12</code></td>
+</tr>
+<tr>
+<td><code>day(date)</code></td>
+<td>Extract day (1-31)</td>
+<td><code>day(dateTaken) == 25</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="string-functions">String Functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>contains(str, substr)</code></td>
+<td>Check if contains</td>
+<td><code>contains(filename, 'portrait')</code></td>
+</tr>
+<tr>
+<td><code>starts_with(str, prefix)</code></td>
+<td>Check prefix</td>
+<td><code>starts_with(filename, 'IMG_')</code></td>
+</tr>
+<tr>
+<td><code>ends_with(str, suffix)</code></td>
+<td>Check suffix</td>
+<td><code>ends_with(filename, '-edit.jpg')</code></td>
+</tr>
+<tr>
+<td><code>lower(str)</code></td>
+<td>To lowercase</td>
+<td><code>lower(exif.make) == 'canon'</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="pipe-syntax">Pipe Syntax</h2>
+<p>Chain operations using the pipe <code>|</code> operator:</p>
+<pre><code>filter_expression | sort property [asc|desc] | limit n
+</code></pre>
+<h3 id="the-all-keyword">The <code>all</code> Keyword</h3>
+<p>Select all images without filtering:</p>
+<pre><code class="language-toml">filter = &quot;all&quot;
+filter = &quot;all | sort dateTaken desc&quot;
+filter = &quot;all | sort dateTaken desc | limit 10&quot;
+</code></pre>
+<h3 id="sort-clause">Sort Clause</h3>
+<p>Sort results by any property:</p>
+<pre><code class="language-toml"># Newest first
+filter = &quot;all | sort dateTaken desc&quot;
+
+# By EXIF property
+filter = &quot;exif.make == 'Canon' | sort exif.iso desc&quot;
+</code></pre>
+<h3 id="limit-clause">Limit Clause</h3>
+<p>Restrict the number of results:</p>
+<pre><code class="language-toml"># Only 5 images
+filter = &quot;all | limit 5&quot;
+
+# 10 newest photos
+filter = &quot;all | sort dateTaken desc | limit 10&quot;
+</code></pre>
+<hr />
+<h2 id="common-patterns">Common Patterns</h2>
+<h3 id="by-camera-brand">By Camera Brand</h3>
+<pre><code class="language-toml">filter = &quot;exif.make == 'Canon'&quot;
+filter = &quot;exif.make == 'Sony'&quot;
+filter = &quot;exif.make == 'Canon' or exif.make == 'Sony'&quot;
+</code></pre>
+<h3 id="by-year">By Year</h3>
+<pre><code class="language-toml">filter = &quot;year(dateTaken) == 2024&quot;
+filter = &quot;year(dateTaken) &gt;= 2020 and year(dateTaken) &lt;= 2024&quot;
+</code></pre>
+<h3 id="high-iso-low-light">High ISO (Low Light)</h3>
+<pre><code class="language-toml">filter = &quot;exif.iso &gt;= 3200&quot;
+filter = &quot;exif.iso &gt;= 1600 | sort exif.iso desc&quot;
+</code></pre>
+<h3 id="wide-angle-telephoto">Wide Angle / Telephoto</h3>
+<pre><code class="language-toml">filter = &quot;exif.focalLength &lt;= 35&quot;   # Wide angle
+filter = &quot;exif.focalLength &gt;= 85&quot;   # Portrait/Telephoto
+</code></pre>
+<h3 id="recent-photos-homepage">Recent Photos (Homepage)</h3>
+<pre><code class="language-toml">filter = &quot;all | sort dateTaken desc | limit 5&quot;
+</code></pre>
+<h3 id="best-rated">Best Rated</h3>
+<pre><code class="language-toml">filter = &quot;exif.raw.Rating &gt;= 4 | sort exif.raw.Rating desc&quot;
+</code></pre>
+<hr />
+<h2 id="filter-vs-sort">Filter vs Sort</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Filter (<code>filter =</code>)</th>
+<th>Sort (<code>sort =</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Purpose</td>
+<td>Select images from <code>_images/</code></td>
+<td>Order images in any gallery</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Creates virtual gallery</td>
+<td>Works on existing images</td>
+</tr>
+<tr>
+<td>Use case</td>
+<td>Dynamic collections</td>
+<td>Custom ordering</td>
+</tr>
+</tbody>
+</table>
+<p>You can use both together:</p>
+<pre><code class="language-toml">+++
+filter = &quot;exif.make == 'Canon'&quot;
+sort = &quot;dateTaken:desc&quot;
++++
+</code></pre>
+
+    </article>
+</div>
+    </main>
+
+    <footer>
+        <nav>
+<section>
+  <a href="../../about/">About</a>
+</section>
+<section>
+  <h3><a href="../../docs/" class="active">Documentation</a></h3>
+  <a href="../../docs/filtering/" class="active">Filter Galleries</a>
+  <a href="../../docs/pages/">Creating Pages</a>
+  <a href="../../docs/sorting/">Sorting</a>
+<div>
+  <a href="../../docs/source-structure/">Source Structure</a>
+  <a href="../../docs/source-structure/static-files/">Static Files</a>
+</div>
+<div>
+  <a href="../../docs/themes/">Theme Customization</a>
+  <a href="../../docs/themes/website-example/">revela.website</a>
+</div>
+</section>
+        </nav>
+        <div>
+            © 2026 Spectara· Powered by Revela        </div>
+    </footer>
+
+    <script src="../../_assets/main.js"></script>
+    <script src="../../_assets/prism.js"></script>
+</body>
+
+</html>
