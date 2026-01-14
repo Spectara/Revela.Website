@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Revela - Sorting</title>
+    <title>Revela - Configuration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Modern static site generator for photographers">
     <meta name="author" content="Spectara">
@@ -28,11 +28,11 @@
 </section>
 <section>
   <h3><a href="../../docs/">Documentation</a></h3>
-  <a href="../../docs/configuration/">Configuration</a>
+  <a href="../../docs/configuration/" class="active">Configuration</a>
   <a href="../../docs/deployment/">Deployment</a>
   <a href="../../docs/filtering/">Filter Galleries</a>
   <a href="../../docs/pages/">Creating Pages</a>
-  <a href="../../docs/sorting/" class="active">Sorting</a>
+  <a href="../../docs/sorting/">Sorting</a>
 <div>
   <a href="../../docs/source-structure/">Source Structure</a>
   <a href="../../docs/source-structure/static-files/">Static Files</a>
@@ -74,7 +74,7 @@
             <ul>
 
                 <li>
-                    <a href="../../docs/configuration/">Configuration</a>
+                    <a href="../../docs/configuration/" class="active">Configuration</a>
                     <ul>
                     </ul>
                 </li>
@@ -98,7 +98,7 @@
                 </li>
 
                 <li>
-                    <a href="../../docs/sorting/" class="active">Sorting</a>
+                    <a href="../../docs/sorting/">Sorting</a>
                     <ul>
                     </ul>
                 </li>
@@ -120,173 +120,173 @@
         </nav>
     </aside>
     <article class="docs-content">
-        <h1>Sorting</h1>
-<p>Revela supports flexible sorting of galleries and images. You can configure:</p>
-<ul>
-<li><strong>Gallery order</strong> in navigation (ascending/descending)</li>
-<li><strong>Image order</strong> within galleries (by any field including EXIF data)</li>
-<li><strong>Per-gallery overrides</strong> via front matter</li>
-</ul>
-<hr />
-<h2 id="global-configuration">Global Configuration</h2>
-<p>Configure sorting in <code>project.json</code>:</p>
+        <h1>Configuration</h1>
+<p>Revela stores all project settings in <code>project.json</code>. This file is created automatically when you initialize a project with <code>revela config project</code>.</p>
+<h2 id="quick-configuration">Quick Configuration</h2>
+<p>Use the interactive config menu:</p>
+<pre><code class="language-bash">revela config
+</code></pre>
+<p>Or configure specific settings directly:</p>
+<pre><code class="language-bash">revela config theme --set Lumina
+revela config paths --source &quot;D:\Photos&quot; --output &quot;dist&quot;
+revela config site --title &quot;My Portfolio&quot; --author &quot;John Doe&quot;
+</code></pre>
+<h2 id="configuration-file-structure">Configuration File Structure</h2>
 <pre><code class="language-json">{
+  &quot;name&quot;: &quot;my-portfolio&quot;,
+  &quot;paths&quot;: {
+    &quot;source&quot;: &quot;source&quot;,
+    &quot;output&quot;: &quot;output&quot;
+  },
+  &quot;theme&quot;: {
+    &quot;name&quot;: &quot;Lumina&quot;
+  },
   &quot;generate&quot;: {
+    &quot;images&quot;: {
+      &quot;formats&quot;: { &quot;webp&quot;: 85, &quot;jpg&quot;: 90 },
+      &quot;sizes&quot;: [640, 1024, 1920]
+    },
     &quot;sorting&quot;: {
       &quot;galleries&quot;: &quot;asc&quot;,
-      &quot;images&quot;: {
-        &quot;field&quot;: &quot;dateTaken&quot;,
-        &quot;direction&quot;: &quot;desc&quot;,
-        &quot;fallback&quot;: &quot;filename&quot;
-      }
+      &quot;images&quot;: { &quot;field&quot;: &quot;dateTaken&quot;, &quot;direction&quot;: &quot;desc&quot; }
     }
   }
 }
 </code></pre>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>galleries</code></td>
-<td>Gallery sort direction: <code>asc</code> or <code>desc</code></td>
-<td><code>asc</code></td>
-</tr>
-<tr>
-<td><code>images.field</code></td>
-<td>Field to sort images by</td>
-<td><code>dateTaken</code></td>
-</tr>
-<tr>
-<td><code>images.direction</code></td>
-<td>Image sort direction: <code>asc</code> or <code>desc</code></td>
-<td><code>desc</code></td>
-</tr>
-<tr>
-<td><code>images.fallback</code></td>
-<td>Fallback field when primary is null</td>
-<td><code>filename</code></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="available-sort-fields">Available Sort Fields</h2>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>filename</code></td>
-<td>File name (alphabetical)</td>
-</tr>
-<tr>
-<td><code>dateTaken</code></td>
-<td>EXIF capture date</td>
-</tr>
-<tr>
-<td><code>exif.focalLength</code></td>
-<td>Focal length in mm</td>
-</tr>
-<tr>
-<td><code>exif.fNumber</code></td>
-<td>Aperture (f-number)</td>
-</tr>
-<tr>
-<td><code>exif.exposureTime</code></td>
-<td>Shutter speed</td>
-</tr>
-<tr>
-<td><code>exif.iso</code></td>
-<td>ISO sensitivity</td>
-</tr>
-<tr>
-<td><code>exif.make</code></td>
-<td>Camera manufacturer</td>
-</tr>
-<tr>
-<td><code>exif.model</code></td>
-<td>Camera model</td>
-</tr>
-<tr>
-<td><code>exif.lensModel</code></td>
-<td>Lens model</td>
-</tr>
-<tr>
-<td><code>exif.raw.Rating</code></td>
-<td>Star rating (1-5)</td>
-</tr>
-<tr>
-<td><code>exif.raw.{FieldName}</code></td>
-<td>Any EXIF field from Raw dictionary</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="per-gallery-override">Per-Gallery Override</h2>
-<p>Override the global sort settings for individual galleries using front matter in <code>_index.revela</code>:</p>
-<p><strong>Format:</strong></p>
-<pre><code>sort = &quot;field&quot;           # Use field, direction from global config
-sort = &quot;field:asc&quot;       # Use field with ascending order
-sort = &quot;field:desc&quot;      # Use field with descending order
+<h2 id="custom-paths">Custom Paths</h2>
+<p>By default, Revela uses a <code>source/</code> folder for your images and <code>output/</code> for the generated site. You can customize these paths for advanced workflows.</p>
+<h3 id="configure-via-cli">Configure via CLI</h3>
+<pre><code class="language-bash"># Interactive
+revela config paths
+
+# Direct
+revela config paths --source &quot;D:\OneDrive\Photos\Portfolio&quot; --output &quot;dist&quot;
 </code></pre>
-<p><strong>Examples:</strong></p>
-<pre><code class="language-toml">+++
-title = &quot;Lens Comparison&quot;
-sort = &quot;exif.focalLength:asc&quot;
-+++
-
-Compare shots from wide-angle to telephoto.
+<h3 id="use-cases">Use Cases</h3>
+<div class="features-grid">
+<h3 id="cloud-storage-source">☁️ Cloud Storage Source</h3>
+<p>Point source to a OneDrive, Dropbox, or iCloud folder. Your photos sync automatically, Revela generates from them.</p>
+<h3 id="direct-deployment">🌐 Direct Deployment</h3>
+<p>Output directly to your webserver directory (<code>/var/www/html</code>) without copying files.</p>
+<h3 id="shared-photo-library">📁 Shared Photo Library</h3>
+<p>Multiple Revela projects can share the same source folder with different filters.</p>
+</div>
+<h3 id="example-onedrive-integration">Example: OneDrive Integration</h3>
+<pre><code class="language-json">{
+  &quot;paths&quot;: {
+    &quot;source&quot;: &quot;D:\\OneDrive\\Photos\\Portfolio&quot;,
+    &quot;output&quot;: &quot;output&quot;
+  }
+}
 </code></pre>
-<pre><code class="language-toml">+++
-title = &quot;Best Shots&quot;
-sort = &quot;exif.raw.Rating:desc&quot;
-+++
-
-My highest rated photos.
-</code></pre>
-<pre><code class="language-toml">+++
-title = &quot;Timeline&quot;
-sort = &quot;dateTaken:asc&quot;
-+++
-
-Photos in chronological order (oldest first).
-</code></pre>
-<hr />
-<h2 id="cli-configuration">CLI Configuration</h2>
-<p>Configure sorting interactively or via command line:</p>
-<pre><code class="language-bash"># Interactive wizard
-revela config sorting
-
-# Set image sort field
-revela config sorting --field dateTaken --direction desc
-
-# Sort by rating
-revela config sorting --field exif.raw.Rating --direction desc
-
-# Sort by focal length
-revela config sorting --field exif.focalLength --direction asc
-
-# Change gallery order
-revela config sorting --galleries desc
-</code></pre>
-<hr />
-<h2 id="logic-flow">Logic Flow</h2>
+<p>Your workflow:</p>
 <ol>
-<li><strong>No front matter <code>sort</code></strong> → Use global config (<code>generate.sorting.images</code>)</li>
-<li><strong><code>sort = &quot;field&quot;</code></strong> → Override field, keep global direction</li>
-<li><strong><code>sort = &quot;field:direction&quot;</code></strong> → Override both field and direction</li>
-<li><strong>Fallback</strong> is always from global config (not overridable per gallery)</li>
-<li><strong>Final tie-breaker</strong> is always filename (for stable sorting)</li>
+<li>Add photos to OneDrive on any device</li>
+<li>They sync to your computer</li>
+<li>Run <code>revela generate all</code> to rebuild</li>
 </ol>
+<h3 id="example-direct-server-deployment">Example: Direct Server Deployment</h3>
+<pre><code class="language-json">{
+  &quot;paths&quot;: {
+    &quot;source&quot;: &quot;source&quot;,
+    &quot;output&quot;: &quot;/var/www/html/photos&quot;
+  }
+}
+</code></pre>
+<p>After <code>revela generate all</code>, your site is immediately live—no file copying needed.</p>
+<h3 id="path-resolution">Path Resolution</h3>
+<table>
+<thead>
+<tr>
+<th>Path Type</th>
+<th>Example</th>
+<th>Resolves To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Relative</td>
+<td><code>source</code></td>
+<td><code>{project}/source</code></td>
+</tr>
+<tr>
+<td>Relative</td>
+<td><code>../photos</code></td>
+<td><code>{parent}/photos</code></td>
+</tr>
+<tr>
+<td>Absolute</td>
+<td><code>D:\Photos</code></td>
+<td><code>D:\Photos</code></td>
+</tr>
+<tr>
+<td>Absolute</td>
+<td><code>/var/www/html</code></td>
+<td><code>/var/www/html</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="available-config-commands">Available Config Commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>revela config</code></td>
+<td>Interactive configuration menu</td>
+</tr>
+<tr>
+<td><code>revela config project</code></td>
+<td>Project name and URL</td>
+</tr>
+<tr>
+<td><code>revela config theme</code></td>
+<td>Select site theme</td>
+</tr>
+<tr>
+<td><code>revela config site</code></td>
+<td>Site metadata (title, author, description)</td>
+</tr>
+<tr>
+<td><code>revela config paths</code></td>
+<td>Source and output directories</td>
+</tr>
+<tr>
+<td><code>revela config image</code></td>
+<td>Image formats and quality</td>
+</tr>
+<tr>
+<td><code>revela config sorting</code></td>
+<td>Gallery and image sort order</td>
+</tr>
+<tr>
+<td><code>revela config feed</code></td>
+<td>NuGet package sources</td>
+</tr>
+</tbody>
+</table>
+<h2 id="site-metadata">Site Metadata</h2>
+<p>Site-specific content (title, description, copyright) is stored separately in <code>site.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;title&quot;: &quot;My Photography Portfolio&quot;,
+  &quot;author&quot;: &quot;Jane Smith&quot;,
+  &quot;description&quot;: &quot;Landscapes and nature photography&quot;,
+  &quot;copyright&quot;: &quot;© 2026 Jane Smith&quot;
+}
+</code></pre>
+<p>Configure with:</p>
+<pre><code class="language-bash">revela config site
+</code></pre>
+<p>This separation allows you to:</p>
+<ul>
+<li>Share <code>project.json</code> settings across projects</li>
+<li>Keep personal branding in <code>site.json</code></li>
+<li>Use different site metadata for staging/production</li>
+</ul>
 
     </article>
 </div>
@@ -299,11 +299,11 @@ revela config sorting --galleries desc
 </section>
 <section>
   <h3><a href="../../docs/">Documentation</a></h3>
-  <a href="../../docs/configuration/">Configuration</a>
+  <a href="../../docs/configuration/" class="active">Configuration</a>
   <a href="../../docs/deployment/">Deployment</a>
   <a href="../../docs/filtering/">Filter Galleries</a>
   <a href="../../docs/pages/">Creating Pages</a>
-  <a href="../../docs/sorting/" class="active">Sorting</a>
+  <a href="../../docs/sorting/">Sorting</a>
 <div>
   <a href="../../docs/source-structure/">Source Structure</a>
   <a href="../../docs/source-structure/static-files/">Static Files</a>
