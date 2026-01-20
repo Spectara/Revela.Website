@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Revela - Sorting</title>
+    <title>Revela - Static Compression</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Modern static site generator for photographers">
     <meta name="author" content="Spectara">
@@ -28,12 +28,12 @@
 </section>
 <section>
   <h3><a href="../../docs/">Documentation</a></h3>
-  <a href="../../docs/compression/">Static Compression</a>
+  <a href="../../docs/compression/" class="active">Static Compression</a>
   <a href="../../docs/configuration/">Configuration</a>
   <a href="../../docs/deployment/">Deployment</a>
   <a href="../../docs/filtering/">Filter Galleries</a>
   <a href="../../docs/pages/">Creating Pages</a>
-  <a href="../../docs/sorting/" class="active">Sorting</a>
+  <a href="../../docs/sorting/">Sorting</a>
 <div>
   <a href="../../docs/source-structure/">Source Structure</a>
   <a href="../../docs/source-structure/static-files/">Static Files</a>
@@ -75,7 +75,7 @@
             <ul>
 
                 <li>
-                    <a href="../../docs/compression/">Static Compression</a>
+                    <a href="../../docs/compression/" class="active">Static Compression</a>
                     <ul>
                     </ul>
                 </li>
@@ -105,7 +105,7 @@
                 </li>
 
                 <li>
-                    <a href="../../docs/sorting/" class="active">Sorting</a>
+                    <a href="../../docs/sorting/">Sorting</a>
                     <ul>
                     </ul>
                 </li>
@@ -127,173 +127,185 @@
         </nav>
     </aside>
     <article class="docs-content">
-        <h1>Sorting</h1>
-<p>Revela supports flexible sorting of galleries and images. You can configure:</p>
-<ul>
-<li><strong>Gallery order</strong> in navigation (ascending/descending)</li>
-<li><strong>Image order</strong> within galleries (by any field including EXIF data)</li>
-<li><strong>Per-gallery overrides</strong> via front matter</li>
-</ul>
-<hr />
-<h2 id="global-configuration">Global Configuration</h2>
-<p>Configure sorting in <code>project.json</code>:</p>
-<pre><code class="language-json">{
-  &quot;generate&quot;: {
-    &quot;sorting&quot;: {
-      &quot;galleries&quot;: &quot;asc&quot;,
-      &quot;images&quot;: {
-        &quot;field&quot;: &quot;dateTaken&quot;,
-        &quot;direction&quot;: &quot;desc&quot;,
-        &quot;fallback&quot;: &quot;filename&quot;
-      }
-    }
-  }
-}
+        <h1>Static Compression</h1>
+<p>Revela can pre-compress your static files with <strong>Gzip</strong> and <strong>Brotli</strong> for faster loading.</p>
+<blockquote>
+<p><strong>Do you need this?</strong> If you're using GitHub Pages, Netlify, Vercel, or Cloudflare Pages – <strong>no!</strong> These platforms compress automatically. This plugin is for self-hosted servers, AWS S3, or basic web hosts.</p>
+</blockquote>
+<div class="features-grid">
+<h3 id="pre-generated">📦 Pre-Generated</h3>
+<p>Compressed files created at build time, not on every request.</p>
+<h3 id="smaller">🚀 95% Smaller</h3>
+<p>HTML, CSS, and JS files compress dramatically with Brotli.</p>
+<h3 id="zero-cpu-cost">⚡ Zero CPU Cost</h3>
+<p>Servers deliver pre-compressed files instantly.</p>
+</div>
+<h2 id="installation">Installation</h2>
+<pre><code class="language-bash">revela plugin install Compress
 </code></pre>
+<h2 id="usage">Usage</h2>
+<h3 id="compress-your-site">Compress Your Site</h3>
+<pre><code class="language-bash"># After generating your site
+revela generate compress
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> Compression runs separately, not as part of <code>generate all</code>.
+Your server must be configured to serve pre-compressed files.</p>
+</blockquote>
+<h3 id="remove-compressed-files">Remove Compressed Files</h3>
+<pre><code class="language-bash">revela clean compress
+</code></pre>
+<h2 id="what-gets-compressed">What Gets Compressed?</h2>
 <table>
 <thead>
 <tr>
-<th>Property</th>
-<th>Description</th>
-<th>Default</th>
+<th>File Type</th>
+<th>Typical Savings</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>galleries</code></td>
-<td>Gallery sort direction: <code>asc</code> or <code>desc</code></td>
-<td><code>asc</code></td>
+<td>HTML</td>
+<td>70-85%</td>
 </tr>
 <tr>
-<td><code>images.field</code></td>
-<td>Field to sort images by</td>
-<td><code>dateTaken</code></td>
+<td>CSS</td>
+<td>75-90%</td>
 </tr>
 <tr>
-<td><code>images.direction</code></td>
-<td>Image sort direction: <code>asc</code> or <code>desc</code></td>
-<td><code>desc</code></td>
+<td>JavaScript</td>
+<td>65-80%</td>
 </tr>
 <tr>
-<td><code>images.fallback</code></td>
-<td>Fallback field when primary is null</td>
-<td><code>filename</code></td>
+<td>JSON</td>
+<td>70-85%</td>
+</tr>
+<tr>
+<td>SVG</td>
+<td>50-70%</td>
+</tr>
+<tr>
+<td>XML</td>
+<td>70-85%</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="available-sort-fields">Available Sort Fields</h2>
+<p><strong>Images are skipped</strong> – they're already optimized (AVIF, WebP, JPG).</p>
+<h2 id="output-structure">Output Structure</h2>
+<p>Your files remain unchanged. Compressed versions are added alongside:</p>
+<pre><code>output/
+├── index.html          ← Original (10 KB)
+├── index.html.gz       ← Gzip (2.5 KB)
+├── index.html.br       ← Brotli (2.1 KB)
+├── _assets/
+│   ├── main.css
+│   ├── main.css.gz
+│   └── main.css.br
+</code></pre>
+<h2 id="example-output">Example Output</h2>
+<pre><code>╭─Success────────────────────────────╮
+│ Compression complete!              │
+│                                    │
+│ Summary:                           │
+│   Files:    14                     │
+│   Original: 1.22 MB                │
+│                                    │
+│ Compressed sizes:                  │
+│   Gzip:    93.4 KB (92.5% savings) │
+│   Brotli:  61.6 KB (95.1% savings) │
+╰────────────────────────────────────╯
+</code></pre>
+<h2 id="when-do-you-need-this-plugin">When Do You Need This Plugin?</h2>
 <table>
 <thead>
 <tr>
-<th>Field</th>
-<th>Description</th>
+<th>Platform</th>
+<th>Need Plugin?</th>
+<th>Reason</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>filename</code></td>
-<td>File name (alphabetical)</td>
+<td>GitHub Pages</td>
+<td>❌ No</td>
+<td>Compresses automatically</td>
 </tr>
 <tr>
-<td><code>dateTaken</code></td>
-<td>EXIF capture date</td>
+<td>Netlify</td>
+<td>❌ No</td>
+<td>Compresses automatically</td>
 </tr>
 <tr>
-<td><code>exif.focalLength</code></td>
-<td>Focal length in mm</td>
+<td>Vercel</td>
+<td>❌ No</td>
+<td>Compresses automatically</td>
 </tr>
 <tr>
-<td><code>exif.fNumber</code></td>
-<td>Aperture (f-number)</td>
+<td>Cloudflare Pages</td>
+<td>❌ No</td>
+<td>Compresses automatically</td>
 </tr>
 <tr>
-<td><code>exif.exposureTime</code></td>
-<td>Shutter speed</td>
+<td>AWS S3 + CloudFront</td>
+<td>🟡 Optional</td>
+<td>CloudFront compresses, but pre-compressed is faster</td>
 </tr>
 <tr>
-<td><code>exif.iso</code></td>
-<td>ISO sensitivity</td>
+<td>AWS S3 (direct)</td>
+<td>✅ Yes</td>
+<td>No automatic compression</td>
 </tr>
 <tr>
-<td><code>exif.make</code></td>
-<td>Camera manufacturer</td>
+<td>nginx / Apache</td>
+<td>✅ Yes</td>
+<td>Saves CPU, instant delivery</td>
 </tr>
 <tr>
-<td><code>exif.model</code></td>
-<td>Camera model</td>
+<td>Basic web hosting</td>
+<td>✅ Yes</td>
+<td>Often no compression</td>
 </tr>
 <tr>
-<td><code>exif.lensModel</code></td>
-<td>Lens model</td>
+<td>nginx</td>
+<td>✅ With <code>gzip_static on</code></td>
+<td></td>
 </tr>
 <tr>
-<td><code>exif.raw.Rating</code></td>
-<td>Star rating (1-5)</td>
-</tr>
-<tr>
-<td><code>exif.raw.{FieldName}</code></td>
-<td>Any EXIF field from Raw dictionary</td>
+<td>Apache</td>
+<td>⚙️ Needs RewriteRule</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="per-gallery-override">Per-Gallery Override</h2>
-<p>Override the global sort settings for individual galleries using front matter in <code>_index.revela</code>:</p>
-<p><strong>Format:</strong></p>
-<pre><code>sort = &quot;field&quot;           # Use field, direction from global config
-sort = &quot;field:asc&quot;       # Use field with ascending order
-sort = &quot;field:desc&quot;      # Use field with descending order
+<h2 id="pipeline-order">Pipeline Order</h2>
+<p>Compression runs <strong>last</strong> in the generate pipeline:</p>
+<pre><code>scan → statistics → pages → images → compress
 </code></pre>
-<p><strong>Examples:</strong></p>
-<pre><code class="language-toml">+++
-title = &quot;Lens Comparison&quot;
-sort = &quot;exif.focalLength:asc&quot;
-+++
-
-Compare shots from wide-angle to telephoto.
-</code></pre>
-<pre><code class="language-toml">+++
-title = &quot;Best Shots&quot;
-sort = &quot;exif.raw.Rating:desc&quot;
-+++
-
-My highest rated photos.
-</code></pre>
-<pre><code class="language-toml">+++
-title = &quot;Timeline&quot;
-sort = &quot;dateTaken:asc&quot;
-+++
-
-Photos in chronological order (oldest first).
-</code></pre>
-<hr />
-<h2 id="cli-configuration">CLI Configuration</h2>
-<p>Configure sorting interactively or via command line:</p>
-<pre><code class="language-bash"># Interactive wizard
-revela config sorting
-
-# Set image sort field
-revela config sorting --field dateTaken --direction desc
-
-# Sort by rating
-revela config sorting --field exif.raw.Rating --direction desc
-
-# Sort by focal length
-revela config sorting --field exif.focalLength --direction asc
-
-# Change gallery order
-revela config sorting --galleries desc
-</code></pre>
-<hr />
-<h2 id="logic-flow">Logic Flow</h2>
-<ol>
-<li><strong>No front matter <code>sort</code></strong> → Use global config (<code>generate.sorting.images</code>)</li>
-<li><strong><code>sort = &quot;field&quot;</code></strong> → Override field, keep global direction</li>
-<li><strong><code>sort = &quot;field:direction&quot;</code></strong> → Override both field and direction</li>
-<li><strong>Fallback</strong> is always from global config (not overridable per gallery)</li>
-<li><strong>Final tie-breaker</strong> is always filename (for stable sorting)</li>
-</ol>
+<p>This ensures all content exists before compressing.</p>
+<h2 id="compression-settings">Compression Settings</h2>
+<p>The plugin uses <strong>maximum compression</strong> for smallest files:</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Level</th>
+<th>Browser Support</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gzip</td>
+<td>9 (max)</td>
+<td>All browsers</td>
+</tr>
+<tr>
+<td>Brotli</td>
+<td>11 (max)</td>
+<td>Modern browsers (95%+)</td>
+</tr>
+</tbody>
+</table>
+<p>Files under <strong>256 bytes</strong> are skipped – compression overhead exceeds savings.</p>
 
     </article>
 </div>
@@ -306,12 +318,12 @@ revela config sorting --galleries desc
 </section>
 <section>
   <h3><a href="../../docs/">Documentation</a></h3>
-  <a href="../../docs/compression/">Static Compression</a>
+  <a href="../../docs/compression/" class="active">Static Compression</a>
   <a href="../../docs/configuration/">Configuration</a>
   <a href="../../docs/deployment/">Deployment</a>
   <a href="../../docs/filtering/">Filter Galleries</a>
   <a href="../../docs/pages/">Creating Pages</a>
-  <a href="../../docs/sorting/" class="active">Sorting</a>
+  <a href="../../docs/sorting/">Sorting</a>
 <div>
   <a href="../../docs/source-structure/">Source Structure</a>
   <a href="../../docs/source-structure/static-files/">Static Files</a>
