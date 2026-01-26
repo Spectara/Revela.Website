@@ -745,6 +745,11 @@ footer div {
   color: hsl(var(--color-light-hsl));
 }
 
+footer div a {
+  color: inherit;
+  text-decoration: none;
+}
+
 footer nav {
   grid-column: content;
   display: flex;
