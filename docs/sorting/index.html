@@ -28,20 +28,21 @@
 </section>
 <section>
   <h3><a href="../../docs/">Documentation</a></h3>
-  <a href="../../docs/compression/">Static Compression</a>
-  <a href="../../docs/configuration/">Configuration</a>
-  <a href="../../docs/deployment/">Deployment</a>
-  <a href="../../docs/filtering/">Filter Galleries</a>
-  <a href="../../docs/pages/">Creating Pages</a>
-  <a href="../../docs/sorting/" class="active">Sorting</a>
 <div>
   <a href="../../docs/source-structure/">Source Structure</a>
   <a href="../../docs/source-structure/static-files/">Static Files</a>
 </div>
+  <a href="../../docs/pages/">Creating Pages</a>
+  <a href="../../docs/images/">Image Processing</a>
+  <a href="../../docs/sorting/" class="active">Sorting</a>
+  <a href="../../docs/filtering/">Filter Galleries</a>
 <div>
   <a href="../../docs/themes/">Theme Customization</a>
   <a href="../../docs/themes/website-example/">revela.website</a>
 </div>
+  <a href="../../docs/configuration/">Configuration</a>
+  <a href="../../docs/compression/">Static Compression</a>
+  <a href="../../docs/deployment/">Deployment</a>
 </section>
     </nav>
 
@@ -75,31 +76,20 @@
             <ul>
 
                 <li>
-                    <a href="../../docs/compression/">Static Compression</a>
+                    <a href="../../docs/source-structure/">Source Structure</a>
                     <ul>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="../../docs/configuration/">Configuration</a>
-                    <ul>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="../../docs/deployment/">Deployment</a>
-                    <ul>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="../../docs/filtering/">Filter Galleries</a>
-                    <ul>
+                        <li><a href="../../docs/source-structure/static-files/">Static Files</a></li>
                     </ul>
                 </li>
 
                 <li>
                     <a href="../../docs/pages/">Creating Pages</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/images/">Image Processing</a>
                     <ul>
                     </ul>
                 </li>
@@ -111,9 +101,8 @@
                 </li>
 
                 <li>
-                    <a href="../../docs/source-structure/">Source Structure</a>
+                    <a href="../../docs/filtering/">Filter Galleries</a>
                     <ul>
-                        <li><a href="../../docs/source-structure/static-files/">Static Files</a></li>
                     </ul>
                 </li>
 
@@ -121,6 +110,24 @@
                     <a href="../../docs/themes/">Theme Customization</a>
                     <ul>
                         <li><a href="../../docs/themes/website-example/">revela.website</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/configuration/">Configuration</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/compression/">Static Compression</a>
+                    <ul>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="../../docs/deployment/">Deployment</a>
+                    <ul>
                     </ul>
                 </li>
             </ul>
@@ -268,6 +275,57 @@ sort = &quot;dateTaken:asc&quot;
 Photos in chronological order (oldest first).
 </code></pre>
 <hr />
+<h2 id="gallery-order-with-number-prefixes">Gallery Order with Number Prefixes</h2>
+<p>Control gallery order in navigation by adding number prefixes to folder names:</p>
+<pre><code>source/
+├── 01 Weddings/           # Appears first
+│   └── *.jpg
+├── 02 Portraits/          # Appears second
+│   └── *.jpg
+├── 03 Landscapes/         # Appears third
+│   └── *.jpg
+└── 99 Archive/            # Appears last
+    └── *.jpg
+</code></pre>
+<h3 id="how-it-works">How It Works</h3>
+<ul>
+<li><strong>Prefix format:</strong> 1-2 digit number followed by a space (e.g., <code>01 </code>, <code>2 </code>, <code>99 </code>)</li>
+<li><strong>Display name:</strong> Number prefix is automatically removed
+<ul>
+<li><code>01 Weddings</code> → displayed as &quot;Weddings&quot;</li>
+<li><code>99 Archive</code> → displayed as &quot;Archive&quot;</li>
+</ul>
+</li>
+<li><strong>URL slug:</strong> Number prefix is stripped from URLs
+<ul>
+<li><code>01 Weddings</code> → <code>/weddings/</code></li>
+</ul>
+</li>
+<li><strong>Natural sorting:</strong> Uses natural order (1, 2, 10 instead of 1, 10, 2)</li>
+</ul>
+<h3 id="year-prefixes-are-preserved">Year Prefixes Are Preserved</h3>
+<p>Four-digit year prefixes are NOT stripped (they're meaningful content):</p>
+<pre><code>source/
+├── 2024 Summer/           # Displayed as &quot;2024 Summer&quot;
+├── 2023 Fall/             # Displayed as &quot;2023 Fall&quot;
+└── 2022 Winter/           # Displayed as &quot;2022 Winter&quot;
+</code></pre>
+<h3 id="combining-with-galleries-setting">Combining with <code>galleries</code> Setting</h3>
+<p>The <code>galleries</code> setting controls sort direction:</p>
+<pre><code class="language-json">{
+  &quot;generate&quot;: {
+    &quot;sorting&quot;: {
+      &quot;galleries&quot;: &quot;desc&quot;
+    }
+  }
+}
+</code></pre>
+<p>With <code>desc</code>:</p>
+<ul>
+<li><code>01 Weddings</code> → <code>99 Archive</code> becomes <code>99 Archive</code> → <code>01 Weddings</code></li>
+<li>Year folders: 2024 → 2023 → 2022</li>
+</ul>
+<hr />
 <h2 id="cli-configuration">CLI Configuration</h2>
 <p>Configure sorting interactively or via command line:</p>
 <pre><code class="language-bash"># Interactive wizard
@@ -306,20 +364,21 @@ revela config sorting --galleries desc
 </section>
 <section>
   <h3><a href="../../docs/">Documentation</a></h3>
-  <a href="../../docs/compression/">Static Compression</a>
-  <a href="../../docs/configuration/">Configuration</a>
-  <a href="../../docs/deployment/">Deployment</a>
-  <a href="../../docs/filtering/">Filter Galleries</a>
-  <a href="../../docs/pages/">Creating Pages</a>
-  <a href="../../docs/sorting/" class="active">Sorting</a>
 <div>
   <a href="../../docs/source-structure/">Source Structure</a>
   <a href="../../docs/source-structure/static-files/">Static Files</a>
 </div>
+  <a href="../../docs/pages/">Creating Pages</a>
+  <a href="../../docs/images/">Image Processing</a>
+  <a href="../../docs/sorting/" class="active">Sorting</a>
+  <a href="../../docs/filtering/">Filter Galleries</a>
 <div>
   <a href="../../docs/themes/">Theme Customization</a>
   <a href="../../docs/themes/website-example/">revela.website</a>
 </div>
+  <a href="../../docs/configuration/">Configuration</a>
+  <a href="../../docs/compression/">Static Compression</a>
+  <a href="../../docs/deployment/">Deployment</a>
 </section>
         </nav>
         <div>
