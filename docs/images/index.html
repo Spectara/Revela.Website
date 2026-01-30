@@ -28,6 +28,7 @@
 </section>
 <section>
   <h3><a href="../../docs/">Documentation</a></h3>
+  <a href="../../docs/user-journey/">User Journey</a>
 <div>
   <a href="../../docs/source-structure/">Source Structure</a>
   <a href="../../docs/source-structure/static-files/">Static Files</a>
@@ -74,6 +75,12 @@
     <aside class="docs-sidebar">
         <nav>
             <ul>
+
+                <li>
+                    <a href="../../docs/user-journey/">User Journey</a>
+                    <ul>
+                    </ul>
+                </li>
 
                 <li>
                     <a href="../../docs/source-structure/">Source Structure</a>
@@ -156,8 +163,9 @@
 <p><strong>Recommendation:</strong> Start with just <code>jpg: 90</code> for compatibility. Add <code>webp</code> or <code>avif</code> later if needed.</p>
 <h2 id="image-sizes">Image Sizes</h2>
 <p>Sizes are defined by your theme. The default Lumina theme generates these widths:</p>
-<pre><code>320, 640, 1024, 1280, 1920, 2560
+<pre><code>160, 320, 480, 640, 720, 960, 1280, 1440, 1920, 2560
 </code></pre>
+<p>These sizes are optimized for High-DPI displays (1.5x, 2x scaling).</p>
 <p>Plus the <strong>original width</strong> for full-resolution lightbox view.</p>
 <h2 id="generating-images">Generating Images</h2>
 <pre><code class="language-bash"># Full generation
@@ -237,6 +245,35 @@ revela clean images
 revela generate images
 # → Shows: 0 processed, 1153 cached
 </code></pre>
+<h2 id="low-quality-image-placeholders-lqip">Low-Quality Image Placeholders (LQIP)</h2>
+<p>Revela generates <strong>CSS-only placeholders</strong> that display while images load. This creates a smooth loading experience without layout shifts.</p>
+<h3 id="how-it-works">How It Works</h3>
+<ol>
+<li>During scan, Revela analyzes each image's average color and brightness pattern</li>
+<li>This data is encoded into a compact integer (e.g., <code>-721311</code>)</li>
+<li>The theme's CSS decodes this integer into gradient placeholders</li>
+<li>When the image loads, it smoothly replaces the placeholder</li>
+</ol>
+<p><strong>Result:</strong> ~7 bytes per image instead of a separate LQIP file. No additional HTTP requests.</p>
+<h3 id="configuration">Configuration</h3>
+<p>LQIP is <strong>enabled by default</strong>. To disable it:</p>
+<pre><code class="language-json">{
+  &quot;generate&quot;: {
+    &quot;images&quot;: {
+      &quot;placeholder&quot;: {
+        &quot;strategy&quot;: &quot;none&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<h3 id="technical-details">Technical Details</h3>
+<p>The CSS hash encodes:</p>
+<ul>
+<li><strong>Average color</strong> in Oklab color space (8 bits)</li>
+<li><strong>3×2 brightness grid</strong> as grayscale values (12 bits)</li>
+</ul>
+<p>The browser reconstructs this as radial gradients with blend modes, creating a blurred approximation of the image. Based on <a href="https://leanrada.com/notes/css-only-lqip/">Lean Rada's CSS-only LQIP technique</a>.</p>
 <h2 id="best-practices">Best Practices</h2>
 <div class="features-grid">
 <h3 id="start-simple">🚀 Start Simple</h3>
@@ -260,6 +297,7 @@ revela generate images
 </section>
 <section>
   <h3><a href="../../docs/">Documentation</a></h3>
+  <a href="../../docs/user-journey/">User Journey</a>
 <div>
   <a href="../../docs/source-structure/">Source Structure</a>
   <a href="../../docs/source-structure/static-files/">Static Files</a>
