@@ -15,8 +15,8 @@
     <meta name="apple-mobile-web-app-title" content="Revela" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <link type="text/css" rel="stylesheet" media="all" href="../../_assets/main.css">
-    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/prism.css">
     <link type="text/css" rel="stylesheet" media="all" href="../../_assets/website.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/prism.css">
 </head>
 
 <body>
@@ -169,13 +169,18 @@ revela config site --title &quot;My Portfolio&quot; --author &quot;John Doe&quot
     &quot;source&quot;: &quot;source&quot;,
     &quot;output&quot;: &quot;output&quot;
   },
+  &quot;project&quot;: {
+    &quot;basePath&quot;: &quot;/&quot;,
+    &quot;language&quot;: &quot;en&quot;
+  },
   &quot;theme&quot;: {
     &quot;name&quot;: &quot;Lumina&quot;
   },
   &quot;generate&quot;: {
     &quot;images&quot;: {
-      &quot;formats&quot;: { &quot;webp&quot;: 85, &quot;jpg&quot;: 90 },
-      &quot;sizes&quot;: [640, 1024, 1920]
+      &quot;webp&quot;: 85,
+      &quot;jpg&quot;: 90,
+      &quot;avif&quot;: 80
     },
     &quot;sorting&quot;: {
       &quot;galleries&quot;: &quot;asc&quot;,
@@ -184,6 +189,9 @@ revela config site --title &quot;My Portfolio&quot; --author &quot;John Doe&quot
   }
 }
 </code></pre>
+<blockquote>
+<p><strong>Note:</strong> Image sizes are defined by the theme (in <code>theme.json</code>), not in <code>project.json</code>. Image format quality (<code>webp</code>, <code>jpg</code>, <code>avif</code>) are flat properties under <code>generate.images</code> — set to <code>0</code> to disable a format.</p>
+</blockquote>
 <h2 id="custom-paths">Custom Paths</h2>
 <p>By default, Revela uses a <code>source/</code> folder for your images and <code>output/</code> for the generated site. You can customize these paths for advanced workflows.</p>
 <h3 id="configure-via-cli">Configure via CLI</h3>

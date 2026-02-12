@@ -15,8 +15,8 @@
     <meta name="apple-mobile-web-app-title" content="Revela" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <link type="text/css" rel="stylesheet" media="all" href="../../_assets/main.css">
-    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/prism.css">
     <link type="text/css" rel="stylesheet" media="all" href="../../_assets/website.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/prism.css">
 </head>
 
 <body>
@@ -264,16 +264,14 @@ revela theme extract Lumina --file theme.json
 </code></pre>
 <h3 id="assets-cssjs">Assets (CSS/JS)</h3>
 <p>Modify styles in <code>Assets/styles.css</code>:</p>
-<pre><code class="language-css">:root {
-    --primary: {{ theme.primary-color }};
-    --bg: {{ theme.background-color }};
-}
-
-.gallery {
+<pre><code class="language-css">.gallery {
     max-width: 1200px;
     margin: 0 auto;
 }
 </code></pre>
+<blockquote>
+<p><strong>Note:</strong> CSS files are static assets — they are copied as-is, not processed through the template engine. Use <code>theme.json</code> variables for customizable design tokens, and reference them in your <code>.revela</code> templates.</p>
+</blockquote>
 <hr />
 <h2 id="partial-overrides">Partial Overrides</h2>
 <p>You don't need to extract the entire theme. Extract only what you want to change:</p>

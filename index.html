@@ -15,8 +15,8 @@
     <meta name="apple-mobile-web-app-title" content="Revela" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <link type="text/css" rel="stylesheet" media="all" href="_assets/main.css">
-    <link type="text/css" rel="stylesheet" media="all" href="_assets/prism.css">
     <link type="text/css" rel="stylesheet" media="all" href="_assets/website.css">
+    <link type="text/css" rel="stylesheet" media="all" href="_assets/prism.css">
 </head>
 
 <body>
@@ -92,16 +92,20 @@
 </div>
 <h2 id="why-revela">Why Revela?</h2>
 <p><strong>Built for photographers.</strong> While other static site generators are designed for blogs and documentation, Revela focuses on what matters most: <strong>showcasing your images beautifully</strong>.</p>
+<p><strong>Single binary, zero dependencies.</strong> No Node.js, no ImageMagick, no package managers. Download, unzip, run — on Windows, macOS, and Linux.</p>
 <div class="features-grid">
 <h3 id="blazing-fast">⚡ Blazing Fast</h3>
-<p>Optimized image processing with NetVips - 3-5× faster than ImageMagick. Incremental builds only regenerate what's changed.</p>
+<p>NetVips image processing — 3-5× faster than ImageMagick. Smart change detection only regenerates what's actually changed.</p>
 <h3 id="modern-formats">🖼️ Modern Formats</h3>
-<p>Automatic AVIF, WebP, and JPEG generation. Responsive images with <code>&lt;picture&gt;</code> elements out of the box.</p>
+<p>Automatic AVIF, WebP, and JPEG generation. Responsive <code>&lt;picture&gt;</code> elements and LQIP placeholders — no JavaScript needed.</p>
 <h3 id="beautiful-themes">🎨 Beautiful Themes</h3>
-<p>Minimalist gallery themes that put your photos front and center. Dark mode support included.</p>
+<p>Minimalist gallery themes that put your photos front and center. Dark mode, theme overrides, and customizable variables.</p>
 <h3 id="extensible">🔌 Extensible</h3>
-<p>Plugin system for custom sources (OneDrive, cloud storage), statistics, and more.</p>
+<p>NuGet-based plugin system: OneDrive sync, EXIF statistics, Gzip/Brotli compression, local dev server, and more.</p>
 </div>
+<h2 id="see-it-in-action">See it in action</h2>
+<p><img src="screenshots/example-website.jpg" alt="A photography portfolio built with Revela and the Lumina theme" />{.browser-mockup}</p>
+<p><a href="https://photo.kirk.one/">photo.kirk.one</a> is a real photography portfolio built entirely with Revela and the Lumina theme.</p>
 <h2 id="quick-start">Quick Start</h2>
 <p><strong>1. Download Revela</strong></p>
 <p>Download the latest release for your platform:</p>
@@ -111,11 +115,11 @@
   <a href="https://github.com/Spectara/Revela/releases/download/v0.0.1-beta.14/revela-linux-x64-full.tar.gz">Linux x64</a>
 </div>
 <p class="download-more"><a href="https://github.com/Spectara/Revela/releases">All downloads →</a></p>
-<p><strong>2. Run Revela</strong></p>
-<p>Simply run <code>revela</code> without arguments to start the interactive mode:</p>
+<p><strong>2. Run the Setup Wizard</strong></p>
+<p>Run <code>revela</code> without arguments — the interactive setup wizard guides you through everything:</p>
 <pre><code class="language-bash">revela
 </code></pre>
-<p>The interactive menu guides you through creating a new project, generating your site, and more. For advanced usage via command line, see the <a href="docs/">CLI Reference</a>.</p>
+<p>It creates your project structure, configures your theme, and gets you ready to go. No config files to write manually.</p>
 <p><strong>3. Add your photos</strong></p>
 <p>Drop your images into the <code>source/</code> folder and organize them into galleries:</p>
 <pre><code>source/
@@ -127,7 +131,7 @@
     └── portrait-01.jpg
 </code></pre>
 <p><strong>4. Generate &amp; Preview</strong></p>
-<pre><code class="language-bash">revela generate
+<pre><code class="language-bash">revela generate all
 revela serve
 </code></pre>
 <p>Open <code>http://localhost:8080</code> and see your portfolio!</p>
@@ -141,24 +145,44 @@ revela serve
 </thead>
 <tbody>
 <tr>
+<td><strong>AVIF, WebP, JPEG</strong></td>
+<td>Modern image formats with configurable quality per format</td>
+</tr>
+<tr>
+<td><strong>LQIP Placeholders</strong></td>
+<td>CSS-only low-quality image placeholders — no JavaScript</td>
+</tr>
+<tr>
 <td><strong>EXIF Extraction</strong></td>
 <td>Automatic camera, lens, and settings metadata</td>
+</tr>
+<tr>
+<td><strong>Incremental Builds</strong></td>
+<td>Smart change detection — only regenerate what's changed</td>
+</tr>
+<tr>
+<td><strong>Gzip &amp; Brotli</strong></td>
+<td>Static compression for fast delivery (via plugin)</td>
 </tr>
 <tr>
 <td><strong>Smart Sorting</strong></td>
 <td>Sort by date, filename, or custom order</td>
 </tr>
 <tr>
-<td><strong>Incremental Builds</strong></td>
-<td>Only regenerate changed images</td>
-</tr>
-<tr>
 <td><strong>Theme Overrides</strong></td>
-<td>Customize any template without forking</td>
+<td>Customize any template or variable without forking</td>
 </tr>
 <tr>
 <td><strong>Multiple Sources</strong></td>
-<td>Local files, OneDrive, or custom plugins</td>
+<td>Local files, OneDrive, or custom source plugins</td>
+</tr>
+<tr>
+<td><strong>Pure Static Output</strong></td>
+<td>No server, no database, no tracking — just files. GDPR-friendly by default</td>
+</tr>
+<tr>
+<td><strong>Setup Wizard</strong></td>
+<td>Interactive setup — no config files to write manually</td>
 </tr>
 <tr>
 <td><strong>Easy Deployment</strong></td>
@@ -170,8 +194,8 @@ revela serve
 <p>Revela is open source and actively developed. Contributions welcome!</p>
 <ul>
 <li>📖 <a href="docs/">Documentation</a></li>
-<li>🐛 <a href="https://github.com/kirkone/Revela/issues">Report Issues</a></li>
-<li>💬 <a href="https://github.com/kirkone/Revela/discussions">Discussions</a></li>
+<li>🐛 <a href="https://github.com/Spectara/Revela/issues">Report Issues</a></li>
+<li>💬 <a href="https://github.com/Spectara/Revela/discussions">Discussions</a></li>
 </ul>
 <hr />
 <p><em>This website is built with Revela. Curious how? <a href="docs/themes/website-example/">See how we built it →</a></em></p>

@@ -15,8 +15,8 @@
     <meta name="apple-mobile-web-app-title" content="Revela" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <link type="text/css" rel="stylesheet" media="all" href="../../_assets/main.css">
-    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/prism.css">
     <link type="text/css" rel="stylesheet" media="all" href="../../_assets/website.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../_assets/prism.css">
 </head>
 
 <body>
@@ -202,8 +202,8 @@
 <p>The underscore prefix is significant:</p>
 <ul>
 <li><code>_images/</code> is <strong>not</strong> rendered as a gallery itself</li>
-<li>Images are only accessible via filter expressions</li>
-<li>You can use any name: <code>_photos/</code>, <code>_pool/</code>, <code>_shared/</code></li>
+<li>Images are accessible via filter expressions and content images (<code>![](path)</code>)</li>
+<li>Subdirectories are supported: <code>_images/screenshots/</code>, <code>_images/portfolio/</code></li>
 </ul>
 <h3 id="example-front-matter">Example Front Matter</h3>
 <pre><code class="language-toml">+++

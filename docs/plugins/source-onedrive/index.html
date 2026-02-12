@@ -15,8 +15,8 @@
     <meta name="apple-mobile-web-app-title" content="Revela" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/main.css">
-    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/prism.css">
     <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/website.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/prism.css">
 </head>
 
 <body>
@@ -188,6 +188,9 @@ revela source onedrive sync --force
 
 # Remove local files that are no longer in OneDrive
 revela source onedrive sync --clean
+
+# Remove all local files and re-download from scratch
+revela source onedrive sync --clean-all
 </code></pre>
 <h3 id="full-workflow">Full Workflow</h3>
 <pre><code class="language-bash"># 1. Install plugin

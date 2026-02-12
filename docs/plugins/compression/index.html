@@ -15,8 +15,8 @@
     <meta name="apple-mobile-web-app-title" content="Revela" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/main.css">
-    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/prism.css">
     <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/website.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/prism.css">
 </head>
 
 <body>
@@ -280,19 +280,9 @@ Your server must be configured to serve pre-compressed files.</p>
 <td>No automatic compression</td>
 </tr>
 <tr>
-<td>nginx / Apache</td>
-<td>✅ Yes</td>
-<td>Saves CPU, instant delivery</td>
-</tr>
-<tr>
-<td>Basic web hosting</td>
-<td>✅ Yes</td>
-<td>Often no compression</td>
-</tr>
-<tr>
 <td>nginx</td>
-<td>✅ With <code>gzip_static on</code></td>
-<td></td>
+<td>✅ Yes</td>
+<td>Use <code>gzip_static on</code> for pre-compressed files</td>
 </tr>
 <tr>
 <td>Apache</td>
@@ -302,8 +292,9 @@ Your server must be configured to serve pre-compressed files.</p>
 </tbody>
 </table>
 <h2 id="pipeline-order">Pipeline Order</h2>
-<p>Compression runs <strong>last</strong> in the generate pipeline:</p>
-<pre><code>scan → statistics → pages → images → compress
+<p>Compression is <strong>not</strong> part of <code>revela generate all</code>. Run it separately after generating your site:</p>
+<pre><code class="language-bash">revela generate all
+revela generate compress
 </code></pre>
 <p>This ensures all content exists before compressing.</p>
 <h2 id="compression-settings">Compression Settings</h2>
