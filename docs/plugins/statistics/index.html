@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Revela - Static Files</title>
+    <title>Revela - Statistics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Modern static site generator for photographers">
     <meta name="author" content="Spectara">
@@ -31,7 +31,7 @@
   <a href="../../../docs/user-journey/">User Journey</a>
 <div>
   <a href="../../../docs/source-structure/">Source Structure</a>
-  <a href="../../../docs/source-structure/static-files/" class="active">Static Files</a>
+  <a href="../../../docs/source-structure/static-files/">Static Files</a>
 </div>
   <a href="../../../docs/pages/">Creating Pages</a>
   <a href="../../../docs/images/">Image Processing</a>
@@ -45,7 +45,7 @@
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
   <a href="../../../docs/plugins/compression/">Static Compression</a>
-  <a href="../../../docs/plugins/statistics/">Statistics</a>
+  <a href="../../../docs/plugins/statistics/" class="active">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
 </div>
@@ -91,7 +91,7 @@
                 <li>
                     <a href="../../../docs/source-structure/">Source Structure</a>
                     <ul>
-                        <li><a href="../../../docs/source-structure/static-files/" class="active">Static Files</a></li>
+                        <li><a href="../../../docs/source-structure/static-files/">Static Files</a></li>
                     </ul>
                 </li>
 
@@ -136,7 +136,7 @@
                     <a href="../../../docs/plugins/">Plugins</a>
                     <ul>
                         <li><a href="../../../docs/plugins/compression/">Static Compression</a></li>
-                        <li><a href="../../../docs/plugins/statistics/">Statistics</a></li>
+                        <li><a href="../../../docs/plugins/statistics/" class="active">Statistics</a></li>
                         <li><a href="../../../docs/plugins/serve/">Dev Server</a></li>
                         <li><a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a></li>
                     </ul>
@@ -151,91 +151,184 @@
         </nav>
     </aside>
     <article class="docs-content">
-        <h1>Static Files</h1>
-<p>Static files are files that should be copied directly to the output root without any processing.</p>
+        <h1>Statistics</h1>
+<p>The Statistics plugin analyzes <strong>EXIF data</strong> from your photos and generates statistics pages showing camera usage, lens preferences, aperture distribution, and more.</p>
 <div class="features-grid">
-<h3 id="favicons">🎨 Favicons</h3>
-<p>Browser icons in various formats for desktop and mobile.</p>
-<h3 id="robots.txt">🤖 robots.txt</h3>
-<p>Search engine crawler instructions.</p>
-<h3 id="cname">🔗 CNAME</h3>
-<p>Custom domain configuration for GitHub Pages.</p>
-<h3 id="other-files">📄 Other Files</h3>
-<p>sitemap.xml, ads.txt, security.txt, and more.</p>
+<h3 id="exif-analysis">📷 EXIF Analysis</h3>
+<p>Camera models, lenses, aperture, ISO, shutter speed, and focal lengths.</p>
+<h3 id="visualizations">📈 Visualizations</h3>
+<p>Beautiful charts with the <strong>Theme.Lumina.Statistics</strong> extension.</p>
+<h3 id="timeline">📅 Timeline</h3>
+<p>See how your photography evolves over time, broken down by year.</p>
 </div>
-<h2 id="convention">Convention</h2>
-<p>Place static files in the <code>source/_static/</code> folder. They will be copied 1:1 to the output root.</p>
-<pre><code>source/
-├── _static/                    # Static files folder
-│   ├── favicon/               # Favicon files
-│   │   ├── favicon.ico
-│   │   ├── favicon.svg
-│   │   └── apple-touch-icon.png
-│   ├── CNAME                  # GitHub Pages domain
-│   ├── .nojekyll              # Disable Jekyll
-│   └── robots.txt             # Crawler instructions
-├── _index.revela
-└── gallery/
+<h2 id="installation">Installation</h2>
+<p>The Statistics plugin has two parts:</p>
+<pre><code class="language-bash"># 1. The plugin (generates statistics data)
+revela plugin install Statistics
+
+# 2. The theme extension (renders charts) – recommended
+revela plugin install Theme.Lumina.Statistics
 </code></pre>
-<p><strong>Output:</strong></p>
-<pre><code>output/
-├── favicon/
-│   ├── favicon.ico
-│   ├── favicon.svg
-│   └── apple-touch-icon.png
-├── CNAME
-├── .nojekyll
-├── robots.txt
-└── index.html
-</code></pre>
-<h2 id="favicon-setup">Favicon Setup</h2>
-<h3 id="step-1-generate-favicons">Step 1: Generate Favicons</h3>
-<p>Use a favicon generator like <a href="https://realfavicongenerator.net">realfavicongenerator.net</a>:</p>
-<ol>
-<li>Upload your logo/image</li>
-<li>Configure platform-specific icons</li>
-<li>Download the generated package</li>
-<li>Copy files to <code>source/_static/favicon/</code></li>
-</ol>
-<h3 id="step-2-create-favicon-partial">Step 2: Create Favicon Partial</h3>
-<p>Create a theme override to include the favicon HTML.</p>
-<p><strong>File:</strong> <code>themes/Lumina/Partials/Favicon.revela</code></p>
-<pre><code class="language-html">&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;/favicon/favicon-96x96.png&quot; sizes=&quot;96x96&quot; /&gt;
-&lt;link rel=&quot;icon&quot; type=&quot;image/svg+xml&quot; href=&quot;/favicon/favicon.svg&quot; /&gt;
-&lt;link rel=&quot;shortcut icon&quot; href=&quot;/favicon/favicon.ico&quot; /&gt;
-&lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;180x180&quot; href=&quot;/favicon/apple-touch-icon.png&quot; /&gt;
-&lt;meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;Your Site&quot; /&gt;
-&lt;link rel=&quot;manifest&quot; href=&quot;/favicon/site.webmanifest&quot; /&gt;
-</code></pre>
+<p>The plugin generates a <code>statistics.json</code> data file. The <strong>Theme.Lumina.Statistics</strong> extension turns that data into responsive Chart.js visualizations with dark/light mode support.</p>
 <blockquote>
-<p><strong>Tip:</strong> Copy the exact HTML provided by your favicon generator.</p>
+<p>Without the theme extension, statistics data is still generated – but you'll need custom templates to display it.</p>
 </blockquote>
-<h3 id="step-3-generate">Step 3: Generate</h3>
-<pre><code class="language-bash">revela generate pages
+<h2 id="creating-a-statistics-page">Creating a Statistics Page</h2>
+<pre><code class="language-bash"># Create a statistics page in your source
+revela create page statistics
 </code></pre>
-<h2 id="common-static-files">Common Static Files</h2>
-<h3 id="robots.txt-1">robots.txt</h3>
-<pre><code>User-agent: *
-Allow: /
+<p>This creates a page with the required frontmatter:</p>
+<pre><code>+++
+title = &quot;Statistics&quot;
+template = &quot;statistics&quot;
+data = { statistics = &quot;statistics.json&quot; }
++++
 </code></pre>
-<h3 id="cname-github-pages">CNAME (GitHub Pages)</h3>
-<pre><code>example.com
+<p>The <code>data.statistics</code> field tells the plugin where to write the JSON data file.</p>
+<h2 id="generating-statistics">Generating Statistics</h2>
+<pre><code class="language-bash"># Generate statistics as part of the full pipeline
+revela generate all
+
+# Or run only the statistics step
+revela generate statistics
 </code></pre>
-<h3 id="nojekyll">.nojekyll</h3>
-<p>Empty file - just create it, no content needed. Prevents GitHub Pages from processing files with Jekyll.</p>
-<h2 id="how-it-works">How It Works</h2>
-<ol>
-<li><strong>Scanning:</strong> Folders starting with <code>_</code> are skipped (no galleries created)</li>
-<li><strong>Copying:</strong> After page rendering, files from <code>_static/</code> are copied to output</li>
-<li><strong>Structure:</strong> Directory structure is preserved</li>
-<li><strong>Overwrite:</strong> Existing files are overwritten silently</li>
-</ol>
-<h2 id="best-practices">Best Practices</h2>
+<p>The pipeline order is: <code>scan → statistics → pages → images</code>. Statistics runs after scan (which collects EXIF data) and before pages (which renders the HTML).</p>
+<h2 id="what-gets-analyzed">What Gets Analyzed?</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Cameras</strong></td>
+<td>Camera body models</td>
+<td>Sony ILCE-7M4, Canon EOS R5</td>
+</tr>
+<tr>
+<td><strong>Lenses</strong></td>
+<td>Lens models</td>
+<td>Sony FE 35mm F1.4 GM</td>
+</tr>
+<tr>
+<td><strong>Focal Lengths</strong></td>
+<td>Bucketed by range</td>
+<td>18-35mm, 35-70mm, 70-135mm</td>
+</tr>
+<tr>
+<td><strong>Apertures</strong></td>
+<td>f-stop distribution</td>
+<td>f/1.4-2.0, f/2.8-4.0</td>
+</tr>
+<tr>
+<td><strong>ISO</strong></td>
+<td>Sensitivity ranges</td>
+<td>ISO 100-400, ISO 800-1600</td>
+</tr>
+<tr>
+<td><strong>Shutter Speeds</strong></td>
+<td>Exposure times</td>
+<td>1/500, 1/250, 1/60</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>Photos per year</td>
+<td>2024: 120, 2023: 80</td>
+</tr>
+</tbody>
+</table>
+<p>Images without EXIF data are counted but excluded from category breakdowns.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Settings are stored in <code>project.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;Spectara.Revela.Plugin.Statistics&quot;: {
+    &quot;MaxEntriesPerCategory&quot;: 15,
+    &quot;SortByCount&quot;: true,
+    &quot;MaxBarWidth&quot;: 100
+  }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MaxEntriesPerCategory</code></td>
+<td><code>15</code></td>
+<td>Top N entries per category (0 = unlimited)</td>
+</tr>
+<tr>
+<td><code>SortByCount</code></td>
+<td><code>true</code></td>
+<td>Sort by count (descending) instead of alphabetically</td>
+</tr>
+<tr>
+<td><code>MaxBarWidth</code></td>
+<td><code>100</code></td>
+<td>Bar chart width percentage for HTML output</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash"># Configure interactively
+revela config statistics
+
+# Or set specific options
+revela config statistics --max-entries 20 --sort-by-count false
+</code></pre>
+<h2 id="theme-extension">Theme Extension</h2>
+<p><strong>Theme.Lumina.Statistics</strong> provides:</p>
 <ul>
-<li>✅ Keep favicon files in <code>_static/favicon/</code> for organization</li>
-<li>✅ Place root files (CNAME, robots.txt) directly in <code>_static/</code></li>
-<li>✅ Commit static files to version control</li>
-<li>✅ Save favicon generator output for future updates</li>
+<li><strong>Chart.js</strong> bar charts for all categories</li>
+<li><strong>Responsive</strong> layout for mobile and desktop</li>
+<li><strong>Dark/light mode</strong> that follows the site theme</li>
+<li>Summary cards with total images, cameras, and lenses</li>
+</ul>
+<p>Install it alongside the plugin:</p>
+<pre><code class="language-bash">revela plugin install Theme.Lumina.Statistics
+</code></pre>
+<h2 id="cli-commands">CLI Commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>revela create page statistics</code></td>
+<td>Create a statistics page in your source</td>
+</tr>
+<tr>
+<td><code>revela generate statistics</code></td>
+<td>Generate statistics JSON</td>
+</tr>
+<tr>
+<td><code>revela generate all</code></td>
+<td>Full pipeline (includes statistics)</td>
+</tr>
+<tr>
+<td><code>revela clean statistics</code></td>
+<td>Remove generated statistics files</td>
+</tr>
+<tr>
+<td><code>revela config statistics</code></td>
+<td>Configure plugin settings</td>
+</tr>
+</tbody>
+</table>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Photos with EXIF data (JPG, TIFF – most cameras write EXIF by default)</li>
+<li>Run <code>revela generate scan</code> first (or use <code>generate all</code>)</li>
 </ul>
 
     </article>
@@ -252,7 +345,7 @@ Allow: /
   <a href="../../../docs/user-journey/">User Journey</a>
 <div>
   <a href="../../../docs/source-structure/">Source Structure</a>
-  <a href="../../../docs/source-structure/static-files/" class="active">Static Files</a>
+  <a href="../../../docs/source-structure/static-files/">Static Files</a>
 </div>
   <a href="../../../docs/pages/">Creating Pages</a>
   <a href="../../../docs/images/">Image Processing</a>
@@ -266,7 +359,7 @@ Allow: /
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
   <a href="../../../docs/plugins/compression/">Static Compression</a>
-  <a href="../../../docs/plugins/statistics/">Statistics</a>
+  <a href="../../../docs/plugins/statistics/" class="active">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
 </div>

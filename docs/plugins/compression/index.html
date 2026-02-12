@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Revela - Static Files</title>
+    <title>Revela - Static Compression</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Modern static site generator for photographers">
     <meta name="author" content="Spectara">
@@ -31,7 +31,7 @@
   <a href="../../../docs/user-journey/">User Journey</a>
 <div>
   <a href="../../../docs/source-structure/">Source Structure</a>
-  <a href="../../../docs/source-structure/static-files/" class="active">Static Files</a>
+  <a href="../../../docs/source-structure/static-files/">Static Files</a>
 </div>
   <a href="../../../docs/pages/">Creating Pages</a>
   <a href="../../../docs/images/">Image Processing</a>
@@ -44,7 +44,7 @@
   <a href="../../../docs/configuration/">Configuration</a>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/">Static Compression</a>
+  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
@@ -91,7 +91,7 @@
                 <li>
                     <a href="../../../docs/source-structure/">Source Structure</a>
                     <ul>
-                        <li><a href="../../../docs/source-structure/static-files/" class="active">Static Files</a></li>
+                        <li><a href="../../../docs/source-structure/static-files/">Static Files</a></li>
                     </ul>
                 </li>
 
@@ -135,7 +135,7 @@
                 <li>
                     <a href="../../../docs/plugins/">Plugins</a>
                     <ul>
-                        <li><a href="../../../docs/plugins/compression/">Static Compression</a></li>
+                        <li><a href="../../../docs/plugins/compression/" class="active">Static Compression</a></li>
                         <li><a href="../../../docs/plugins/statistics/">Statistics</a></li>
                         <li><a href="../../../docs/plugins/serve/">Dev Server</a></li>
                         <li><a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a></li>
@@ -151,92 +151,185 @@
         </nav>
     </aside>
     <article class="docs-content">
-        <h1>Static Files</h1>
-<p>Static files are files that should be copied directly to the output root without any processing.</p>
+        <h1>Static Compression</h1>
+<p>Revela can pre-compress your static files with <strong>Gzip</strong> and <strong>Brotli</strong> for faster loading.</p>
+<blockquote>
+<p><strong>Do you need this?</strong> If you're using GitHub Pages, Netlify, Vercel, or Cloudflare Pages – <strong>no!</strong> These platforms compress automatically. This plugin is for self-hosted servers, AWS S3, or basic web hosts.</p>
+</blockquote>
 <div class="features-grid">
-<h3 id="favicons">🎨 Favicons</h3>
-<p>Browser icons in various formats for desktop and mobile.</p>
-<h3 id="robots.txt">🤖 robots.txt</h3>
-<p>Search engine crawler instructions.</p>
-<h3 id="cname">🔗 CNAME</h3>
-<p>Custom domain configuration for GitHub Pages.</p>
-<h3 id="other-files">📄 Other Files</h3>
-<p>sitemap.xml, ads.txt, security.txt, and more.</p>
+<h3 id="pre-generated">📦 Pre-Generated</h3>
+<p>Compressed files created at build time, not on every request.</p>
+<h3 id="smaller">🚀 95% Smaller</h3>
+<p>HTML, CSS, and JS files compress dramatically with Brotli.</p>
+<h3 id="zero-cpu-cost">⚡ Zero CPU Cost</h3>
+<p>Servers deliver pre-compressed files instantly.</p>
 </div>
-<h2 id="convention">Convention</h2>
-<p>Place static files in the <code>source/_static/</code> folder. They will be copied 1:1 to the output root.</p>
-<pre><code>source/
-├── _static/                    # Static files folder
-│   ├── favicon/               # Favicon files
-│   │   ├── favicon.ico
-│   │   ├── favicon.svg
-│   │   └── apple-touch-icon.png
-│   ├── CNAME                  # GitHub Pages domain
-│   ├── .nojekyll              # Disable Jekyll
-│   └── robots.txt             # Crawler instructions
-├── _index.revela
-└── gallery/
+<h2 id="installation">Installation</h2>
+<pre><code class="language-bash">revela plugin install Compress
 </code></pre>
-<p><strong>Output:</strong></p>
-<pre><code>output/
-├── favicon/
-│   ├── favicon.ico
-│   ├── favicon.svg
-│   └── apple-touch-icon.png
-├── CNAME
-├── .nojekyll
-├── robots.txt
-└── index.html
-</code></pre>
-<h2 id="favicon-setup">Favicon Setup</h2>
-<h3 id="step-1-generate-favicons">Step 1: Generate Favicons</h3>
-<p>Use a favicon generator like <a href="https://realfavicongenerator.net">realfavicongenerator.net</a>:</p>
-<ol>
-<li>Upload your logo/image</li>
-<li>Configure platform-specific icons</li>
-<li>Download the generated package</li>
-<li>Copy files to <code>source/_static/favicon/</code></li>
-</ol>
-<h3 id="step-2-create-favicon-partial">Step 2: Create Favicon Partial</h3>
-<p>Create a theme override to include the favicon HTML.</p>
-<p><strong>File:</strong> <code>themes/Lumina/Partials/Favicon.revela</code></p>
-<pre><code class="language-html">&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;/favicon/favicon-96x96.png&quot; sizes=&quot;96x96&quot; /&gt;
-&lt;link rel=&quot;icon&quot; type=&quot;image/svg+xml&quot; href=&quot;/favicon/favicon.svg&quot; /&gt;
-&lt;link rel=&quot;shortcut icon&quot; href=&quot;/favicon/favicon.ico&quot; /&gt;
-&lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;180x180&quot; href=&quot;/favicon/apple-touch-icon.png&quot; /&gt;
-&lt;meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;Your Site&quot; /&gt;
-&lt;link rel=&quot;manifest&quot; href=&quot;/favicon/site.webmanifest&quot; /&gt;
+<h2 id="usage">Usage</h2>
+<h3 id="compress-your-site">Compress Your Site</h3>
+<pre><code class="language-bash"># After generating your site
+revela generate compress
 </code></pre>
 <blockquote>
-<p><strong>Tip:</strong> Copy the exact HTML provided by your favicon generator.</p>
+<p><strong>Note:</strong> Compression runs separately, not as part of <code>generate all</code>.
+Your server must be configured to serve pre-compressed files.</p>
 </blockquote>
-<h3 id="step-3-generate">Step 3: Generate</h3>
-<pre><code class="language-bash">revela generate pages
+<h3 id="remove-compressed-files">Remove Compressed Files</h3>
+<pre><code class="language-bash">revela clean compress
 </code></pre>
-<h2 id="common-static-files">Common Static Files</h2>
-<h3 id="robots.txt-1">robots.txt</h3>
-<pre><code>User-agent: *
-Allow: /
+<h2 id="what-gets-compressed">What Gets Compressed?</h2>
+<table>
+<thead>
+<tr>
+<th>File Type</th>
+<th>Typical Savings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTML</td>
+<td>70-85%</td>
+</tr>
+<tr>
+<td>CSS</td>
+<td>75-90%</td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td>65-80%</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>70-85%</td>
+</tr>
+<tr>
+<td>SVG</td>
+<td>50-70%</td>
+</tr>
+<tr>
+<td>XML</td>
+<td>70-85%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Images are skipped</strong> – they're already optimized (AVIF, WebP, JPG).</p>
+<h2 id="output-structure">Output Structure</h2>
+<p>Your files remain unchanged. Compressed versions are added alongside:</p>
+<pre><code>output/
+├── index.html          ← Original (10 KB)
+├── index.html.gz       ← Gzip (2.5 KB)
+├── index.html.br       ← Brotli (2.1 KB)
+├── _assets/
+│   ├── main.css
+│   ├── main.css.gz
+│   └── main.css.br
 </code></pre>
-<h3 id="cname-github-pages">CNAME (GitHub Pages)</h3>
-<pre><code>example.com
+<h2 id="example-output">Example Output</h2>
+<pre><code>╭─Success────────────────────────────╮
+│ Compression complete!              │
+│                                    │
+│ Summary:                           │
+│   Files:    14                     │
+│   Original: 1.22 MB                │
+│                                    │
+│ Compressed sizes:                  │
+│   Gzip:    93.4 KB (92.5% savings) │
+│   Brotli:  61.6 KB (95.1% savings) │
+╰────────────────────────────────────╯
 </code></pre>
-<h3 id="nojekyll">.nojekyll</h3>
-<p>Empty file - just create it, no content needed. Prevents GitHub Pages from processing files with Jekyll.</p>
-<h2 id="how-it-works">How It Works</h2>
-<ol>
-<li><strong>Scanning:</strong> Folders starting with <code>_</code> are skipped (no galleries created)</li>
-<li><strong>Copying:</strong> After page rendering, files from <code>_static/</code> are copied to output</li>
-<li><strong>Structure:</strong> Directory structure is preserved</li>
-<li><strong>Overwrite:</strong> Existing files are overwritten silently</li>
-</ol>
-<h2 id="best-practices">Best Practices</h2>
-<ul>
-<li>✅ Keep favicon files in <code>_static/favicon/</code> for organization</li>
-<li>✅ Place root files (CNAME, robots.txt) directly in <code>_static/</code></li>
-<li>✅ Commit static files to version control</li>
-<li>✅ Save favicon generator output for future updates</li>
-</ul>
+<h2 id="when-do-you-need-this-plugin">When Do You Need This Plugin?</h2>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Need Plugin?</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub Pages</td>
+<td>❌ No</td>
+<td>Compresses automatically</td>
+</tr>
+<tr>
+<td>Netlify</td>
+<td>❌ No</td>
+<td>Compresses automatically</td>
+</tr>
+<tr>
+<td>Vercel</td>
+<td>❌ No</td>
+<td>Compresses automatically</td>
+</tr>
+<tr>
+<td>Cloudflare Pages</td>
+<td>❌ No</td>
+<td>Compresses automatically</td>
+</tr>
+<tr>
+<td>AWS S3 + CloudFront</td>
+<td>🟡 Optional</td>
+<td>CloudFront compresses, but pre-compressed is faster</td>
+</tr>
+<tr>
+<td>AWS S3 (direct)</td>
+<td>✅ Yes</td>
+<td>No automatic compression</td>
+</tr>
+<tr>
+<td>nginx / Apache</td>
+<td>✅ Yes</td>
+<td>Saves CPU, instant delivery</td>
+</tr>
+<tr>
+<td>Basic web hosting</td>
+<td>✅ Yes</td>
+<td>Often no compression</td>
+</tr>
+<tr>
+<td>nginx</td>
+<td>✅ With <code>gzip_static on</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Apache</td>
+<td>⚙️ Needs RewriteRule</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="pipeline-order">Pipeline Order</h2>
+<p>Compression runs <strong>last</strong> in the generate pipeline:</p>
+<pre><code>scan → statistics → pages → images → compress
+</code></pre>
+<p>This ensures all content exists before compressing.</p>
+<h2 id="compression-settings">Compression Settings</h2>
+<p>The plugin uses <strong>maximum compression</strong> for smallest files:</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Level</th>
+<th>Browser Support</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gzip</td>
+<td>9 (max)</td>
+<td>All browsers</td>
+</tr>
+<tr>
+<td>Brotli</td>
+<td>11 (max)</td>
+<td>Modern browsers (95%+)</td>
+</tr>
+</tbody>
+</table>
+<p>Files under <strong>256 bytes</strong> are skipped – compression overhead exceeds savings.</p>
 
     </article>
 </div>
@@ -252,7 +345,7 @@ Allow: /
   <a href="../../../docs/user-journey/">User Journey</a>
 <div>
   <a href="../../../docs/source-structure/">Source Structure</a>
-  <a href="../../../docs/source-structure/static-files/" class="active">Static Files</a>
+  <a href="../../../docs/source-structure/static-files/">Static Files</a>
 </div>
   <a href="../../../docs/pages/">Creating Pages</a>
   <a href="../../../docs/images/">Image Processing</a>
@@ -265,7 +358,7 @@ Allow: /
   <a href="../../../docs/configuration/">Configuration</a>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/">Static Compression</a>
+  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
