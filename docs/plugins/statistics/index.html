@@ -155,11 +155,11 @@
 <p>The Statistics plugin analyzes <strong>EXIF data</strong> from your photos and generates statistics pages showing camera usage, lens preferences, aperture distribution, and more.</p>
 <div class="features-grid">
 <h3 id="exif-analysis">📷 EXIF Analysis</h3>
-<p>Camera models, lenses, aperture, ISO, shutter speed, and focal lengths.</p>
-<h3 id="visualizations">📈 Visualizations</h3>
-<p>Beautiful charts with the <strong>Theme.Lumina.Statistics</strong> extension.</p>
+<p>Camera models, lenses, aperture, ISO, shutter speed, focal lengths, and orientation.</p>
+<h3 id="dashboard">📊 Dashboard</h3>
+<p>Pure-CSS bar charts with overview cards — no JavaScript required.</p>
 <h3 id="timeline">📅 Timeline</h3>
-<p>See how your photography evolves over time, broken down by year.</p>
+<p>See how your photography evolves over time, broken down by year and month.</p>
 </div>
 <h2 id="installation">Installation</h2>
 <p>The Statistics plugin has two parts:</p>
@@ -169,7 +169,7 @@ revela plugin install Statistics
 # 2. The theme extension (renders charts) – recommended
 revela plugin install Theme.Lumina.Statistics
 </code></pre>
-<p>The plugin generates a <code>statistics.json</code> data file. The <strong>Theme.Lumina.Statistics</strong> extension turns that data into responsive Chart.js visualizations with dark/light mode support.</p>
+<p>The plugin generates a <code>statistics.json</code> data file. The <strong>Theme.Lumina.Statistics</strong> extension renders that data as a responsive dashboard with pure-CSS bar charts that inherit the Lumina color scheme.</p>
 <blockquote>
 <p>Without the theme extension, statistics data is still generated – but you'll need custom templates to display it.</p>
 </blockquote>
@@ -216,7 +216,7 @@ revela generate statistics
 <tr>
 <td><strong>Focal Lengths</strong></td>
 <td>Bucketed by range</td>
-<td>18-35mm, 35-70mm, 70-135mm</td>
+<td>18–35, 35–70, 70–135</td>
 </tr>
 <tr>
 <td><strong>Apertures</strong></td>
@@ -231,23 +231,32 @@ revela generate statistics
 <tr>
 <td><strong>Shutter Speeds</strong></td>
 <td>Exposure times</td>
-<td>1/500, 1/250, 1/60</td>
+<td>1/500, 1/250, 2s</td>
+</tr>
+<tr>
+<td><strong>Orientation</strong></td>
+<td>Image dimensions</td>
+<td>Landscape, Portrait, Square</td>
 </tr>
 <tr>
 <td><strong>Timeline</strong></td>
 <td>Photos per year</td>
 <td>2024: 120, 2023: 80</td>
 </tr>
+<tr>
+<td><strong>Monthly</strong></td>
+<td>Photos per month</td>
+<td>January: 45, July: 82</td>
+</tr>
 </tbody>
 </table>
-<p>Images without EXIF data are counted but excluded from category breakdowns.</p>
+<p>Images without EXIF data are counted in the totals but excluded from category breakdowns.</p>
 <h2 id="configuration">Configuration</h2>
 <p>Settings are stored in <code>project.json</code>:</p>
 <pre><code class="language-json">{
   &quot;Spectara.Revela.Plugin.Statistics&quot;: {
     &quot;MaxEntriesPerCategory&quot;: 15,
-    &quot;SortByCount&quot;: true,
-    &quot;MaxBarWidth&quot;: 100
+    &quot;SortByCount&quot;: true
   }
 }
 </code></pre>
@@ -263,17 +272,12 @@ revela generate statistics
 <tr>
 <td><code>MaxEntriesPerCategory</code></td>
 <td><code>15</code></td>
-<td>Top N entries per category (0 = unlimited)</td>
+<td>Top N entries per category (0 = unlimited). Remaining entries are aggregated into &quot;Other&quot;.</td>
 </tr>
 <tr>
 <td><code>SortByCount</code></td>
 <td><code>true</code></td>
-<td>Sort by count (descending) instead of alphabetically</td>
-</tr>
-<tr>
-<td><code>MaxBarWidth</code></td>
-<td><code>100</code></td>
-<td>Bar chart width percentage for HTML output</td>
+<td>Sort by count (descending) instead of natural order</td>
 </tr>
 </tbody>
 </table>
@@ -284,12 +288,13 @@ revela config statistics
 revela config statistics --max-entries 20 --sort-by-count false
 </code></pre>
 <h2 id="theme-extension">Theme Extension</h2>
-<p><strong>Theme.Lumina.Statistics</strong> provides:</p>
+<p><strong>Theme.Lumina.Statistics</strong> provides a single-page dashboard with:</p>
 <ul>
-<li><strong>Chart.js</strong> bar charts for all categories</li>
-<li><strong>Responsive</strong> layout for mobile and desktop</li>
-<li><strong>Dark/light mode</strong> that follows the site theme</li>
-<li>Summary cards with total images, cameras, and lenses</li>
+<li><strong>Overview cards</strong> — Total images, galleries, cameras, and lenses at a glance</li>
+<li><strong>Bar charts</strong> for all 9 categories using pure CSS (no JavaScript)</li>
+<li><strong>Responsive layout</strong> — Grid adapts from mobile to desktop</li>
+<li><strong>Dark/light mode</strong> — Inherits Lumina's color scheme automatically</li>
+<li><strong>Hover effects</strong> — Bar highlight and count display on interaction</li>
 </ul>
 <p>Install it alongside the plugin:</p>
 <pre><code class="language-bash">revela plugin install Theme.Lumina.Statistics
@@ -303,10 +308,6 @@ revela config statistics --max-entries 20 --sort-by-count false
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>revela create page statistics</code></td>
-<td>Create a statistics page in your source</td>
-</tr>
 <tr>
 <td><code>revela generate statistics</code></td>
 <td>Generate statistics JSON</td>
