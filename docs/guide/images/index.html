@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Revela - Static Compression</title>
+    <title>Revela - Image Processing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Modern static site generator for photographers">
     <meta name="author" content="Spectara">
@@ -36,7 +36,7 @@
   <a href="../../../docs/guide/source-structure/static-files/">Static Files</a>
 </div>
   <a href="../../../docs/guide/pages/">Creating Pages</a>
-  <a href="../../../docs/guide/images/">Image Processing</a>
+  <a href="../../../docs/guide/images/" class="active">Image Processing</a>
   <a href="../../../docs/guide/sorting/">Sorting</a>
   <a href="../../../docs/guide/filtering/">Filter Galleries</a>
 <div>
@@ -48,7 +48,7 @@
 </div>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
@@ -102,7 +102,7 @@
                 <ul>
                     <li><a href="../../../docs/guide/source-structure/">Source Structure</a></li>
                     <li><a href="../../../docs/guide/pages/">Creating Pages</a></li>
-                    <li><a href="../../../docs/guide/images/">Image Processing</a></li>
+                    <li><a href="../../../docs/guide/images/" class="active">Image Processing</a></li>
                     <li><a href="../../../docs/guide/sorting/">Sorting</a></li>
                     <li><a href="../../../docs/guide/filtering/">Filter Galleries</a></li>
                     <li><a href="../../../docs/guide/themes/">Theme Customization</a></li>
@@ -114,7 +114,7 @@
             <li>
                 <a href="../../../docs/plugins/">Plugins</a>
                 <ul>
-                    <li><a href="../../../docs/plugins/compression/" class="active">Static Compression</a></li>
+                    <li><a href="../../../docs/plugins/compression/">Static Compression</a></li>
                     <li><a href="../../../docs/plugins/statistics/">Statistics</a></li>
                     <li><a href="../../../docs/plugins/serve/">Dev Server</a></li>
                     <li><a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a></li>
@@ -131,176 +131,150 @@
     </nav>
 </aside>
 <article>
-    <h1>Static Compression</h1>
-<p>Revela can pre-compress your static files with <strong>Gzip</strong> and <strong>Brotli</strong> for faster loading.</p>
-<blockquote>
-<p><strong>Do you need this?</strong> If you're using GitHub Pages, Netlify, Vercel, or Cloudflare Pages – <strong>no!</strong> These platforms compress automatically. This plugin is for self-hosted servers, AWS S3, or basic web hosts.</p>
-</blockquote>
+    <h1>Image Processing</h1>
+<p>Revela automatically processes your images into optimized web formats. This page covers configuration, incremental updates, and cleanup.</p>
+<h2 id="image-configuration">Image Configuration</h2>
+<p>Configure image formats and quality in <code>project.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;generate&quot;: {
+    &quot;images&quot;: {
+      &quot;jpg&quot;: 90,
+      &quot;webp&quot;: 85
+    }
+  }
+}
+</code></pre>
+<p><strong>Supported formats:</strong></p>
+<ul>
+<li><code>jpg</code> - Universal compatibility (quality 1-100)</li>
+<li><code>webp</code> - Smaller files, modern browsers (quality 1-100)</li>
+<li><code>avif</code> - Smallest files, newest browsers (quality 1-100)</li>
+</ul>
+<p><strong>Recommendation:</strong> Start with just <code>jpg: 90</code> for compatibility. Add <code>webp</code> or <code>avif</code> later if needed.</p>
+<h2 id="image-sizes">Image Sizes</h2>
+<p>Sizes are defined by your theme. The default Lumina theme generates these widths:</p>
+<pre><code>160, 320, 480, 640, 720, 960, 1280, 1440, 1920, 2560
+</code></pre>
+<p>These sizes are optimized for High-DPI displays (1.5x, 2x scaling).</p>
+<p>Plus the <strong>original width</strong> for full-resolution lightbox view.</p>
+<h2 id="generating-images">Generating Images</h2>
+<pre><code class="language-bash"># Full generation
+revela generate images
+
+# Force regenerate all (ignore cache)
+revela generate images --force
+</code></pre>
+<h2 id="incremental-processing">Incremental Processing</h2>
+<p>Revela automatically detects what's missing and only generates those variants:</p>
+<h3 id="adding-a-new-format">Adding a New Format</h3>
+<pre><code class="language-bash"># Before: only jpg configured
+# After: add webp to project.json
+
+revela generate images
+# → Only webp files are created
+# → Existing jpg files are kept
+</code></pre>
+<h3 id="progress-display">Progress Display</h3>
+<pre><code>image001.jpg  ■ ■ ■ ■ □ □ □ □ □ □ □ □
+image002.jpg  ■ ■ ■ □ □ □ □ □ □ □ □ □
+image003.jpg  ■ ■ □ □ □ □ □ □ □ □ □ □
+</code></pre>
+<ul>
+<li><strong>Green ■</strong> = Generated (new file)</li>
+<li><strong>Gray ■</strong> = Skipped (already exists)</li>
+<li><strong>Empty □</strong> = Pending</li>
+</ul>
+<h2 id="cleaning-up">Cleaning Up</h2>
+<p>When you change your image configuration (remove a format, change sizes), old files remain. Use <code>clean images</code> to remove them:</p>
+<pre><code class="language-bash"># Preview what would be deleted
+revela clean images --dry-run
+
+# Actually delete unused files
+revela clean images
+</code></pre>
+<h3 id="what-gets-cleaned">What Gets Cleaned</h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Orphaned folders</strong></td>
+<td>Source image was deleted</td>
+<td><code>output/images/deleted-photo/</code></td>
+</tr>
+<tr>
+<td><strong>Unused sizes</strong></td>
+<td>Width no longer in theme config</td>
+<td><code>*_480w.jpg</code> when 480 removed</td>
+</tr>
+<tr>
+<td><strong>Unused formats</strong></td>
+<td>Format disabled in project</td>
+<td><code>*.webp</code> when webp removed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="typical-workflow">Typical Workflow</h3>
+<pre><code class="language-bash"># 1. Change config (remove webp)
+# Edit project.json: remove &quot;webp&quot;: 85
+
+# 2. Preview cleanup
+revela clean images --dry-run
+# → Shows: 4220 webp files (852 MB)
+
+# 3. Delete unused files
+revela clean images
+# → Deleted: 4220 files (852 MB)
+
+# 4. Verify (optional)
+revela generate images
+# → Shows: 0 processed, 1153 cached
+</code></pre>
+<h2 id="low-quality-image-placeholders-lqip">Low-Quality Image Placeholders (LQIP)</h2>
+<p>Revela generates <strong>CSS-only placeholders</strong> that display while images load. This creates a smooth loading experience without layout shifts.</p>
+<h3 id="how-it-works">How It Works</h3>
+<ol>
+<li>During scan, Revela analyzes each image's average color and brightness pattern</li>
+<li>This data is encoded into a compact integer (e.g., <code>-721311</code>)</li>
+<li>The theme's CSS decodes this integer into gradient placeholders</li>
+<li>When the image loads, it smoothly replaces the placeholder</li>
+</ol>
+<p><strong>Result:</strong> ~7 bytes per image instead of a separate LQIP file. No additional HTTP requests.</p>
+<h3 id="configuration">Configuration</h3>
+<p>LQIP is <strong>enabled by default</strong>. To disable it:</p>
+<pre><code class="language-json">{
+  &quot;generate&quot;: {
+    &quot;images&quot;: {
+      &quot;placeholder&quot;: {
+        &quot;strategy&quot;: &quot;none&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<h3 id="technical-details">Technical Details</h3>
+<p>The CSS hash encodes:</p>
+<ul>
+<li><strong>Average color</strong> in Oklab color space (8 bits)</li>
+<li><strong>3×2 brightness grid</strong> as grayscale values (12 bits)</li>
+</ul>
+<p>The browser reconstructs this as radial gradients with blend modes, creating a blurred approximation of the image. Based on <a href="https://leanrada.com/notes/css-only-lqip/">Lean Rada's CSS-only LQIP technique</a>.</p>
+<h2 id="best-practices">Best Practices</h2>
 <div class="features-grid">
-<h3 id="pre-generated">📦 Pre-Generated</h3>
-<p>Compressed files created at build time, not on every request.</p>
-<h3 id="smaller">🚀 95% Smaller</h3>
-<p>HTML, CSS, and JS files compress dramatically with Brotli.</p>
-<h3 id="zero-cpu-cost">⚡ Zero CPU Cost</h3>
-<p>Servers deliver pre-compressed files instantly.</p>
+<h3 id="start-simple">🚀 Start Simple</h3>
+<p>Begin with <code>jpg: 90</code> only. Add webp/avif later when you need smaller files.</p>
+<h3 id="incremental-updates">🔄 Incremental Updates</h3>
+<p>Don't use <code>--force</code> unless necessary. Incremental processing is much faster.</p>
+<h3 id="clean-after-config-changes">🧹 Clean After Config Changes</h3>
+<p>After removing formats or sizes, run <code>clean images</code> to free disk space.</p>
+<h3 id="check-dry-run-first">📊 Check Dry-Run First</h3>
+<p>Always use <code>--dry-run</code> before <code>clean images</code> to preview what will be deleted.</p>
 </div>
-<h2 id="installation">Installation</h2>
-<pre><code class="language-bash">revela plugin install Compress
-</code></pre>
-<h2 id="usage">Usage</h2>
-<h3 id="compress-your-site">Compress Your Site</h3>
-<pre><code class="language-bash"># After generating your site
-revela generate compress
-</code></pre>
-<blockquote>
-<p><strong>Note:</strong> Compression runs separately, not as part of <code>generate all</code>.
-Your server must be configured to serve pre-compressed files.</p>
-</blockquote>
-<h3 id="remove-compressed-files">Remove Compressed Files</h3>
-<pre><code class="language-bash">revela clean compress
-</code></pre>
-<h2 id="what-gets-compressed">What Gets Compressed?</h2>
-<table>
-<thead>
-<tr>
-<th>File Type</th>
-<th>Typical Savings</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>HTML</td>
-<td>70-85%</td>
-</tr>
-<tr>
-<td>CSS</td>
-<td>75-90%</td>
-</tr>
-<tr>
-<td>JavaScript</td>
-<td>65-80%</td>
-</tr>
-<tr>
-<td>JSON</td>
-<td>70-85%</td>
-</tr>
-<tr>
-<td>SVG</td>
-<td>50-70%</td>
-</tr>
-<tr>
-<td>XML</td>
-<td>70-85%</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Images are skipped</strong> – they're already optimized (AVIF, WebP, JPG).</p>
-<h2 id="output-structure">Output Structure</h2>
-<p>Your files remain unchanged. Compressed versions are added alongside:</p>
-<pre><code>output/
-├── index.html          ← Original (10 KB)
-├── index.html.gz       ← Gzip (2.5 KB)
-├── index.html.br       ← Brotli (2.1 KB)
-├── _assets/
-│   ├── main.css
-│   ├── main.css.gz
-│   └── main.css.br
-</code></pre>
-<h2 id="example-output">Example Output</h2>
-<pre><code>╭─Success────────────────────────────╮
-│ Compression complete!              │
-│                                    │
-│ Summary:                           │
-│   Files:    14                     │
-│   Original: 1.22 MB                │
-│                                    │
-│ Compressed sizes:                  │
-│   Gzip:    93.4 KB (92.5% savings) │
-│   Brotli:  61.6 KB (95.1% savings) │
-╰────────────────────────────────────╯
-</code></pre>
-<h2 id="when-do-you-need-this-plugin">When Do You Need This Plugin?</h2>
-<table>
-<thead>
-<tr>
-<th>Platform</th>
-<th>Need Plugin?</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GitHub Pages</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>Netlify</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>Vercel</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>Cloudflare Pages</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>AWS S3 + CloudFront</td>
-<td>🟡 Optional</td>
-<td>CloudFront compresses, but pre-compressed is faster</td>
-</tr>
-<tr>
-<td>AWS S3 (direct)</td>
-<td>✅ Yes</td>
-<td>No automatic compression</td>
-</tr>
-<tr>
-<td>nginx</td>
-<td>✅ Yes</td>
-<td>Use <code>gzip_static on</code> for pre-compressed files</td>
-</tr>
-<tr>
-<td>Apache</td>
-<td>⚙️ Needs RewriteRule</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="pipeline-order">Pipeline Order</h2>
-<p>Compression is <strong>not</strong> part of <code>revela generate all</code>. Run it separately after generating your site:</p>
-<pre><code class="language-bash">revela generate all
-revela generate compress
-</code></pre>
-<p>This ensures all content exists before compressing.</p>
-<h2 id="compression-settings">Compression Settings</h2>
-<p>The plugin uses <strong>maximum compression</strong> for smallest files:</p>
-<table>
-<thead>
-<tr>
-<th>Format</th>
-<th>Level</th>
-<th>Browser Support</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Gzip</td>
-<td>9 (max)</td>
-<td>All browsers</td>
-</tr>
-<tr>
-<td>Brotli</td>
-<td>11 (max)</td>
-<td>Modern browsers (95%+)</td>
-</tr>
-</tbody>
-</table>
-<p>Files under <strong>256 bytes</strong> are skipped – compression overhead exceeds savings.</p>
 
 </article>
     </main>
@@ -321,7 +295,7 @@ revela generate compress
   <a href="../../../docs/guide/source-structure/static-files/">Static Files</a>
 </div>
   <a href="../../../docs/guide/pages/">Creating Pages</a>
-  <a href="../../../docs/guide/images/">Image Processing</a>
+  <a href="../../../docs/guide/images/" class="active">Image Processing</a>
   <a href="../../../docs/guide/sorting/">Sorting</a>
   <a href="../../../docs/guide/filtering/">Filter Galleries</a>
 <div>
@@ -333,7 +307,7 @@ revela generate compress
 </div>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>

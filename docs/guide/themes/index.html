@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Revela - Static Compression</title>
+    <title>Revela - Theme Customization</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Modern static site generator for photographers">
     <meta name="author" content="Spectara">
@@ -40,7 +40,7 @@
   <a href="../../../docs/guide/sorting/">Sorting</a>
   <a href="../../../docs/guide/filtering/">Filter Galleries</a>
 <div>
-  <a href="../../../docs/guide/themes/">Theme Customization</a>
+  <a href="../../../docs/guide/themes/" class="active">Theme Customization</a>
   <a href="../../../docs/guide/themes/website-example/">revela.website</a>
 </div>
   <a href="../../../docs/guide/configuration/">Configuration</a>
@@ -48,7 +48,7 @@
 </div>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
@@ -105,7 +105,7 @@
                     <li><a href="../../../docs/guide/images/">Image Processing</a></li>
                     <li><a href="../../../docs/guide/sorting/">Sorting</a></li>
                     <li><a href="../../../docs/guide/filtering/">Filter Galleries</a></li>
-                    <li><a href="../../../docs/guide/themes/">Theme Customization</a></li>
+                    <li><a href="../../../docs/guide/themes/" class="active">Theme Customization</a></li>
                     <li><a href="../../../docs/guide/configuration/">Configuration</a></li>
                     <li><a href="../../../docs/guide/deployment/">Deployment</a></li>
                 </ul>
@@ -114,7 +114,7 @@
             <li>
                 <a href="../../../docs/plugins/">Plugins</a>
                 <ul>
-                    <li><a href="../../../docs/plugins/compression/" class="active">Static Compression</a></li>
+                    <li><a href="../../../docs/plugins/compression/">Static Compression</a></li>
                     <li><a href="../../../docs/plugins/statistics/">Statistics</a></li>
                     <li><a href="../../../docs/plugins/serve/">Dev Server</a></li>
                     <li><a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a></li>
@@ -131,176 +131,186 @@
     </nav>
 </aside>
 <article>
-    <h1>Static Compression</h1>
-<p>Revela can pre-compress your static files with <strong>Gzip</strong> and <strong>Brotli</strong> for faster loading.</p>
-<blockquote>
-<p><strong>Do you need this?</strong> If you're using GitHub Pages, Netlify, Vercel, or Cloudflare Pages – <strong>no!</strong> These platforms compress automatically. This plugin is for self-hosted servers, AWS S3, or basic web hosts.</p>
-</blockquote>
+    <h1>Theme Customization</h1>
+<p>Revela allows you to customize themes without modifying the original theme files. You can:</p>
 <div class="features-grid">
-<h3 id="pre-generated">📦 Pre-Generated</h3>
-<p>Compressed files created at build time, not on every request.</p>
-<h3 id="smaller">🚀 95% Smaller</h3>
-<p>HTML, CSS, and JS files compress dramatically with Brotli.</p>
-<h3 id="zero-cpu-cost">⚡ Zero CPU Cost</h3>
-<p>Servers deliver pre-compressed files instantly.</p>
+<h3 id="extract-theme">📦 Extract Theme</h3>
+<p>Copy the entire theme to your project for full customization.</p>
+<h3 id="override-files">🎯 Override Files</h3>
+<p>Extract only specific files (templates, assets, configuration).</p>
+<h3 id="theme-variables">🎨 Theme Variables</h3>
+<p>Modify colors, fonts, and sizes via <code>theme.json</code>.</p>
 </div>
-<h2 id="installation">Installation</h2>
-<pre><code class="language-bash">revela plugin install Compress
+<hr />
+<h2 id="how-it-works">How It Works</h2>
+<p>When generating your site, Revela resolves themes with this priority:</p>
+<ol>
+<li><strong>Local theme</strong> (<code>themes/&lt;name&gt;/</code>) - Highest priority</li>
+<li><strong>Installed plugins</strong> (NuGet packages)</li>
+<li><strong>Default theme</strong> (Lumina)</li>
+</ol>
+<p>This means: If you have a <code>themes/Lumina/</code> folder in your project, it takes precedence over the installed Lumina theme.</p>
+<hr />
+<h2 id="extracting-a-theme">Extracting a Theme</h2>
+<h3 id="full-extraction">Full Extraction</h3>
+<p>Extract an entire theme for complete customization:</p>
+<pre><code class="language-bash"># Extract to themes/Lumina/
+revela theme extract Lumina
+
+# Extract with custom name
+revela theme extract Lumina MyTheme
 </code></pre>
-<h2 id="usage">Usage</h2>
-<h3 id="compress-your-site">Compress Your Site</h3>
-<pre><code class="language-bash"># After generating your site
-revela generate compress
+<h3 id="interactive-mode">Interactive Mode</h3>
+<p>Run without arguments for guided extraction:</p>
+<pre><code class="language-bash">revela theme extract
+</code></pre>
+<h3 id="selective-extraction">Selective Extraction</h3>
+<p>Extract only specific files:</p>
+<pre><code class="language-bash"># Extract single file
+revela theme extract Lumina --file layout.revela
+
+# Extract multiple files
+revela theme extract Lumina --file layout.revela --file Assets/styles.css
+
+# Extract entire folder
+revela theme extract Lumina --file Assets/
+
+# Configuration only
+revela theme extract Lumina --file theme.json
+</code></pre>
+<hr />
+<h2 id="theme-structure">Theme Structure</h2>
+<p>After extraction, your theme folder looks like this:</p>
+<pre><code>your-project/
+├── themes/
+│   └── Lumina/
+│       ├── theme.json             # Theme manifest &amp; variables
+│       ├── layout.revela          # Main layout template
+│       ├── Assets/                # CSS, JS, fonts, images
+│       │   ├── styles.css
+│       │   └── scripts.js
+│       ├── Body/                  # Body templates
+│       │   ├── Gallery.revela
+│       │   └── Page.revela
+│       └── Partials/              # Partial templates
+│           ├── Navigation.revela
+│           └── Image.revela
+├── source/
+├── project.json
+└── site.json
+</code></pre>
+<hr />
+<h2 id="customization-options">Customization Options</h2>
+<h3 id="theme-variables-theme.json">Theme Variables (theme.json)</h3>
+<p>Modify colors, fonts, and other design tokens:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;Lumina&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;variables&quot;: {
+    &quot;primary-color&quot;: &quot;#2563eb&quot;,
+    &quot;background-color&quot;: &quot;#ffffff&quot;,
+    &quot;text-color&quot;: &quot;#1f2937&quot;,
+    &quot;font-family&quot;: &quot;Inter, sans-serif&quot;
+  }
+}
+</code></pre>
+<p>Variables are available in templates as <code>{{ theme.primary-color }}</code>.</p>
+<h3 id="templates">Templates</h3>
+<p>Customize HTML output by editing <code>.revela</code> files:</p>
+<p><strong>layout.revela</strong> - Main page structure:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;{{ site.title }} - {{ gallery.title }}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    {{ include 'navigation' }}
+    {{ body }}
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><strong>Body/Gallery.revela</strong> - Gallery page content:</p>
+<pre><code class="language-html">&lt;main class=&quot;gallery&quot;&gt;
+    &lt;h1&gt;{{ gallery.title }}&lt;/h1&gt;
+    {{ if gallery.body }}
+    &lt;div class=&quot;description&quot;&gt;{{ gallery.body }}&lt;/div&gt;
+    {{ end }}
+    &lt;div class=&quot;images&quot;&gt;
+        {{ for image in images }}
+        {{ include 'image' }}
+        {{ end }}
+    &lt;/div&gt;
+&lt;/main&gt;
+</code></pre>
+<h3 id="assets-cssjs">Assets (CSS/JS)</h3>
+<p>Modify styles in <code>Assets/styles.css</code>:</p>
+<pre><code class="language-css">.gallery {
+    max-width: 1200px;
+    margin: 0 auto;
+}
 </code></pre>
 <blockquote>
-<p><strong>Note:</strong> Compression runs separately, not as part of <code>generate all</code>.
-Your server must be configured to serve pre-compressed files.</p>
+<p><strong>Note:</strong> CSS files are static assets — they are copied as-is, not processed through the template engine. Use <code>theme.json</code> variables for customizable design tokens, and reference them in your <code>.revela</code> templates.</p>
 </blockquote>
-<h3 id="remove-compressed-files">Remove Compressed Files</h3>
-<pre><code class="language-bash">revela clean compress
+<hr />
+<h2 id="partial-overrides">Partial Overrides</h2>
+<p>You don't need to extract the entire theme. Extract only what you want to change:</p>
+<pre><code class="language-bash"># Only customize the navigation
+revela theme extract Lumina --file Partials/Navigation.revela
+
+# Only change styles
+revela theme extract Lumina --file Assets/styles.css
 </code></pre>
-<h2 id="what-gets-compressed">What Gets Compressed?</h2>
-<table>
-<thead>
-<tr>
-<th>File Type</th>
-<th>Typical Savings</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>HTML</td>
-<td>70-85%</td>
-</tr>
-<tr>
-<td>CSS</td>
-<td>75-90%</td>
-</tr>
-<tr>
-<td>JavaScript</td>
-<td>65-80%</td>
-</tr>
-<tr>
-<td>JSON</td>
-<td>70-85%</td>
-</tr>
-<tr>
-<td>SVG</td>
-<td>50-70%</td>
-</tr>
-<tr>
-<td>XML</td>
-<td>70-85%</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Images are skipped</strong> – they're already optimized (AVIF, WebP, JPG).</p>
-<h2 id="output-structure">Output Structure</h2>
-<p>Your files remain unchanged. Compressed versions are added alongside:</p>
-<pre><code>output/
-├── index.html          ← Original (10 KB)
-├── index.html.gz       ← Gzip (2.5 KB)
-├── index.html.br       ← Brotli (2.1 KB)
-├── _assets/
-│   ├── main.css
-│   ├── main.css.gz
-│   └── main.css.br
-</code></pre>
-<h2 id="example-output">Example Output</h2>
-<pre><code>╭─Success────────────────────────────╮
-│ Compression complete!              │
-│                                    │
-│ Summary:                           │
-│   Files:    14                     │
-│   Original: 1.22 MB                │
-│                                    │
-│ Compressed sizes:                  │
-│   Gzip:    93.4 KB (92.5% savings) │
-│   Brotli:  61.6 KB (95.1% savings) │
-╰────────────────────────────────────╯
-</code></pre>
-<h2 id="when-do-you-need-this-plugin">When Do You Need This Plugin?</h2>
-<table>
-<thead>
-<tr>
-<th>Platform</th>
-<th>Need Plugin?</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GitHub Pages</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>Netlify</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>Vercel</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>Cloudflare Pages</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>AWS S3 + CloudFront</td>
-<td>🟡 Optional</td>
-<td>CloudFront compresses, but pre-compressed is faster</td>
-</tr>
-<tr>
-<td>AWS S3 (direct)</td>
-<td>✅ Yes</td>
-<td>No automatic compression</td>
-</tr>
-<tr>
-<td>nginx</td>
-<td>✅ Yes</td>
-<td>Use <code>gzip_static on</code> for pre-compressed files</td>
-</tr>
-<tr>
-<td>Apache</td>
-<td>⚙️ Needs RewriteRule</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="pipeline-order">Pipeline Order</h2>
-<p>Compression is <strong>not</strong> part of <code>revela generate all</code>. Run it separately after generating your site:</p>
+<p>The rest will be loaded from the installed theme.</p>
+<hr />
+<h2 id="workflow-example">Workflow Example</h2>
+<h3 id="start-with-default-theme">1. Start with Default Theme</h3>
 <pre><code class="language-bash">revela generate all
-revela generate compress
 </code></pre>
-<p>This ensures all content exists before compressing.</p>
-<h2 id="compression-settings">Compression Settings</h2>
-<p>The plugin uses <strong>maximum compression</strong> for smallest files:</p>
-<table>
-<thead>
-<tr>
-<th>Format</th>
-<th>Level</th>
-<th>Browser Support</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Gzip</td>
-<td>9 (max)</td>
-<td>All browsers</td>
-</tr>
-<tr>
-<td>Brotli</td>
-<td>11 (max)</td>
-<td>Modern browsers (95%+)</td>
-</tr>
-</tbody>
-</table>
-<p>Files under <strong>256 bytes</strong> are skipped – compression overhead exceeds savings.</p>
+<h3 id="customize-colors">2. Customize Colors</h3>
+<pre><code class="language-bash"># Extract only theme.json
+revela theme extract Lumina --file theme.json
+</code></pre>
+<p>Edit <code>themes/Lumina/theme.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;variables&quot;: {
+    &quot;primary-color&quot;: &quot;#dc2626&quot;,
+    &quot;background-color&quot;: &quot;#0f172a&quot;
+  }
+}
+</code></pre>
+<h3 id="regenerate">3. Regenerate</h3>
+<pre><code class="language-bash">revela generate all
+</code></pre>
+<p>Your customizations are automatically used.</p>
+<hr />
+<h2 id="cli-reference">CLI Reference</h2>
+<pre><code class="language-bash"># Full extraction
+revela theme extract Lumina
+revela theme extract Lumina MyTheme
+
+# Selective extraction
+revela theme extract Lumina --file Body/Gallery.revela
+revela theme extract Lumina --file Body/Gallery.revela --file Assets/
+
+# Overwrite existing files
+revela theme extract Lumina --force
+
+# Interactive mode
+revela theme extract
+
+# List available files
+revela theme files
+revela theme files --theme Lumina
+</code></pre>
+<hr />
+<h2 id="tips">Tips</h2>
+<ol>
+<li><strong>Start small</strong> - Extract only what you need to change</li>
+<li><strong>Version control</strong> - Commit your <code>themes/</code> folder</li>
+<li><strong>Use variables</strong> - Prefer theme variables over hardcoded values</li>
+<li><strong>Test live</strong> - Run <code>revela serve</code> to preview changes</li>
+</ol>
 
 </article>
     </main>
@@ -325,7 +335,7 @@ revela generate compress
   <a href="../../../docs/guide/sorting/">Sorting</a>
   <a href="../../../docs/guide/filtering/">Filter Galleries</a>
 <div>
-  <a href="../../../docs/guide/themes/">Theme Customization</a>
+  <a href="../../../docs/guide/themes/" class="active">Theme Customization</a>
   <a href="../../../docs/guide/themes/website-example/">revela.website</a>
 </div>
   <a href="../../../docs/guide/configuration/">Configuration</a>
@@ -333,7 +343,7 @@ revela generate compress
 </div>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>

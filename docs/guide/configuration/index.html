@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Revela - Static Compression</title>
+    <title>Revela - Configuration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Modern static site generator for photographers">
     <meta name="author" content="Spectara">
@@ -43,12 +43,12 @@
   <a href="../../../docs/guide/themes/">Theme Customization</a>
   <a href="../../../docs/guide/themes/website-example/">revela.website</a>
 </div>
-  <a href="../../../docs/guide/configuration/">Configuration</a>
+  <a href="../../../docs/guide/configuration/" class="active">Configuration</a>
   <a href="../../../docs/guide/deployment/">Deployment</a>
 </div>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
@@ -106,7 +106,7 @@
                     <li><a href="../../../docs/guide/sorting/">Sorting</a></li>
                     <li><a href="../../../docs/guide/filtering/">Filter Galleries</a></li>
                     <li><a href="../../../docs/guide/themes/">Theme Customization</a></li>
-                    <li><a href="../../../docs/guide/configuration/">Configuration</a></li>
+                    <li><a href="../../../docs/guide/configuration/" class="active">Configuration</a></li>
                     <li><a href="../../../docs/guide/deployment/">Deployment</a></li>
                 </ul>
             </li>
@@ -114,7 +114,7 @@
             <li>
                 <a href="../../../docs/plugins/">Plugins</a>
                 <ul>
-                    <li><a href="../../../docs/plugins/compression/" class="active">Static Compression</a></li>
+                    <li><a href="../../../docs/plugins/compression/">Static Compression</a></li>
                     <li><a href="../../../docs/plugins/statistics/">Statistics</a></li>
                     <li><a href="../../../docs/plugins/serve/">Dev Server</a></li>
                     <li><a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a></li>
@@ -131,176 +131,185 @@
     </nav>
 </aside>
 <article>
-    <h1>Static Compression</h1>
-<p>Revela can pre-compress your static files with <strong>Gzip</strong> and <strong>Brotli</strong> for faster loading.</p>
+    <h1>Configuration</h1>
+<p>Revela stores all project settings in <code>project.json</code>. This file is created automatically when you initialize a project with <code>revela config project</code>.</p>
+<h2 id="quick-configuration">Quick Configuration</h2>
+<p>Use the interactive config menu:</p>
+<pre><code class="language-bash">revela config
+</code></pre>
+<p>Or configure specific settings directly:</p>
+<pre><code class="language-bash">revela config theme --set Lumina
+revela config paths --source &quot;D:\Photos&quot; --output &quot;dist&quot;
+revela config site --title &quot;My Portfolio&quot; --author &quot;John Doe&quot;
+</code></pre>
+<h2 id="configuration-file-structure">Configuration File Structure</h2>
+<pre><code class="language-json">{
+  &quot;project&quot;: {
+    &quot;name&quot;: &quot;my-portfolio&quot;,
+    &quot;basePath&quot;: &quot;/&quot;,
+    &quot;language&quot;: &quot;en&quot;
+  },
+  &quot;paths&quot;: {
+    &quot;source&quot;: &quot;source&quot;,
+    &quot;output&quot;: &quot;output&quot;
+  },
+  &quot;theme&quot;: {
+    &quot;name&quot;: &quot;Lumina&quot;
+  },
+  &quot;generate&quot;: {
+    &quot;images&quot;: {
+      &quot;webp&quot;: 85,
+      &quot;jpg&quot;: 90,
+      &quot;avif&quot;: 80
+    },
+    &quot;sorting&quot;: {
+      &quot;galleries&quot;: &quot;asc&quot;,
+      &quot;images&quot;: { &quot;field&quot;: &quot;dateTaken&quot;, &quot;direction&quot;: &quot;desc&quot; }
+    }
+  }
+}
+</code></pre>
 <blockquote>
-<p><strong>Do you need this?</strong> If you're using GitHub Pages, Netlify, Vercel, or Cloudflare Pages – <strong>no!</strong> These platforms compress automatically. This plugin is for self-hosted servers, AWS S3, or basic web hosts.</p>
+<p><strong>Note:</strong> Image sizes are defined by the theme (in <code>theme.json</code>), not in <code>project.json</code>. Image format quality (<code>webp</code>, <code>jpg</code>, <code>avif</code>) are flat properties under <code>generate.images</code> — set to <code>0</code> to disable a format.</p>
 </blockquote>
+<h2 id="custom-paths">Custom Paths</h2>
+<p>By default, Revela uses a <code>source/</code> folder for your images and <code>output/</code> for the generated site. You can customize these paths for advanced workflows.</p>
+<h3 id="configure-via-cli">Configure via CLI</h3>
+<pre><code class="language-bash"># Interactive
+revela config paths
+
+# Direct
+revela config paths --source &quot;D:\OneDrive\Photos\Portfolio&quot; --output &quot;dist&quot;
+</code></pre>
+<h3 id="use-cases">Use Cases</h3>
 <div class="features-grid">
-<h3 id="pre-generated">📦 Pre-Generated</h3>
-<p>Compressed files created at build time, not on every request.</p>
-<h3 id="smaller">🚀 95% Smaller</h3>
-<p>HTML, CSS, and JS files compress dramatically with Brotli.</p>
-<h3 id="zero-cpu-cost">⚡ Zero CPU Cost</h3>
-<p>Servers deliver pre-compressed files instantly.</p>
+<h3 id="cloud-storage-source">☁️ Cloud Storage Source</h3>
+<p>Point source to a OneDrive, Dropbox, or iCloud folder. Your photos sync automatically, Revela generates from them.</p>
+<h3 id="direct-deployment">🌐 Direct Deployment</h3>
+<p>Output directly to your webserver directory (<code>/var/www/html</code>) without copying files.</p>
+<h3 id="shared-photo-library">📁 Shared Photo Library</h3>
+<p>Multiple Revela projects can share the same source folder with different filters.</p>
 </div>
-<h2 id="installation">Installation</h2>
-<pre><code class="language-bash">revela plugin install Compress
+<h3 id="example-onedrive-integration">Example: OneDrive Integration</h3>
+<pre><code class="language-json">{
+  &quot;paths&quot;: {
+    &quot;source&quot;: &quot;D:\\OneDrive\\Photos\\Portfolio&quot;,
+    &quot;output&quot;: &quot;output&quot;
+  }
+}
 </code></pre>
-<h2 id="usage">Usage</h2>
-<h3 id="compress-your-site">Compress Your Site</h3>
-<pre><code class="language-bash"># After generating your site
-revela generate compress
+<p>Your workflow:</p>
+<ol>
+<li>Add photos to OneDrive on any device</li>
+<li>They sync to your computer</li>
+<li>Run <code>revela generate all</code> to rebuild</li>
+</ol>
+<h3 id="example-direct-server-deployment">Example: Direct Server Deployment</h3>
+<pre><code class="language-json">{
+  &quot;paths&quot;: {
+    &quot;source&quot;: &quot;source&quot;,
+    &quot;output&quot;: &quot;/var/www/html/photos&quot;
+  }
+}
 </code></pre>
-<blockquote>
-<p><strong>Note:</strong> Compression runs separately, not as part of <code>generate all</code>.
-Your server must be configured to serve pre-compressed files.</p>
-</blockquote>
-<h3 id="remove-compressed-files">Remove Compressed Files</h3>
-<pre><code class="language-bash">revela clean compress
-</code></pre>
-<h2 id="what-gets-compressed">What Gets Compressed?</h2>
+<p>After <code>revela generate all</code>, your site is immediately live—no file copying needed.</p>
+<h3 id="path-resolution">Path Resolution</h3>
 <table>
 <thead>
 <tr>
-<th>File Type</th>
-<th>Typical Savings</th>
+<th>Path Type</th>
+<th>Example</th>
+<th>Resolves To</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>HTML</td>
-<td>70-85%</td>
+<td>Relative</td>
+<td><code>source</code></td>
+<td><code>{project}/source</code></td>
 </tr>
 <tr>
-<td>CSS</td>
-<td>75-90%</td>
+<td>Relative</td>
+<td><code>../photos</code></td>
+<td><code>{parent}/photos</code></td>
 </tr>
 <tr>
-<td>JavaScript</td>
-<td>65-80%</td>
+<td>Absolute</td>
+<td><code>D:\Photos</code></td>
+<td><code>D:\Photos</code></td>
 </tr>
 <tr>
-<td>JSON</td>
-<td>70-85%</td>
-</tr>
-<tr>
-<td>SVG</td>
-<td>50-70%</td>
-</tr>
-<tr>
-<td>XML</td>
-<td>70-85%</td>
+<td>Absolute</td>
+<td><code>/var/www/html</code></td>
+<td><code>/var/www/html</code></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Images are skipped</strong> – they're already optimized (AVIF, WebP, JPG).</p>
-<h2 id="output-structure">Output Structure</h2>
-<p>Your files remain unchanged. Compressed versions are added alongside:</p>
-<pre><code>output/
-├── index.html          ← Original (10 KB)
-├── index.html.gz       ← Gzip (2.5 KB)
-├── index.html.br       ← Brotli (2.1 KB)
-├── _assets/
-│   ├── main.css
-│   ├── main.css.gz
-│   └── main.css.br
-</code></pre>
-<h2 id="example-output">Example Output</h2>
-<pre><code>╭─Success────────────────────────────╮
-│ Compression complete!              │
-│                                    │
-│ Summary:                           │
-│   Files:    14                     │
-│   Original: 1.22 MB                │
-│                                    │
-│ Compressed sizes:                  │
-│   Gzip:    93.4 KB (92.5% savings) │
-│   Brotli:  61.6 KB (95.1% savings) │
-╰────────────────────────────────────╯
-</code></pre>
-<h2 id="when-do-you-need-this-plugin">When Do You Need This Plugin?</h2>
+<h2 id="available-config-commands">Available Config Commands</h2>
 <table>
 <thead>
 <tr>
-<th>Platform</th>
-<th>Need Plugin?</th>
-<th>Reason</th>
+<th>Command</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>GitHub Pages</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
+<td><code>revela config</code></td>
+<td>Interactive configuration menu</td>
 </tr>
 <tr>
-<td>Netlify</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
+<td><code>revela config project</code></td>
+<td>Project name and URL</td>
 </tr>
 <tr>
-<td>Vercel</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
+<td><code>revela config theme</code></td>
+<td>Select site theme</td>
 </tr>
 <tr>
-<td>Cloudflare Pages</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
+<td><code>revela config site</code></td>
+<td>Site metadata (title, author, description)</td>
 </tr>
 <tr>
-<td>AWS S3 + CloudFront</td>
-<td>🟡 Optional</td>
-<td>CloudFront compresses, but pre-compressed is faster</td>
+<td><code>revela config paths</code></td>
+<td>Source and output directories</td>
 </tr>
 <tr>
-<td>AWS S3 (direct)</td>
-<td>✅ Yes</td>
-<td>No automatic compression</td>
+<td><code>revela config image</code></td>
+<td>Image formats and quality</td>
 </tr>
 <tr>
-<td>nginx</td>
-<td>✅ Yes</td>
-<td>Use <code>gzip_static on</code> for pre-compressed files</td>
+<td><code>revela config sorting</code></td>
+<td>Gallery and image sort order</td>
 </tr>
 <tr>
-<td>Apache</td>
-<td>⚙️ Needs RewriteRule</td>
-<td></td>
+<td><code>revela config feed</code></td>
+<td>NuGet package sources</td>
+</tr>
+<tr>
+<td><code>revela config locations</code></td>
+<td>Show configuration file paths</td>
 </tr>
 </tbody>
 </table>
-<h2 id="pipeline-order">Pipeline Order</h2>
-<p>Compression is <strong>not</strong> part of <code>revela generate all</code>. Run it separately after generating your site:</p>
-<pre><code class="language-bash">revela generate all
-revela generate compress
+<h2 id="site-metadata">Site Metadata</h2>
+<p>Site-specific content (title, description, copyright) is stored separately in <code>site.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;title&quot;: &quot;My Photography Portfolio&quot;,
+  &quot;author&quot;: &quot;Jane Smith&quot;,
+  &quot;description&quot;: &quot;Landscapes and nature photography&quot;,
+  &quot;copyright&quot;: &quot;© 2026 Jane Smith&quot;
+}
 </code></pre>
-<p>This ensures all content exists before compressing.</p>
-<h2 id="compression-settings">Compression Settings</h2>
-<p>The plugin uses <strong>maximum compression</strong> for smallest files:</p>
-<table>
-<thead>
-<tr>
-<th>Format</th>
-<th>Level</th>
-<th>Browser Support</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Gzip</td>
-<td>9 (max)</td>
-<td>All browsers</td>
-</tr>
-<tr>
-<td>Brotli</td>
-<td>11 (max)</td>
-<td>Modern browsers (95%+)</td>
-</tr>
-</tbody>
-</table>
-<p>Files under <strong>256 bytes</strong> are skipped – compression overhead exceeds savings.</p>
+<p>Configure with:</p>
+<pre><code class="language-bash">revela config site
+</code></pre>
+<p>This separation allows you to:</p>
+<ul>
+<li>Share <code>project.json</code> settings across projects</li>
+<li>Keep personal branding in <code>site.json</code></li>
+<li>Use different site metadata for staging/production</li>
+</ul>
 
 </article>
     </main>
@@ -328,12 +337,12 @@ revela generate compress
   <a href="../../../docs/guide/themes/">Theme Customization</a>
   <a href="../../../docs/guide/themes/website-example/">revela.website</a>
 </div>
-  <a href="../../../docs/guide/configuration/">Configuration</a>
+  <a href="../../../docs/guide/configuration/" class="active">Configuration</a>
   <a href="../../../docs/guide/deployment/">Deployment</a>
 </div>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>

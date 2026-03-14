@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Revela - Static Compression</title>
+    <title>Revela - Deployment</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Modern static site generator for photographers">
     <meta name="author" content="Spectara">
@@ -44,11 +44,11 @@
   <a href="../../../docs/guide/themes/website-example/">revela.website</a>
 </div>
   <a href="../../../docs/guide/configuration/">Configuration</a>
-  <a href="../../../docs/guide/deployment/">Deployment</a>
+  <a href="../../../docs/guide/deployment/" class="active">Deployment</a>
 </div>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
@@ -107,14 +107,14 @@
                     <li><a href="../../../docs/guide/filtering/">Filter Galleries</a></li>
                     <li><a href="../../../docs/guide/themes/">Theme Customization</a></li>
                     <li><a href="../../../docs/guide/configuration/">Configuration</a></li>
-                    <li><a href="../../../docs/guide/deployment/">Deployment</a></li>
+                    <li><a href="../../../docs/guide/deployment/" class="active">Deployment</a></li>
                 </ul>
             </li>
 
             <li>
                 <a href="../../../docs/plugins/">Plugins</a>
                 <ul>
-                    <li><a href="../../../docs/plugins/compression/" class="active">Static Compression</a></li>
+                    <li><a href="../../../docs/plugins/compression/">Static Compression</a></li>
                     <li><a href="../../../docs/plugins/statistics/">Statistics</a></li>
                     <li><a href="../../../docs/plugins/serve/">Dev Server</a></li>
                     <li><a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a></li>
@@ -131,176 +131,182 @@
     </nav>
 </aside>
 <article>
-    <h1>Static Compression</h1>
-<p>Revela can pre-compress your static files with <strong>Gzip</strong> and <strong>Brotli</strong> for faster loading.</p>
-<blockquote>
-<p><strong>Do you need this?</strong> If you're using GitHub Pages, Netlify, Vercel, or Cloudflare Pages – <strong>no!</strong> These platforms compress automatically. This plugin is for self-hosted servers, AWS S3, or basic web hosts.</p>
-</blockquote>
-<div class="features-grid">
-<h3 id="pre-generated">📦 Pre-Generated</h3>
-<p>Compressed files created at build time, not on every request.</p>
-<h3 id="smaller">🚀 95% Smaller</h3>
-<p>HTML, CSS, and JS files compress dramatically with Brotli.</p>
-<h3 id="zero-cpu-cost">⚡ Zero CPU Cost</h3>
-<p>Servers deliver pre-compressed files instantly.</p>
-</div>
-<h2 id="installation">Installation</h2>
-<pre><code class="language-bash">revela plugin install Compress
-</code></pre>
-<h2 id="usage">Usage</h2>
-<h3 id="compress-your-site">Compress Your Site</h3>
-<pre><code class="language-bash"># After generating your site
-revela generate compress
-</code></pre>
-<blockquote>
-<p><strong>Note:</strong> Compression runs separately, not as part of <code>generate all</code>.
-Your server must be configured to serve pre-compressed files.</p>
-</blockquote>
-<h3 id="remove-compressed-files">Remove Compressed Files</h3>
-<pre><code class="language-bash">revela clean compress
-</code></pre>
-<h2 id="what-gets-compressed">What Gets Compressed?</h2>
-<table>
-<thead>
-<tr>
-<th>File Type</th>
-<th>Typical Savings</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>HTML</td>
-<td>70-85%</td>
-</tr>
-<tr>
-<td>CSS</td>
-<td>75-90%</td>
-</tr>
-<tr>
-<td>JavaScript</td>
-<td>65-80%</td>
-</tr>
-<tr>
-<td>JSON</td>
-<td>70-85%</td>
-</tr>
-<tr>
-<td>SVG</td>
-<td>50-70%</td>
-</tr>
-<tr>
-<td>XML</td>
-<td>70-85%</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Images are skipped</strong> – they're already optimized (AVIF, WebP, JPG).</p>
-<h2 id="output-structure">Output Structure</h2>
-<p>Your files remain unchanged. Compressed versions are added alongside:</p>
+    <h1>Deployment</h1>
+<p>After running <code>revela generate all</code>, you have a complete static website in your <code>output/</code> folder. This guide shows you how to publish it online.</p>
+<h2 id="what-gets-generated">What Gets Generated?</h2>
+<p>Revela creates a fully self-contained static website:</p>
 <pre><code>output/
-├── index.html          ← Original (10 KB)
-├── index.html.gz       ← Gzip (2.5 KB)
-├── index.html.br       ← Brotli (2.1 KB)
-├── _assets/
-│   ├── main.css
-│   ├── main.css.gz
-│   └── main.css.br
+├── index.html          # Your homepage
+├── gallery/
+│   └── index.html      # A gallery page
+├── images/             # Optimized images (AVIF, WebP, JPG)
+├── css/                # Stylesheets
+└── js/                 # JavaScript (if any)
 </code></pre>
-<h2 id="example-output">Example Output</h2>
-<pre><code>╭─Success────────────────────────────╮
-│ Compression complete!              │
-│                                    │
-│ Summary:                           │
-│   Files:    14                     │
-│   Original: 1.22 MB                │
-│                                    │
-│ Compressed sizes:                  │
-│   Gzip:    93.4 KB (92.5% savings) │
-│   Brotli:  61.6 KB (95.1% savings) │
-╰────────────────────────────────────╯
-</code></pre>
-<h2 id="when-do-you-need-this-plugin">When Do You Need This Plugin?</h2>
+<p><strong>No server-side processing needed!</strong> Any web host that serves HTML files will work.</p>
+<h2 id="hosting-options">Hosting Options</h2>
 <table>
 <thead>
 <tr>
-<th>Platform</th>
-<th>Need Plugin?</th>
-<th>Reason</th>
+<th>Option</th>
+<th>Cost</th>
+<th>Difficulty</th>
+<th>Best For</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>GitHub Pages</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
+<td><strong>GitHub Pages</strong></td>
+<td>Free</td>
+<td>Easy</td>
+<td>Developers, version control</td>
 </tr>
 <tr>
-<td>Netlify</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
+<td><strong>Netlify</strong></td>
+<td>Free tier</td>
+<td>Easy</td>
+<td>Drag &amp; drop, custom domains</td>
 </tr>
 <tr>
-<td>Vercel</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
+<td><strong>Cloudflare Pages</strong></td>
+<td>Free tier</td>
+<td>Easy</td>
+<td>Fast global CDN</td>
 </tr>
 <tr>
-<td>Cloudflare Pages</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
+<td><strong>Traditional Hoster</strong></td>
+<td>Varies</td>
+<td>Easy</td>
+<td>Existing hosting</td>
 </tr>
 <tr>
-<td>AWS S3 + CloudFront</td>
-<td>🟡 Optional</td>
-<td>CloudFront compresses, but pre-compressed is faster</td>
-</tr>
-<tr>
-<td>AWS S3 (direct)</td>
-<td>✅ Yes</td>
-<td>No automatic compression</td>
-</tr>
-<tr>
-<td>nginx</td>
-<td>✅ Yes</td>
-<td>Use <code>gzip_static on</code> for pre-compressed files</td>
-</tr>
-<tr>
-<td>Apache</td>
-<td>⚙️ Needs RewriteRule</td>
-<td></td>
+<td><strong>Own Server</strong></td>
+<td>Varies</td>
+<td>Medium</td>
+<td>Full control</td>
 </tr>
 </tbody>
 </table>
-<h2 id="pipeline-order">Pipeline Order</h2>
-<p>Compression is <strong>not</strong> part of <code>revela generate all</code>. Run it separately after generating your site:</p>
-<pre><code class="language-bash">revela generate all
-revela generate compress
+<h2 id="option-1-github-pages">Option 1: GitHub Pages</h2>
+<p>This is how <a href="https://revela.website">revela.website</a> is hosted. Free, fast, and integrates with Git.</p>
+<h3 id="manual-upload">Manual Upload</h3>
+<ol>
+<li>Create a GitHub repository (e.g., <code>my-portfolio</code>)</li>
+<li>Upload the contents of your <code>output/</code> folder</li>
+<li>Go to <strong>Settings → Pages</strong></li>
+<li>Select <strong>Branch: main</strong> and <strong>/ (root)</strong></li>
+<li>Your site is live at <code>https://username.github.io/my-portfolio/</code></li>
+</ol>
+<h3 id="automated-with-github-actions">Automated with GitHub Actions</h3>
+<p>For automatic deployment when you push changes, create <code>.github/workflows/deploy.yml</code>:</p>
+<pre><code class="language-yaml">name: Deploy Portfolio
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Revela
+        run: |
+          curl -L https://github.com/Spectara/Revela/releases/latest/download/revela-linux-x64-full.tar.gz | tar xz
+          chmod +x ./revela
+
+      - name: Generate site
+        run: ./revela generate all
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
 </code></pre>
-<p>This ensures all content exists before compressing.</p>
-<h2 id="compression-settings">Compression Settings</h2>
-<p>The plugin uses <strong>maximum compression</strong> for smallest files:</p>
-<table>
-<thead>
-<tr>
-<th>Format</th>
-<th>Level</th>
-<th>Browser Support</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Gzip</td>
-<td>9 (max)</td>
-<td>All browsers</td>
-</tr>
-<tr>
-<td>Brotli</td>
-<td>11 (max)</td>
-<td>Modern browsers (95%+)</td>
-</tr>
-</tbody>
-</table>
-<p>Files under <strong>256 bytes</strong> are skipped – compression overhead exceeds savings.</p>
+<blockquote>
+<p><strong>Note:</strong> For pre-releases, replace <code>/latest/download/</code> with <code>/download/v0.0.1-beta.12/</code> (your version).</p>
+</blockquote>
+<h2 id="option-2-netlify-drag-drop">Option 2: Netlify (Drag &amp; Drop)</h2>
+<p>The easiest option if you're not using Git:</p>
+<ol>
+<li>Go to <a href="https://www.netlify.com/">netlify.com</a> and sign up</li>
+<li>Drag your <code>output/</code> folder onto the page</li>
+<li>Done! You get a URL like <code>random-name.netlify.app</code></li>
+<li>Optionally connect a custom domain</li>
+</ol>
+<h2 id="option-3-traditional-web-host-ftp">Option 3: Traditional Web Host (FTP)</h2>
+<p>If you have existing web hosting (1&amp;1, Strato, HostEurope, etc.):</p>
+<ol>
+<li>Open your FTP client (FileZilla, WinSCP, etc.)</li>
+<li>Connect to your host</li>
+<li>Upload the contents of <code>output/</code> to your web root (often <code>public_html/</code> or <code>htdocs/</code>)</li>
+<li>Done!</li>
+</ol>
+<h3 id="using-command-line">Using Command Line</h3>
+<pre><code class="language-bash"># With rsync (Linux/macOS)
+rsync -avz --delete output/ user@yourserver:/var/www/html/
+
+# With lftp
+lftp -e &quot;mirror -R output/ /public_html; quit&quot; -u user,password ftp.yourhost.com
+</code></pre>
+<h2 id="option-4-cloudflare-pages">Option 4: Cloudflare Pages</h2>
+<p>Fast global CDN with generous free tier:</p>
+<ol>
+<li>Push your project to GitHub/GitLab</li>
+<li>Go to <a href="https://pages.cloudflare.com/">pages.cloudflare.com</a></li>
+<li>Connect your repository</li>
+<li>Build command: <code>./revela generate all</code></li>
+<li>Output directory: <code>output</code></li>
+</ol>
+<h2 id="custom-domain">Custom Domain</h2>
+<p>Most hosts support custom domains. General steps:</p>
+<ol>
+<li>Buy a domain (Namecheap, Squarespace Domains, etc.)</li>
+<li>Add a CNAME record pointing to your host:
+<ul>
+<li>GitHub Pages: <code>username.github.io</code></li>
+<li>Netlify: <code>your-site.netlify.app</code></li>
+</ul>
+</li>
+<li>Configure the custom domain in your host's settings</li>
+<li>Wait for DNS propagation (up to 24h)</li>
+</ol>
+<h2 id="tips">Tips</h2>
+<h3 id="base-path-for-subdirectories">Base Path for Subdirectories</h3>
+<p>If your site is hosted at <code>example.com/photos/</code> instead of the root:</p>
+<pre><code class="language-json">// project.json
+{
+  &quot;project&quot;: {
+    &quot;basePath&quot;: &quot;/photos/&quot;
+  }
+}
+</code></pre>
+<h3 id="image-cdn">Image CDN</h3>
+<p>For large portfolios, consider hosting images separately on a CDN:</p>
+<pre><code class="language-json">// project.json
+{
+  &quot;project&quot;: {
+    &quot;imageBasePath&quot;: &quot;https://cdn.example.com/images/&quot;
+  }
+}
+</code></pre>
+<h3 id="https">HTTPS</h3>
+<p>Always use HTTPS! Most modern hosts provide free SSL certificates:</p>
+<ul>
+<li>GitHub Pages: Automatic</li>
+<li>Netlify: Automatic</li>
+<li>Cloudflare: Automatic</li>
+<li>Traditional: Let's Encrypt (free)</li>
+</ul>
+<h2 id="real-example-revela.website">Real Example: revela.website</h2>
+<p>This documentation site is built with Revela and deployed to GitHub Pages. See:</p>
+<ul>
+<li><strong>Source:</strong> <a href="https://github.com/Spectara/Revela/tree/main/samples/revela-website">samples/revela-website</a></li>
+<li><strong>Workflow:</strong> <a href="https://github.com/Spectara/Revela/blob/main/.github/workflows/deploy-website.yml">.github/workflows/deploy-website.yml</a></li>
+<li><strong>Result:</strong> <a href="https://revela.website">revela.website</a></li>
+</ul>
 
 </article>
     </main>
@@ -329,11 +335,11 @@ revela generate compress
   <a href="../../../docs/guide/themes/website-example/">revela.website</a>
 </div>
   <a href="../../../docs/guide/configuration/">Configuration</a>
-  <a href="../../../docs/guide/deployment/">Deployment</a>
+  <a href="../../../docs/guide/deployment/" class="active">Deployment</a>
 </div>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Revela - CLI Reference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Modern static site generator for photographers">
+    <meta name="author" content="Spectara">
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Revela" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/main.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/website.css">
+    <link type="text/css" rel="stylesheet" media="all" href="../../../_assets/prism.css">
+</head>
+
+<body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger">
+
+    <nav>
+<section>
+  <h3><a href="../../../get-started/">Get Started</a></h3>
+  <a href="../../../get-started/installation/">Installation</a>
+  <a href="../../../get-started/user-journey/">User Journey</a>
+</section>
+<section>
+  <h3><a href="../../../docs/">Docs</a></h3>
+<div>
+  <span>Guide</span>
+<div>
+  <a href="../../../docs/guide/source-structure/">Source Structure</a>
+  <a href="../../../docs/guide/source-structure/static-files/">Static Files</a>
+</div>
+  <a href="../../../docs/guide/pages/">Creating Pages</a>
+  <a href="../../../docs/guide/images/">Image Processing</a>
+  <a href="../../../docs/guide/sorting/">Sorting</a>
+  <a href="../../../docs/guide/filtering/">Filter Galleries</a>
+<div>
+  <a href="../../../docs/guide/themes/">Theme Customization</a>
+  <a href="../../../docs/guide/themes/website-example/">revela.website</a>
+</div>
+  <a href="../../../docs/guide/configuration/">Configuration</a>
+  <a href="../../../docs/guide/deployment/">Deployment</a>
+</div>
+<div>
+  <a href="../../../docs/plugins/">Plugins</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
+  <a href="../../../docs/plugins/statistics/">Statistics</a>
+  <a href="../../../docs/plugins/serve/">Dev Server</a>
+  <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
+</div>
+<div>
+  <span>Reference</span>
+  <a href="../../../docs/reference/cli-reference/" class="active">CLI Reference</a>
+</div>
+</section>
+<section>
+  <h3>Pages</h3>
+  <a href="../../../pages/showcase/">Showcase</a>
+  <a href="../../../pages/faq/">FAQ</a>
+  <a href="../../../pages/about/">About</a>
+</section>
+    </nav>
+
+    <header>
+        <div>
+            <h2>
+                <label for="nav-trigger" title="Menu">
+                    <span>Menu</span>
+                    <span>i</span>
+                    <span>i</span>
+                    <span>i</span>
+                </label>
+                <a href="../../../">Revela</a>
+            </h2>
+            <nav>
+<a href="../../../get-started/">Get Started</a>
+<a href="../../../docs/" class="active">Docs</a>
+<a href="../../../pages/showcase/">Showcase</a>
+<a href="../../../pages/faq/">FAQ</a>
+<a href="../../../pages/about/">About</a>
+<a href="https://github.com/Spectara/Revela" title="View on GitHub">
+    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+    </svg>
+</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+<aside>
+    <nav>
+        <ul>
+
+            <li>
+                <span>Guide</span>
+                <ul>
+                    <li><a href="../../../docs/guide/source-structure/">Source Structure</a></li>
+                    <li><a href="../../../docs/guide/pages/">Creating Pages</a></li>
+                    <li><a href="../../../docs/guide/images/">Image Processing</a></li>
+                    <li><a href="../../../docs/guide/sorting/">Sorting</a></li>
+                    <li><a href="../../../docs/guide/filtering/">Filter Galleries</a></li>
+                    <li><a href="../../../docs/guide/themes/">Theme Customization</a></li>
+                    <li><a href="../../../docs/guide/configuration/">Configuration</a></li>
+                    <li><a href="../../../docs/guide/deployment/">Deployment</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="../../../docs/plugins/">Plugins</a>
+                <ul>
+                    <li><a href="../../../docs/plugins/compression/">Static Compression</a></li>
+                    <li><a href="../../../docs/plugins/statistics/">Statistics</a></li>
+                    <li><a href="../../../docs/plugins/serve/">Dev Server</a></li>
+                    <li><a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <span>Reference</span>
+                <ul>
+                    <li><a href="../../../docs/reference/cli-reference/" class="active">CLI Reference</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+<article>
+    <h1>CLI Reference</h1>
+<p>Complete reference of all Revela commands. Commands are organized by function.</p>
+<blockquote>
+<p><strong>Tip:</strong> Run any command with <code>--help</code> for detailed usage information.
+Run <code>revela</code> without arguments for the interactive menu.</p>
+</blockquote>
+<hr />
+<h2 id="global-options">Global Options</h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Alias</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--project</code></td>
+<td><code>-p</code></td>
+<td>Project name or path (standalone mode)</td>
+</tr>
+<tr>
+<td><code>--version</code></td>
+<td></td>
+<td>Show version information</td>
+</tr>
+<tr>
+<td><code>--help</code></td>
+<td><code>-h</code></td>
+<td>Show help</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="generate-build">Generate (Build)</h2>
+<p>Build your site from source content.</p>
+<pre><code class="language-bash">revela generate all                  # Full pipeline: scan → statistics → pages → images
+revela generate scan                 # Scan content and update manifest
+revela generate pages                # Render HTML pages from manifest
+revela generate images               # Process images from manifest
+revela generate images --force       # Force regenerate all images (ignore cache)
+</code></pre>
+<h3 id="plugin-generate-steps">Plugin Generate Steps</h3>
+<pre><code class="language-bash">revela generate statistics           # Generate EXIF statistics (Statistics plugin)
+revela generate compress             # Pre-compress static files (Compress plugin)
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> <code>generate all</code> runs <code>scan → statistics → pages → images</code>. Compression is <strong>not</strong> included — run <code>generate compress</code> separately.</p>
+</blockquote>
+<hr />
+<h2 id="clean">Clean</h2>
+<p>Remove generated files.</p>
+<pre><code class="language-bash">revela clean all                     # Clean everything
+revela clean output                  # Clean output directory
+revela clean images                  # Clean orphaned/unused image files
+revela clean images --dry-run        # Preview what would be deleted
+revela clean cache                   # Clean manifest cache
+</code></pre>
+<h3 id="plugin-clean-steps">Plugin Clean Steps</h3>
+<pre><code class="language-bash">revela clean statistics              # Clean statistics cache
+revela clean compress                # Clean compressed files (.gz, .br)
+</code></pre>
+<hr />
+<h2 id="create">Create</h2>
+<p>Create new pages in your project.</p>
+<pre><code class="language-bash">revela create page gallery vacation --title &quot;Summer Vacation&quot;
+revela create page text about --title &quot;About Me&quot;
+revela create page statistics stats --title &quot;Photo Statistics&quot;
+</code></pre>
+<h3 id="options">Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Alias</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--title</code></td>
+<td><code>-t</code></td>
+<td>Page title</td>
+</tr>
+<tr>
+<td><code>--description</code></td>
+<td><code>-d</code></td>
+<td>Description (for SEO)</td>
+</tr>
+<tr>
+<td><code>--sort</code></td>
+<td><code>-s</code></td>
+<td>Sort override (gallery only)</td>
+</tr>
+<tr>
+<td><code>--hidden</code></td>
+<td></td>
+<td>Hide from navigation</td>
+</tr>
+<tr>
+<td><code>--slug</code></td>
+<td></td>
+<td>Custom URL segment</td>
+</tr>
+</tbody>
+</table>
+<p>Run without the path argument for <strong>interactive mode</strong>:</p>
+<pre><code class="language-bash">revela create page gallery           # Interactive prompts for all options
+</code></pre>
+<hr />
+<h2 id="config">Config</h2>
+<p>Configure project settings interactively or directly.</p>
+<pre><code class="language-bash">revela config                        # Interactive configuration menu
+revela config project                # Project name and URL
+revela config theme                  # Select site theme
+revela config site                   # Site metadata (title, author, description)
+revela config paths                  # Source and output directories
+revela config image                  # Image formats and quality
+revela config sorting                # Gallery and image sort order
+revela config feed                   # NuGet package sources
+revela config locations              # Show configuration file paths
+</code></pre>
+<h3 id="plugin-config-commands">Plugin Config Commands</h3>
+<pre><code class="language-bash">revela config serve                  # Dev server settings (Serve plugin)
+revela config statistics             # Statistics settings (Statistics plugin)
+revela config onedrive               # OneDrive share URL (OneDrive plugin)
+</code></pre>
+<hr />
+<h2 id="theme">Theme</h2>
+<p>Manage themes.</p>
+<pre><code class="language-bash">revela theme list                    # List installed themes
+revela theme install Lumina          # Install a theme
+revela theme uninstall Lumina        # Remove a theme
+revela theme files                   # List files in active theme
+revela theme files --theme Lumina    # List files in specific theme
+revela theme extract Lumina          # Extract theme for customization
+revela theme extract Lumina --file Body/Gallery.revela  # Extract specific file
+revela theme extract Lumina --force  # Overwrite existing files
+</code></pre>
+<hr />
+<h2 id="plugin">Plugin</h2>
+<p>Manage plugins.</p>
+<pre><code class="language-bash">revela plugin list                   # List installed plugins
+revela plugin install Statistics     # Install by short name
+revela plugin install Spectara.Revela.Plugins.Statistics  # Install by full ID
+revela plugin install Statistics --version 1.2.0         # Specific version
+revela plugin uninstall Statistics   # Remove a plugin
+</code></pre>
+<hr />
+<h2 id="serve-plugin">Serve (Plugin)</h2>
+<p>Start a local development server.</p>
+<pre><code class="language-bash">revela serve                         # Start server (default port 8080)
+revela serve --port 3000             # Custom port
+revela serve --verbose               # Log all HTTP requests
+</code></pre>
+<hr />
+<h2 id="source-plugin">Source (Plugin)</h2>
+<p>Sync content from external sources.</p>
+<pre><code class="language-bash">revela source onedrive sync          # Sync from OneDrive shared folder
+revela source onedrive sync --dry-run    # Preview changes
+revela source onedrive sync --force      # Force re-download all files
+revela source onedrive sync --clean      # Remove files no longer in OneDrive
+revela source onedrive sync --clean-all  # Remove ALL local files and re-download
+</code></pre>
+<hr />
+<h2 id="restore">Restore</h2>
+<p>Restore project dependencies (themes and plugins) from configuration.</p>
+<pre><code class="language-bash">revela restore                       # Install missing dependencies
+revela restore --check               # Check only (don't install)
+</code></pre>
+<p>Useful after cloning a project or updating Revela. Reads the <code>theme</code>, <code>themes</code>, and <code>plugins</code> sections from your configuration and installs anything that's missing.</p>
+<hr />
+<h2 id="projects-standalone-only">Projects (Standalone Only)</h2>
+<p>Manage multiple projects. Only available in standalone/portable mode.</p>
+<pre><code class="language-bash">revela projects list                 # List all projects
+revela projects create               # Create a new project (interactive)
+revela projects delete               # Delete a project (with confirmation)
+revela projects delete MyPhotos      # Delete specific project
+</code></pre>
+
+</article>
+    </main>
+
+    <footer>
+        <nav>
+<section>
+  <h3><a href="../../../get-started/">Get Started</a></h3>
+  <a href="../../../get-started/installation/">Installation</a>
+  <a href="../../../get-started/user-journey/">User Journey</a>
+</section>
+<section>
+  <h3><a href="../../../docs/">Docs</a></h3>
+<div>
+  <span>Guide</span>
+<div>
+  <a href="../../../docs/guide/source-structure/">Source Structure</a>
+  <a href="../../../docs/guide/source-structure/static-files/">Static Files</a>
+</div>
+  <a href="../../../docs/guide/pages/">Creating Pages</a>
+  <a href="../../../docs/guide/images/">Image Processing</a>
+  <a href="../../../docs/guide/sorting/">Sorting</a>
+  <a href="../../../docs/guide/filtering/">Filter Galleries</a>
+<div>
+  <a href="../../../docs/guide/themes/">Theme Customization</a>
+  <a href="../../../docs/guide/themes/website-example/">revela.website</a>
+</div>
+  <a href="../../../docs/guide/configuration/">Configuration</a>
+  <a href="../../../docs/guide/deployment/">Deployment</a>
+</div>
+<div>
+  <a href="../../../docs/plugins/">Plugins</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
+  <a href="../../../docs/plugins/statistics/">Statistics</a>
+  <a href="../../../docs/plugins/serve/">Dev Server</a>
+  <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
+</div>
+<div>
+  <span>Reference</span>
+  <a href="../../../docs/reference/cli-reference/" class="active">CLI Reference</a>
+</div>
+</section>
+<section>
+  <h3>Pages</h3>
+  <a href="../../../pages/showcase/">Showcase</a>
+  <a href="../../../pages/faq/">FAQ</a>
+  <a href="../../../pages/about/">About</a>
+</section>
+        </nav>
+        <div>
+            © 2026 Spectara - <a href="https://revela.website" target="_blank" rel="noopener">powered by Revela</a>
+        </div>
+    </footer>
+
+    <script src="../../../_assets/main.js"></script>
+    <script src="../../../_assets/prism.js"></script>
+</body>
+
+</html>

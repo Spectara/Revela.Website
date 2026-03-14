@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Revela - Plugins</title>
+    <title>Revela - Installation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Modern static site generator for photographers">
     <meta name="author" content="Spectara">
@@ -24,7 +24,7 @@
     <nav>
 <section>
   <h3><a href="../../get-started/">Get Started</a></h3>
-  <a href="../../get-started/installation/">Installation</a>
+  <a href="../../get-started/installation/" class="active">Installation</a>
   <a href="../../get-started/user-journey/">User Journey</a>
 </section>
 <section>
@@ -47,7 +47,7 @@
   <a href="../../docs/guide/deployment/">Deployment</a>
 </div>
 <div>
-  <a href="../../docs/plugins/" class="active">Plugins</a>
+  <a href="../../docs/plugins/">Plugins</a>
   <a href="../../docs/plugins/compression/">Static Compression</a>
   <a href="../../docs/plugins/statistics/">Statistics</a>
   <a href="../../docs/plugins/serve/">Dev Server</a>
@@ -78,8 +78,8 @@
                 <a href="../../">Revela</a>
             </h2>
             <nav>
-<a href="../../get-started/">Get Started</a>
-<a href="../../docs/" class="active">Docs</a>
+<a href="../../get-started/" class="active">Get Started</a>
+<a href="../../docs/">Docs</a>
 <a href="../../pages/showcase/">Showcase</a>
 <a href="../../pages/faq/">FAQ</a>
 <a href="../../pages/about/">About</a>
@@ -98,133 +98,136 @@
         <ul>
 
             <li>
-                <span>Guide</span>
+                <a href="../../get-started/installation/" class="active">Installation</a>
                 <ul>
-                    <li><a href="../../docs/guide/source-structure/">Source Structure</a></li>
-                    <li><a href="../../docs/guide/pages/">Creating Pages</a></li>
-                    <li><a href="../../docs/guide/images/">Image Processing</a></li>
-                    <li><a href="../../docs/guide/sorting/">Sorting</a></li>
-                    <li><a href="../../docs/guide/filtering/">Filter Galleries</a></li>
-                    <li><a href="../../docs/guide/themes/">Theme Customization</a></li>
-                    <li><a href="../../docs/guide/configuration/">Configuration</a></li>
-                    <li><a href="../../docs/guide/deployment/">Deployment</a></li>
                 </ul>
             </li>
 
             <li>
-                <a href="../../docs/plugins/" class="active">Plugins</a>
+                <a href="../../get-started/user-journey/">User Journey</a>
                 <ul>
-                    <li><a href="../../docs/plugins/compression/">Static Compression</a></li>
-                    <li><a href="../../docs/plugins/statistics/">Statistics</a></li>
-                    <li><a href="../../docs/plugins/serve/">Dev Server</a></li>
-                    <li><a href="../../docs/plugins/source-onedrive/">OneDrive Source</a></li>
-                </ul>
-            </li>
-
-            <li>
-                <span>Reference</span>
-                <ul>
-                    <li><a href="../../docs/reference/cli-reference/">CLI Reference</a></li>
                 </ul>
             </li>
         </ul>
     </nav>
 </aside>
 <article>
-    <h1>Plugins</h1>
-<p>Revela's plugin system lets you extend your site with additional features. All official plugins are distributed as <strong>NuGet packages</strong> and installed with a single command.</p>
-<div class="features-grid">
-<h3 id="compression">📦 Compression</h3>
-<p>Pre-compress HTML, CSS, and JS with Gzip and Brotli for 70-95% smaller files.</p>
-<h3 id="statistics">📊 Statistics</h3>
-<p>Analyze EXIF data from your photos – cameras, lenses, apertures, ISO, and timeline.</p>
-<h3 id="dev-server">🌐 Dev Server</h3>
-<p>Preview your generated site locally during development.</p>
-<h3 id="onedrive-source">☁️ OneDrive Source</h3>
-<p>Sync photos from OneDrive shared folders directly into your project.</p>
-</div>
-<h2 id="official-plugins">Official Plugins</h2>
+    <h1>Installation</h1>
+<p>Revela runs on <strong>Windows</strong>, <strong>macOS</strong>, and <strong>Linux</strong>. Choose the installation method that suits you best.</p>
+<h2 id="option-1-standalone-recommended">Option 1: Standalone (Recommended)</h2>
+<p>Download, extract, run. No prerequisites needed.</p>
+<h3 id="windows-x64">Windows (x64)</h3>
+<pre><code class="language-bash"># Download and extract
+curl -L https://github.com/Spectara/Revela/releases/latest/download/revela-standalone-win-x64.zip -o revela.zip
+Expand-Archive revela.zip -DestinationPath D:\Revela
+</code></pre>
+<p>Or simply download the <code>.zip</code> from <a href="https://github.com/Spectara/Revela/releases">GitHub Releases</a>, right-click → Extract All.</p>
+<h3 id="macos-apple-silicon">macOS (Apple Silicon)</h3>
+<pre><code class="language-bash">curl -L https://github.com/Spectara/Revela/releases/latest/download/revela-standalone-osx-arm64.tar.gz | tar xz
+chmod +x revela
+</code></pre>
+<h3 id="linux-x64">Linux (x64)</h3>
+<pre><code class="language-bash">curl -L https://github.com/Spectara/Revela/releases/latest/download/revela-standalone-linux-x64.tar.gz | tar xz
+chmod +x revela
+</code></pre>
+<h3 id="standalone-directory-structure">Standalone Directory Structure</h3>
+<p>After extraction, your directory looks like this:</p>
+<pre><code>D:\Revela\
+├── revela.exe          # The executable
+├── revela.json         # Global configuration (created on first run)
+├── packages/           # Installed themes &amp; plugins
+└── projects/           # Your projects (one folder per site)
+    └── MyPhotos/
+        ├── project.json
+        ├── site.json
+        ├── source/
+        └── output/
+</code></pre>
+<p><strong>Key feature:</strong> In standalone mode, Revela manages multiple projects in the <code>projects/</code> folder. Double-click <code>revela.exe</code> to start the interactive menu with project selection.</p>
+<hr />
+<h2 id="option-2.net-global-tool">Option 2: .NET Global Tool</h2>
+<p>If you have the <a href="https://dotnet.microsoft.com/download">.NET SDK</a> installed (version 10 or later):</p>
+<pre><code class="language-bash">dotnet tool install -g Spectara.Revela
+</code></pre>
+<h3 id="update">Update</h3>
+<pre><code class="language-bash">dotnet tool update -g Spectara.Revela
+</code></pre>
+<h3 id="usage">Usage</h3>
+<p>Navigate to your project directory and run commands directly:</p>
+<pre><code class="language-bash">cd ~/my-photography-website
+revela generate all
+</code></pre>
+<h3 id="differences-from-standalone">Differences from Standalone</h3>
 <table>
 <thead>
 <tr>
-<th>Plugin</th>
-<th>Package</th>
-<th>Description</th>
+<th>Feature</th>
+<th>Standalone</th>
+<th>.NET Global Tool</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Compression</strong></td>
-<td><code>Spectara.Revela.Plugins.Compress</code></td>
-<td>Pre-compress static files with Gzip and Brotli</td>
+<td><strong>Prerequisites</strong></td>
+<td>None</td>
+<td>.NET 10 SDK</td>
 </tr>
 <tr>
-<td><strong>Statistics</strong></td>
-<td><code>Spectara.Revela.Plugins.Statistics</code></td>
-<td>Generate EXIF statistics pages</td>
+<td><strong>Projects</strong></td>
+<td>Multiple (managed in <code>projects/</code>)</td>
+<td>One per directory</td>
 </tr>
 <tr>
-<td><strong>Serve</strong></td>
-<td><code>Spectara.Revela.Plugins.Serve</code></td>
-<td>Local development server</td>
+<td><strong>Config location</strong></td>
+<td>Next to <code>revela.exe</code></td>
+<td><code>%APPDATA%/Revela/</code></td>
 </tr>
 <tr>
-<td><strong>OneDrive</strong></td>
-<td><code>Spectara.Revela.Plugins.Source.OneDrive</code></td>
-<td>Download photos from OneDrive shared folders</td>
+<td><strong>Project selection</strong></td>
+<td>Interactive menu</td>
+<td>Navigate to project dir</td>
+</tr>
+<tr>
+<td><strong><code>revela projects</code></strong></td>
+<td>Available</td>
+<td>Not available</td>
+</tr>
+<tr>
+<td><strong>Interactive mode</strong></td>
+<td>Double-click exe</td>
+<td>Run <code>revela</code> without args</td>
 </tr>
 </tbody>
 </table>
-<p>All <code>Spectara.Revela.*</code> packages are <strong>verified and signed</strong> by the Spectara organization.</p>
-<h2 id="installing-plugins">Installing Plugins</h2>
-<pre><code class="language-bash"># Install by short name
-revela plugin install Statistics
-
-# Or use full package ID
-revela plugin install Spectara.Revela.Plugins.Statistics
-
-# Install a specific version
-revela plugin install Statistics --version 1.2.0
+<hr />
+<h2 id="first-run">First Run</h2>
+<p>After installation, run <code>revela</code> without arguments:</p>
+<pre><code class="language-bash">revela
 </code></pre>
-<h2 id="managing-plugins">Managing Plugins</h2>
-<pre><code class="language-bash"># List installed plugins
-revela plugin list
-
-# Remove a plugin
-revela plugin uninstall Statistics
+<p>On first run, the <strong>Setup Wizard</strong> starts automatically:</p>
+<ol>
+<li><strong>Install themes and plugins</strong> — Full or custom installation</li>
+<li><strong>Create a project</strong> — Folder name and settings</li>
+<li><strong>Ready to go</strong> — Add photos and generate</li>
+</ol>
+<p>See the <a href="../00%20user-journey/">User Journey</a> for a complete walkthrough.</p>
+<hr />
+<h2 id="verifying-installation">Verifying Installation</h2>
+<pre><code class="language-bash">revela --version
 </code></pre>
-<h2 id="configuration">Configuration</h2>
-<p>Plugins store their settings in <code>project.json</code>:</p>
-<pre><code class="language-json">{
-  &quot;Spectara.Revela.Plugins.Statistics&quot;: {
-    &quot;MaxEntriesPerCategory&quot;: 15,
-    &quot;SortByCount&quot;: true
-  },
-  &quot;Spectara.Revela.Plugins.Serve&quot;: {
-    &quot;Port&quot;: 8080
-  }
-}
+<p>Check where Revela stores its configuration:</p>
+<pre><code class="language-bash">revela config locations
 </code></pre>
-<p>Settings can also be overridden with environment variables:</p>
-<pre><code class="language-bash">SPECTARA__REVELA__PLUGIN__SERVE__PORT=3000
+<hr />
+<h2 id="updating">Updating</h2>
+<h3 id="standalone">Standalone</h3>
+<p>Download the latest release and replace <code>revela.exe</code>. Your <code>revela.json</code>, <code>packages/</code>, and <code>projects/</code> folders are preserved.</p>
+<h3 id="net-global-tool">.NET Global Tool</h3>
+<pre><code class="language-bash">dotnet tool update -g Spectara.Revela
 </code></pre>
-<h2 id="community-plugins">Community Plugins</h2>
-<p>Revela supports third-party plugins from any NuGet source. Community plugins use their own package prefix:</p>
-<pre><code class="language-bash"># Install from custom NuGet feed
-revela plugin install MyPlugin --source https://my-feed.example.com/v3/index.json
+<p>After updating, restore your dependencies:</p>
+<pre><code class="language-bash">revela restore
 </code></pre>
-<blockquote>
-<p><strong>Note:</strong> Community plugins are not verified by Spectara. Install at your own risk.</p>
-</blockquote>
-<h2 id="restoring-dependencies">Restoring Dependencies</h2>
-<p>After cloning a project, updating Revela, or sharing your project with someone else, use <code>restore</code> to install all required themes and plugins:</p>
-<pre><code class="language-bash"># Install missing themes and plugins
-revela restore
-
-# Check only (don't install)
-revela restore --check
-</code></pre>
-<p>Revela reads the <code>theme</code>, <code>themes</code>, and <code>plugins</code> sections from your configuration and installs anything that's missing.</p>
 
 </article>
     </main>
@@ -233,7 +236,7 @@ revela restore --check
         <nav>
 <section>
   <h3><a href="../../get-started/">Get Started</a></h3>
-  <a href="../../get-started/installation/">Installation</a>
+  <a href="../../get-started/installation/" class="active">Installation</a>
   <a href="../../get-started/user-journey/">User Journey</a>
 </section>
 <section>
@@ -256,7 +259,7 @@ revela restore --check
   <a href="../../docs/guide/deployment/">Deployment</a>
 </div>
 <div>
-  <a href="../../docs/plugins/" class="active">Plugins</a>
+  <a href="../../docs/plugins/">Plugins</a>
   <a href="../../docs/plugins/compression/">Static Compression</a>
   <a href="../../docs/plugins/statistics/">Statistics</a>
   <a href="../../docs/plugins/serve/">Dev Server</a>

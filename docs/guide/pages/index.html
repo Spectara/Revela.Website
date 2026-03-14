@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Revela - Static Compression</title>
+    <title>Revela - Creating Pages</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Modern static site generator for photographers">
     <meta name="author" content="Spectara">
@@ -35,7 +35,7 @@
   <a href="../../../docs/guide/source-structure/">Source Structure</a>
   <a href="../../../docs/guide/source-structure/static-files/">Static Files</a>
 </div>
-  <a href="../../../docs/guide/pages/">Creating Pages</a>
+  <a href="../../../docs/guide/pages/" class="active">Creating Pages</a>
   <a href="../../../docs/guide/images/">Image Processing</a>
   <a href="../../../docs/guide/sorting/">Sorting</a>
   <a href="../../../docs/guide/filtering/">Filter Galleries</a>
@@ -48,7 +48,7 @@
 </div>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
@@ -101,7 +101,7 @@
                 <span>Guide</span>
                 <ul>
                     <li><a href="../../../docs/guide/source-structure/">Source Structure</a></li>
-                    <li><a href="../../../docs/guide/pages/">Creating Pages</a></li>
+                    <li><a href="../../../docs/guide/pages/" class="active">Creating Pages</a></li>
                     <li><a href="../../../docs/guide/images/">Image Processing</a></li>
                     <li><a href="../../../docs/guide/sorting/">Sorting</a></li>
                     <li><a href="../../../docs/guide/filtering/">Filter Galleries</a></li>
@@ -114,7 +114,7 @@
             <li>
                 <a href="../../../docs/plugins/">Plugins</a>
                 <ul>
-                    <li><a href="../../../docs/plugins/compression/" class="active">Static Compression</a></li>
+                    <li><a href="../../../docs/plugins/compression/">Static Compression</a></li>
                     <li><a href="../../../docs/plugins/statistics/">Statistics</a></li>
                     <li><a href="../../../docs/plugins/serve/">Dev Server</a></li>
                     <li><a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a></li>
@@ -131,176 +131,232 @@
     </nav>
 </aside>
 <article>
-    <h1>Static Compression</h1>
-<p>Revela can pre-compress your static files with <strong>Gzip</strong> and <strong>Brotli</strong> for faster loading.</p>
-<blockquote>
-<p><strong>Do you need this?</strong> If you're using GitHub Pages, Netlify, Vercel, or Cloudflare Pages – <strong>no!</strong> These platforms compress automatically. This plugin is for self-hosted servers, AWS S3, or basic web hosts.</p>
-</blockquote>
+    <h1>Creating Pages</h1>
+<p>Revela provides commands to quickly create new pages. You can create:</p>
 <div class="features-grid">
-<h3 id="pre-generated">📦 Pre-Generated</h3>
-<p>Compressed files created at build time, not on every request.</p>
-<h3 id="smaller">🚀 95% Smaller</h3>
-<p>HTML, CSS, and JS files compress dramatically with Brotli.</p>
-<h3 id="zero-cpu-cost">⚡ Zero CPU Cost</h3>
-<p>Servers deliver pre-compressed files instantly.</p>
+<h3 id="gallery-pages">📷 Gallery Pages</h3>
+<p>Photo collections with optional introductory text and sorting options.</p>
+<h3 id="text-pages">📝 Text Pages</h3>
+<p>Content pages without image gallery (About, Contact, Imprint).</p>
+<h3 id="statistics-pages">📊 Statistics Pages</h3>
+<p>EXIF analysis showing camera and lens usage statistics.</p>
 </div>
-<h2 id="installation">Installation</h2>
-<pre><code class="language-bash">revela plugin install Compress
+<hr />
+<h2 id="available-page-types">Available Page Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Template</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gallery</code></td>
+<td>Photo gallery with image grid</td>
+<td>Default (body/gallery)</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>Text-only page without images</td>
+<td>page</td>
+</tr>
+<tr>
+<td><code>statistics</code></td>
+<td>EXIF statistics</td>
+<td>statistics/overview</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="gallery-pages-1">Gallery Pages</h2>
+<p>Create a new gallery for your photos:</p>
+<pre><code class="language-bash"># Simple gallery
+revela create page gallery vacation --title &quot;Summer Vacation 2024&quot;
+
+# With description and sorting
+revela create page gallery best-shots --title &quot;Highlights&quot; \
+    --description &quot;My best shots&quot; \
+    --sort &quot;exif.raw.Rating:desc&quot;
+
+# Hidden gallery (not in navigation)
+revela create page gallery drafts --title &quot;Drafts&quot; --hidden
 </code></pre>
-<h2 id="usage">Usage</h2>
-<h3 id="compress-your-site">Compress Your Site</h3>
-<pre><code class="language-bash"># After generating your site
-revela generate compress
+<h3 id="options">Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Alias</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--title</code></td>
+<td><code>-t</code></td>
+<td>Page title</td>
+<td>&quot;Gallery&quot;</td>
+</tr>
+<tr>
+<td><code>--description</code></td>
+<td><code>-d</code></td>
+<td>Description (for SEO)</td>
+<td>&quot;&quot;</td>
+</tr>
+<tr>
+<td><code>--sort</code></td>
+<td><code>-s</code></td>
+<td>Override sorting</td>
+<td>(global)</td>
+</tr>
+<tr>
+<td><code>--hidden</code></td>
+<td>-</td>
+<td>Hide from navigation</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>--slug</code></td>
+<td>-</td>
+<td>Custom URL segment</td>
+<td>(folder name)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sort-options">Sort Options</h3>
+<pre><code class="language-bash">--sort &quot;dateTaken:asc&quot;        # Oldest first
+--sort &quot;dateTaken:desc&quot;       # Newest first
+--sort &quot;filename:asc&quot;         # A → Z
+--sort &quot;exif.raw.Rating:desc&quot; # Highest rating first
+</code></pre>
+<hr />
+<h2 id="text-pages-1">Text Pages</h2>
+<p>Create pages without image gallery (About, Contact, Imprint):</p>
+<pre><code class="language-bash"># About page
+revela create page text about --title &quot;About Me&quot; \
+    --description &quot;Learn more about me and my photography&quot;
+
+# Contact page
+revela create page text contact --title &quot;Contact&quot;
+
+# Imprint (hidden from navigation)
+revela create page text imprint --title &quot;Imprint&quot; --hidden
+</code></pre>
+<h3 id="generated-file">Generated File</h3>
+<pre><code class="language-toml">+++
+title = &quot;About Me&quot;
+description = &quot;Learn more about me and my photography&quot;
+template = &quot;page&quot;
++++
+Write your content here using **Markdown**.
+
+## Example Heading
+
+- List item one
+- List item two
+</code></pre>
+<hr />
+<h2 id="statistics-pages-1">Statistics Pages</h2>
+<p>Create a page with EXIF statistics of your photo collection:</p>
+<pre><code class="language-bash">revela create page statistics stats --title &quot;Photo Statistics&quot; \
+    --description &quot;Analysis of my camera and lens usage&quot;
 </code></pre>
 <blockquote>
-<p><strong>Note:</strong> Compression runs separately, not as part of <code>generate all</code>.
-Your server must be configured to serve pre-compressed files.</p>
+<p><strong>Note:</strong> The Statistics plugin must be installed (<code>revela plugin install Statistics</code>).</p>
 </blockquote>
-<h3 id="remove-compressed-files">Remove Compressed Files</h3>
-<pre><code class="language-bash">revela clean compress
+<hr />
+<h2 id="interactive-mode">Interactive Mode</h2>
+<p>All page types support an interactive mode. Start without the path argument:</p>
+<pre><code class="language-bash">revela create page gallery
+revela create page text
+revela create page statistics
 </code></pre>
-<h2 id="what-gets-compressed">What Gets Compressed?</h2>
+<p>The wizard guides you through all options:</p>
+<ol>
+<li><strong>Enter path</strong> - Relative path to <code>source/</code></li>
+<li><strong>Title</strong> - Enter page title</li>
+<li><strong>Description</strong> - Optional description</li>
+<li><strong>Sorting</strong> (gallery only) - Choose from presets or enter custom</li>
+<li><strong>Hidden</strong> - Hide from navigation?</li>
+<li><strong>Confirm</strong> - Create file?</li>
+</ol>
+<hr />
+<h2 id="frontmatter-fields">Frontmatter Fields</h2>
+<h3 id="all-page-types">All Page Types</h3>
 <table>
 <thead>
 <tr>
-<th>File Type</th>
-<th>Typical Savings</th>
+<th>Field</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>HTML</td>
-<td>70-85%</td>
+<td><code>title</code></td>
+<td>Page title (in navigation and <code>&lt;title&gt;</code>)</td>
 </tr>
 <tr>
-<td>CSS</td>
-<td>75-90%</td>
+<td><code>description</code></td>
+<td>SEO description</td>
 </tr>
 <tr>
-<td>JavaScript</td>
-<td>65-80%</td>
+<td><code>hidden</code></td>
+<td><code>true</code> = not in navigation (but accessible via URL)</td>
 </tr>
 <tr>
-<td>JSON</td>
-<td>70-85%</td>
+<td><code>slug</code></td>
+<td>Overrides URL segment (last segment only)</td>
 </tr>
 <tr>
-<td>SVG</td>
-<td>50-70%</td>
-</tr>
-<tr>
-<td>XML</td>
-<td>70-85%</td>
+<td><code>template</code></td>
+<td>Body template (default: <code>gallery</code> or <code>page</code>)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Images are skipped</strong> – they're already optimized (AVIF, WebP, JPG).</p>
-<h2 id="output-structure">Output Structure</h2>
-<p>Your files remain unchanged. Compressed versions are added alongside:</p>
-<pre><code>output/
-├── index.html          ← Original (10 KB)
-├── index.html.gz       ← Gzip (2.5 KB)
-├── index.html.br       ← Brotli (2.1 KB)
-├── _assets/
-│   ├── main.css
-│   ├── main.css.gz
-│   └── main.css.br
-</code></pre>
-<h2 id="example-output">Example Output</h2>
-<pre><code>╭─Success────────────────────────────╮
-│ Compression complete!              │
-│                                    │
-│ Summary:                           │
-│   Files:    14                     │
-│   Original: 1.22 MB                │
-│                                    │
-│ Compressed sizes:                  │
-│   Gzip:    93.4 KB (92.5% savings) │
-│   Brotli:  61.6 KB (95.1% savings) │
-╰────────────────────────────────────╯
-</code></pre>
-<h2 id="when-do-you-need-this-plugin">When Do You Need This Plugin?</h2>
+<h3 id="gallery-pages-only">Gallery Pages Only</h3>
 <table>
 <thead>
 <tr>
-<th>Platform</th>
-<th>Need Plugin?</th>
-<th>Reason</th>
+<th>Field</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>GitHub Pages</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>Netlify</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>Vercel</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>Cloudflare Pages</td>
-<td>❌ No</td>
-<td>Compresses automatically</td>
-</tr>
-<tr>
-<td>AWS S3 + CloudFront</td>
-<td>🟡 Optional</td>
-<td>CloudFront compresses, but pre-compressed is faster</td>
-</tr>
-<tr>
-<td>AWS S3 (direct)</td>
-<td>✅ Yes</td>
-<td>No automatic compression</td>
-</tr>
-<tr>
-<td>nginx</td>
-<td>✅ Yes</td>
-<td>Use <code>gzip_static on</code> for pre-compressed files</td>
-</tr>
-<tr>
-<td>Apache</td>
-<td>⚙️ Needs RewriteRule</td>
-<td></td>
+<td><code>sort</code></td>
+<td>Override image sorting (e.g., <code>dateTaken:asc</code>)</td>
 </tr>
 </tbody>
 </table>
-<h2 id="pipeline-order">Pipeline Order</h2>
-<p>Compression is <strong>not</strong> part of <code>revela generate all</code>. Run it separately after generating your site:</p>
-<pre><code class="language-bash">revela generate all
-revela generate compress
+<hr />
+<h2 id="folder-structure">Folder Structure</h2>
+<p>Pages are always created in the <code>source/</code> directory:</p>
+<pre><code>source/
+├── vacation/
+│   └── _index.revela      ← revela create page gallery vacation
+├── about/
+│   └── _index.revela      ← revela create page text about
+└── stats/
+    └── _index.revela      ← revela create page statistics stats
 </code></pre>
-<p>This ensures all content exists before compressing.</p>
-<h2 id="compression-settings">Compression Settings</h2>
-<p>The plugin uses <strong>maximum compression</strong> for smallest files:</p>
-<table>
-<thead>
-<tr>
-<th>Format</th>
-<th>Level</th>
-<th>Browser Support</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Gzip</td>
-<td>9 (max)</td>
-<td>All browsers</td>
-</tr>
-<tr>
-<td>Brotli</td>
-<td>11 (max)</td>
-<td>Modern browsers (95%+)</td>
-</tr>
-</tbody>
-</table>
-<p>Files under <strong>256 bytes</strong> are skipped – compression overhead exceeds savings.</p>
+<p>Nested paths are supported:</p>
+<pre><code class="language-bash">revela create page gallery &quot;2024/summer/italy&quot; --title &quot;Italy 2024&quot;
+# Creates: source/2024/summer/italy/_index.revela
+</code></pre>
+<hr />
+<h2 id="navigation-order">Navigation Order</h2>
+<p>The order in navigation is determined by folder names:</p>
+<pre><code>source/
+├── 01 Galleries/
+│   ├── 01 Landscape/
+│   └── 02 Portrait/
+├── 02 About/
+└── 03 Contact/
+</code></pre>
+<p>Use number prefixes for desired sorting. Numbers are stripped from the display title.</p>
 
 </article>
     </main>
@@ -320,7 +376,7 @@ revela generate compress
   <a href="../../../docs/guide/source-structure/">Source Structure</a>
   <a href="../../../docs/guide/source-structure/static-files/">Static Files</a>
 </div>
-  <a href="../../../docs/guide/pages/">Creating Pages</a>
+  <a href="../../../docs/guide/pages/" class="active">Creating Pages</a>
   <a href="../../../docs/guide/images/">Image Processing</a>
   <a href="../../../docs/guide/sorting/">Sorting</a>
   <a href="../../../docs/guide/filtering/">Filter Galleries</a>
@@ -333,7 +389,7 @@ revela generate compress
 </div>
 <div>
   <a href="../../../docs/plugins/">Plugins</a>
-  <a href="../../../docs/plugins/compression/" class="active">Static Compression</a>
+  <a href="../../../docs/plugins/compression/">Static Compression</a>
   <a href="../../../docs/plugins/statistics/">Statistics</a>
   <a href="../../../docs/plugins/serve/">Dev Server</a>
   <a href="../../../docs/plugins/source-onedrive/">OneDrive Source</a>
